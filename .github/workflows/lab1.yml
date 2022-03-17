@@ -1,0 +1,20 @@
+name: Build lab1
+
+on:
+  push:
+    paths:
+      - 'lab1/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.x'
+      - run: cd lab1    
+      - run: dotnet build lab1
