@@ -6,12 +6,85 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Parsing.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Plotly.NET" Version="2.0.0-preview.18" />
     <PackageReference Include="Plotly.NET.ImageExport" Version="2.0.0-preview.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="graphs\input_random_01_10.txt" />
+    <Content Include="graphs\input_random_02_10.txt" />
+    <Content Include="graphs\input_random_03_10.txt" />
+    <Content Include="graphs\input_random_04_10.txt" />
+    <Content Include="graphs\input_random_05_20.txt" />
+    <Content Include="graphs\input_random_06_20.txt" />
+    <Content Include="graphs\input_random_07_20.txt" />
+    <Content Include="graphs\input_random_08_20.txt" />
+    <Content Include="graphs\input_random_09_40.txt" />
+    <Content Include="graphs\input_random_10_40.txt" />
+    <Content Include="graphs\input_random_11_40.txt" />
+    <Content Include="graphs\input_random_12_40.txt" />
+    <Content Include="graphs\input_random_13_80.txt" />
+    <Content Include="graphs\input_random_14_80.txt" />
+    <Content Include="graphs\input_random_15_80.txt" />
+    <Content Include="graphs\input_random_16_80.txt" />
+    <Content Include="graphs\input_random_17_100.txt" />
+    <Content Include="graphs\input_random_18_100.txt" />
+    <Content Include="graphs\input_random_19_100.txt" />
+    <Compile Include="Graph.fs" />
+    <Content Include="graphs\input_random_20_100.txt" />
+    <Content Include="graphs\input_random_21_200.txt" />
+    <Content Include="graphs\input_random_22_200.txt" />
+    <Content Include="graphs\input_random_23_200.txt" />
+    <Content Include="graphs\input_random_24_200.txt" />
+    <Content Include="graphs\input_random_25_400.txt" />
+    <Content Include="graphs\input_random_26_400.txt" />
+    <Content Include="graphs\input_random_27_400.txt" />
+    <Content Include="graphs\input_random_28_400.txt" />
+    <Content Include="graphs\input_random_29_800.txt" />
+    <Content Include="graphs\input_random_30_800.txt" />
+    <Content Include="graphs\input_random_31_800.txt" />
+    <Content Include="graphs\input_random_32_800.txt" />
+    <Content Include="graphs\input_random_33_1000.txt" />
+    <Content Include="graphs\input_random_34_1000.txt" />
+    <Content Include="graphs\input_random_35_1000.txt" />
+    <Content Include="graphs\input_random_36_1000.txt" />
+    <Content Include="graphs\input_random_37_2000.txt" />
+    <Content Include="graphs\input_random_38_2000.txt" />
+    <Content Include="graphs\input_random_39_2000.txt" />
+    <Content Include="graphs\input_random_40_2000.txt" />
+    <Content Include="graphs\input_random_41_4000.txt" />
+    <Content Include="graphs\input_random_42_4000.txt" />
+    <Content Include="graphs\input_random_43_4000.txt" />
+    <Content Include="graphs\input_random_44_4000.txt" />
+    <Content Include="graphs\input_random_45_8000.txt" />
+    <Content Include="graphs\input_random_46_8000.txt" />
+    <Content Include="graphs\input_random_47_8000.txt" />
+    <Content Include="graphs\input_random_48_8000.txt" />
+    <Content Include="graphs\input_random_49_10000.txt" />
+    <Content Include="graphs\input_random_50_10000.txt" />
+    <Content Include="graphs\input_random_51_10000.txt" />
+    <Content Include="graphs\input_random_52_10000.txt" />
+    <Content Include="graphs\input_random_53_20000.txt" />
+    <Content Include="graphs\input_random_54_20000.txt" />
+    <Content Include="graphs\input_random_55_20000.txt" />
+    <Content Include="graphs\input_random_56_20000.txt" />
+    <Content Include="graphs\input_random_57_40000.txt" />
+    <Content Include="graphs\input_random_58_40000.txt" />
+    <Content Include="graphs\input_random_59_40000.txt" />
+    <Content Include="graphs\input_random_60_40000.txt" />
+    <Content Include="graphs\input_random_61_80000.txt" />
+    <Content Include="graphs\input_random_62_80000.txt" />
+    <Content Include="graphs\input_random_63_80000.txt" />
+    <Content Include="graphs\input_random_64_80000.txt" />
+    <Content Include="graphs\input_random_65_100000.txt" />
+    <Content Include="graphs\input_random_66_100000.txt" />
+    <Content Include="graphs\input_random_67_100000.txt" />
+    <Content Include="graphs\input_random_68_100000.txt" />
   </ItemGroup>
 
 </Project>
