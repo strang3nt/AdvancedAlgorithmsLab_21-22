@@ -8,11 +8,11 @@ let file filename =
     let path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "/graphs/" + filename
     File.ReadAllLines(path)
 
-let buildGraph (filename : String) : Graph =
+let buildGraph (filename : string) : Graph =
     let str = file filename
     let mutable g : Graph = Array.empty, Array.empty
     for s in str do
-        let edgeArr = Array.map (fun x -> int x ) (s.Split [| ' '|])
+        let edgeArr = Array.map (fun x -> int x ) (s.Split [| ' ' |])
 
         if not (nodeExists g edgeArr[0]) then
             g <- addNode (g) (edgeArr[0])
