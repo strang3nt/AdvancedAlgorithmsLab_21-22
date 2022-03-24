@@ -13,6 +13,9 @@ type AdjList = (int * Edges) array
 
 type Graph = Nodes * AdjList
 
+// assumes inputs are simple graphs
+type Graph2 = (Node * Node * Weight) array
+
 let w ((_, l) : Graph) (n1: int) (n2: int) : Weight =
     let (_, edges) = l[n1]
     let (_, w) = Array.find (fun (x, _) -> x = n2) edges
