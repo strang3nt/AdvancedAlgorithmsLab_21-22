@@ -13,9 +13,12 @@ let measureRunTime f input numCalls =
     watch.Start()
     for i = 1 to numCalls do
         f input |> ignore
-    let time = int watch.ElapsedMilliseconds
+    let time = float watch.ElapsedMilliseconds
     watch.Stop()
-    time / numCalls
+    time / float numCalls
+
+let getRunTimeBySize l =
+    Array.fold (fun acc (x : float array) -> Array.append acc [| (Array.average x) |]) Array.empty l
 
 [<EntryPoint>]
 let main argv =
@@ -26,32 +29,24 @@ let main argv =
 
     printfn "Found %i files" files.Length
 
-    let mutable i = 1
-    let graphs = [| 
-        for f in files do 
-            printfn "Build graph %i: %s" i f
-            i <- i + 1
-            buildSimpleGraph f 
-    |]
-    let graphsSize = [| for f in files do (getHeader f).[1] |] // get number of edges per graph
+    let graphs = [| for f in files do buildSimpleGraph f |]
+    let graphsSize = [| for f in files do (getHeader f).[0] |] |> Array.distinct // get number of nodes per graph
 
     printfn "%i graphs built" graphs.Length
 
-    // i <- 0
-    // let runTimesSimpleKruskal = [| 
-    //     for g in graphs do 
-    //         printfn "[ %s ]" (String.replicate i "*" + String.replicate (68 - i) "-")
-    //         yield measureRunTime (simpleKruskal) g 10 
-    //         i <- i + 1
-    // |]
+    // simple kruskal runtimes
+    let skRunTimes = Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 10000) graphs
 
-    let runTimesSimpleKruskal = Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 10) graphs
-
-    Chart.Point(graphsSize, runTimesSimpleKruskal)
+    Chart.Line(graphsSize, skRunTimes |> Array.chunkBySize 4 |> getRunTimeBySize)
+    |> Chart.withXAxisStyle("Graph size")
+    |> Chart.withYAxisStyle("Run times")
+    |> Chart.withTitle("Simple Kruskal")
     |> Chart.savePNG(
         "./out/simpleKruskal",
         Width=500,
         Height=500
     )
+
+    printfn "Finished simple Kruskal"
 
     0
