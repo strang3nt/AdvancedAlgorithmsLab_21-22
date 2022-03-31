@@ -8,17 +8,18 @@ open Plotly.NET
 open Plotly.NET.ImageExport
 open System.IO
 
-let printData (graphsSize : int array) (runtimes : float array) = 
-    let ratios = [ for i=0 to graphsSize.Length - 2 do yield System.Math.Round (runtimes[i+1]/runtimes[i]) ]
-    let c_estimates = [ for i = 0 to graphsSize.Length - 1 do yield System.Math.Round (runtimes[i]/float graphsSize[i], 3) ]
-    printfn "Size\tTime(ns)\tCostant\t\tRatio"
-    printfn "%s" (String.replicate 50 "-")
+// TODO: better formatting
+let printData (graphsSize : int array) (runtimes : int array) = 
+    let ratios = [float 0] @ [ for i = 0 to graphsSize.Length - 2 do yield System.Math.Round (float runtimes[i+1] / float runtimes[i], 3) ]
+    let c_estimates = [ for i = 0 to graphsSize.Length - 1 do yield System.Math.Round (float runtimes[i]/ float graphsSize[i], 3) ]
+    printfn "Size\t\tTime(ns)\t\tCostant\t\t\tRatio"
+    printfn "%s" (String.replicate 80 "-")
     for i = 0 to graphsSize.Length - 1 do
-        printfn $"{graphsSize[i]}\t{runtimes[i]}\t{c_estimates[i]}\t{ratios[i]}"
-    printfn "%s" (String.replicate 50 "-")
+        printfn "%9A\t\t%9A\t\t%9A\t\t\t%9A" graphsSize[i] runtimes[i] c_estimates[i] ratios[i]
+    printfn "%s" (String.replicate 80 "-")
     c_estimates
 
-let printGraph (graphsSize : int array) (runtimes : float array) (reference : int list) = 
+let printGraph (graphsSize : int array) (runtimes : int array) (reference : int list) = 
     [
         Chart.Line(graphsSize, runtimes)
         |> Chart.withTraceInfo(Name="Measured time")
@@ -34,7 +35,7 @@ let printGraph (graphsSize : int array) (runtimes : float array) (reference : in
     |> Chart.withTitle("Simple Kruskal")
     |> Chart.savePNG(
         "./out/simpleKruskal",
-        Width=500,
+        Width=800,
         Height=500
     )
 
@@ -43,12 +44,12 @@ let measureRunTime f input numCalls =
     watch.Start()
     for i = 1 to numCalls do
         f input |> ignore
-    let time = float watch.ElapsedMilliseconds
+    let time = watch.Elapsed.TotalMilliseconds * float 1000000 // get nanoseconds
     watch.Stop()
     time / float numCalls
 
 let getRunTimeBySize l =
-    Array.fold (fun acc (x : float array) -> Array.append acc [| (Array.average x) |]) Array.empty l
+    Array.fold (fun acc  x -> Array.append acc [| (Array.average x) |]) Array.empty l
 
 [<EntryPoint>]
 let main argv =
@@ -69,6 +70,7 @@ let main argv =
         Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 10000) graphs
         |> Array.chunkBySize 4
         |> getRunTimeBySize
+        |> Array.map (int)
 
     let constant = 
         printData graphsSize skRunTimes 
