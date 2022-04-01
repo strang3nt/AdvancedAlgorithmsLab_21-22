@@ -8,15 +8,14 @@ open Plotly.NET
 open Plotly.NET.ImageExport
 open System.IO
 
-// TODO: better formatting
 let printData (graphsSize : int array) (runtimes : int array) = 
     let ratios = [float 0] @ [ for i = 0 to graphsSize.Length - 2 do yield System.Math.Round (float runtimes[i+1] / float runtimes[i], 3) ]
     let c_estimates = [ for i = 0 to graphsSize.Length - 1 do yield System.Math.Round (float runtimes[i]/ float graphsSize[i], 3) ]
-    printfn "Size\t\tTime(ns)\t\tCostant\t\t\tRatio"
-    printfn "%s" (String.replicate 80 "-")
+    printfn "%9s\t%9s\t%9s\t%9s" "Size" "Time(ns)" "Costant" "Ratio"
+    printfn "%s" (String.replicate 60 "-")
     for i = 0 to graphsSize.Length - 1 do
-        printfn "%9A\t\t%9A\t\t%9A\t\t\t%9A" graphsSize[i] runtimes[i] c_estimates[i] ratios[i]
-    printfn "%s" (String.replicate 80 "-")
+        printfn "%9i\t%9i\t%9.3f\t%9.3f" graphsSize[i] runtimes[i] c_estimates[i] ratios[i]
+    printfn "%s" (String.replicate 60 "-")
     c_estimates
 
 let printGraph (graphsSize : int array) (runtimes : int array) (reference : int list) = 
