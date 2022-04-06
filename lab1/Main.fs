@@ -59,14 +59,14 @@ let main argv =
 
     printfn "Found %i files" files.Length
 
-    let graphs = [| for f in files do buildSimpleGraph f |]
+    let graphs = [| for f in files do buildGraph f |]
     let graphsSize = [| for f in files do (getHeader f).[0] |] |> Array.distinct // get number of nodes per graph
 
     printfn "%i graphs built" graphs.Length
 
     // simple kruskal runtimes
     let skRunTimes = 
-        Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 10000) graphs
+        Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 100) graphs
         |> Array.chunkBySize 4
         |> getRunTimeBySize
         |> Array.map (int)
