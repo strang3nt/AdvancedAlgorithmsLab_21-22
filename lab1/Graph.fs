@@ -35,8 +35,10 @@ let private setEdge n1 n2 w i (Graph (ns, es, adj) as g) : unit =
     Array.set adj idx1 (es.Length :: adj[idx2])
     Array.set es i (idx1, idx2, w)
 
-let buildGraph edges (sizes : int array) : Graph =    
-    let nodes = Array.fold (fun acc (e : int array) -> Set.add (e[0]) acc |> Set.add(e[1]) ) Set.empty edges |> Set.toArray
+let buildGraph (edges: int array array) (sizes : int array) : Graph =
+    let nodes = Array.create (sizes[1]*2) -1
+    Array.Parallel.iteri (fun i (e: int array) -> Array.set nodes (i*2) e[0]; Array.set nodes (i*2+1) e[1]) edges
+    let nodes = nodes |> Array.distinct
     let g = Graph ( nodes, (Array.create sizes[1] (0,0,0)), (Array.create nodes.Length List.empty) )
-    Array.iteri (fun i (e : int array) -> setEdge e[0] e[1] e[2] i g) edges
+    Array.Parallel.iteri (fun i (e : int array) -> setEdge e[0] e[1] e[2] i g) edges
     g

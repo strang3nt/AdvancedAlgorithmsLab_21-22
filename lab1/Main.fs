@@ -59,7 +59,7 @@ let main argv =
 
     printfn "Found %i files" files.Length
 
-    let graphs = [| for f in files do buildGraph f |]
+    let graphs = Array.Parallel.map buildGraph files
     let graphsSize = [| for f in files do (getHeader f).[0] |] |> Array.distinct // get number of nodes per graph
 
     printfn "%i graphs built" graphs.Length
