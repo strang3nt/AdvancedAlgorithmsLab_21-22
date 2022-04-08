@@ -31,8 +31,8 @@ let private searchNode n (Graph (ns, _, _)) =
 let private setEdge n1 n2 w i (Graph (ns, es, adj) as g) : unit =
     let idx1 = searchNode n1 g
     let idx2 = searchNode n2 g
-    adj[idx1] <- (es.Length :: adj[idx1]) 
-    adj[idx2] <- (es.Length :: adj[idx2])
+    adj[idx1] <- (i :: adj[idx1]) 
+    adj[idx2] <- (i :: adj[idx2])
     es[i] <- (idx1, idx2, w)
 
 let buildGraph (edges: int array array) (sizes : int array) : Graph =

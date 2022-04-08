@@ -33,7 +33,7 @@ let printGraph (graphsSize : int array) (runtimes : int array) (reference : int 
     |> Chart.withYAxisStyle("Run times")
     |> Chart.withTitle("Simple Kruskal")
     |> Chart.savePNG(
-        "./out/simpleKruskal",
+        "lab1"+/"out"+/"simpleKruskal",
         Width=800,
         Height=500
     )
@@ -52,15 +52,19 @@ let getRunTimeBySize l =
 
 [<EntryPoint>]
 let main argv =
+    let path = Directory.GetCurrentDirectory() +/ "lab1" +/ "graphs"
     let files = 
-        Directory.GetFiles (Directory.GetCurrentDirectory() + "/graphs/")
-        |> Array.map Path.GetFileName
+        Directory.GetFiles (path)
         |> Array.sort
+        |> Array.truncate 40
 
     printfn "Found %i files" files.Length
 
     let graphs = Array.Parallel.map buildGraph files
-    let graphsSize = [| for f in files do (getHeader f).[0] |] |> Array.distinct // get number of nodes per graph
+    let sizes = [| for f in files do (getHeader f) |] // get number of nodes per graph
+    let M_list = Array.map (fun (x: int array) -> x[1]) sizes
+    let N_list = Array.map (fun (x: int array) -> x[0]) sizes
+    let N_listDistinct = N_list |> Array.distinct
 
     printfn "%i graphs built" graphs.Length
 
@@ -72,14 +76,14 @@ let main argv =
         |> Array.map (int)
 
     let constant = 
-        printData graphsSize skRunTimes 
+        printData N_listDistinct skRunTimes 
         |> List.last
         |> round
         |> int
 
-    let reference = [ for i in graphsSize do yield i * constant ]
+    let reference = [ for i in N_listDistinct do yield i * constant ]
 
-    printGraph graphsSize skRunTimes reference
+    printGraph N_listDistinct skRunTimes reference
 
     printfn "Finished simple Kruskal"
 

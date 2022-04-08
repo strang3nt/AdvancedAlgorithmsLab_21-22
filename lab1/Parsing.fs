@@ -4,12 +4,14 @@ open lab1.Graphs
 open System.IO
 open System.Linq
 
+let (+/) path1 path2 = Path.Combine(path1, path2)
+
 let file filename =
-    Directory.GetCurrentDirectory() + "/graphs/" + filename
+    filename
     |> File.ReadAllLines
 
 let getHeader filename =
-    let s = File.ReadLines( Directory.GetCurrentDirectory() + "/graphs/" + filename ).First()
+    let s = File.ReadLines( filename ).First()
     Array.map int (s.Split [| ' ' |])
 
 let buildGraph (filename : string) : Graph =
