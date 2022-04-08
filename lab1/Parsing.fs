@@ -4,7 +4,7 @@ open lab1.Graphs
 open System.IO
 
 let file filename =
-//    Directory.GetCurrentDirectory() + "/graphs/" +
+    Directory.GetCurrentDirectory() + "/graphs/" +
     filename
     |> File.ReadAllLines
 
