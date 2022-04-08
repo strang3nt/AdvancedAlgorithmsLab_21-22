@@ -46,3 +46,8 @@ let nodeExists ((ns, _) : Graph) (n : Node) : bool =
     match Array.tryFind(fun x -> x = n) ns with
     | Some (_) -> true
     | _ -> false
+    
+let getNodes (G: Graph2) =
+    G   |> Array.map (fun (u, v, _) -> [|u; v|])
+        |> Array.collect id
+        |> Array.distinct
