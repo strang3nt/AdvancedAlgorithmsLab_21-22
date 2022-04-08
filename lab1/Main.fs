@@ -1,6 +1,7 @@
 ﻿module lab1.Main
 
 open lab1.Parsing
+open lab1.Prim
 open lab1.SimpleKruskal
 
 // For more information see https://aka.ms/fsharp-console-apps
@@ -65,21 +66,32 @@ let main argv =
     printfn "%i graphs built" graphs.Length
 
     // simple kruskal runtimes
-    let skRunTimes = 
-        Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 100) graphs
+    let prRunTimes = 
+        Array.Parallel.map (fun g -> measureRunTime (prim) g 10000) graphs
         |> Array.chunkBySize 4
         |> getRunTimeBySize
         |> Array.map (int)
+    (*let skRunTimes = 
+        Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 10000) graphs
+        |> Array.chunkBySize 4
+        |> getRunTimeBySize
+        |> Array.map (int)*)
 
     let constant = 
-        printData graphsSize skRunTimes 
+        printData graphsSize prRunTimes 
         |> List.last
         |> round
         |> int
+    (*let constant = 
+        printData graphsSize skRunTimes 
+        |> List.last
+        |> round
+        |> int*)
 
     let reference = [ for i in graphsSize do yield i * constant ]
 
-    printGraph graphsSize skRunTimes reference
+    printGraph graphsSize prRunTimes reference
+    //printGraph graphsSize skRunTimes reference
 
     printfn "Finished simple Kruskal"
 
