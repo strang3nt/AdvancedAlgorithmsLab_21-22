@@ -8,9 +8,9 @@ open Plotly.NET
 open Plotly.NET.ImageExport
 open System.IO
 
-let printData (graphsSize : int array) (runtimes : int array) = 
+let printData (graphsSize : int array) (avgEdgeSize : int array) (runtimes : int array) = 
     let ratios = [float 0] @ [ for i = 0 to graphsSize.Length - 2 do yield System.Math.Round (float runtimes[i+1] / float runtimes[i], 3) ]
-    let c_estimates = [ for i = 0 to graphsSize.Length - 1 do yield System.Math.Round (float runtimes[i]/ float graphsSize[i], 3) ]
+    let c_estimates = [ for i = 0 to graphsSize.Length - 1 do yield System.Math.Round (float runtimes[i]/ float (graphsSize[i] * avgEdgeSize[i]), 3) ]
     printfn "%9s\t%9s\t%9s\t%9s" "Size" "Time(ns)" "Costant" "Ratio"
     printfn "%s" (String.replicate 60 "-")
     for i = 0 to graphsSize.Length - 1 do
@@ -20,7 +20,7 @@ let printData (graphsSize : int array) (runtimes : int array) =
 
 let printGraph (graphsSize : int array) (runtimes : int array) (reference : int list) = 
     [
-        Chart.Line(graphsSize, runtimes)
+        Chart.Line(graphsSize |> Array.distinct, runtimes)
         |> Chart.withTraceInfo(Name="Measured time")
         |> Chart.withLineStyle(Width=2.0, Dash=StyleParam.DrawingStyle.Solid)
 
@@ -47,8 +47,10 @@ let measureRunTime f input numCalls =
     watch.Stop()
     time / float numCalls
 
-let getRunTimeBySize l =
-    Array.fold (fun acc  x -> Array.append acc [| (Array.average x) |]) Array.empty l
+let getAverageBySize a =
+    a
+    |> Array.chunkBySize 4
+    |> Array.fold (fun acc  x -> Array.append acc [| (Array.average x) |]) Array.empty
 
 [<EntryPoint>]
 let main argv =
@@ -56,7 +58,7 @@ let main argv =
     let files = 
         Directory.GetFiles (path)
         |> Array.sort
-        |> Array.truncate 40
+        |> Array.truncate 30
 
     printfn "Found %i files" files.Length
 
@@ -65,25 +67,29 @@ let main argv =
     let M_list = Array.map (fun (x: int array) -> x[1]) sizes
     let N_list = Array.map (fun (x: int array) -> x[0]) sizes
     let N_listDistinct = N_list |> Array.distinct
+    let M_avgEdgeSize = 
+        M_list 
+        |> Array.map float
+        |> getAverageBySize
+        |> Array.map int
 
     printfn "%i graphs built" graphs.Length
 
     // simple kruskal runtimes
     let skRunTimes = 
         Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 100) graphs
-        |> Array.chunkBySize 4
-        |> getRunTimeBySize
-        |> Array.map (int)
+        |> getAverageBySize
+        |> Array.map int
 
     let constant = 
-        printData N_listDistinct skRunTimes 
+        printData N_listDistinct M_avgEdgeSize skRunTimes 
         |> List.last
         |> round
         |> int
 
-    let reference = [ for i in N_listDistinct do yield i * constant ]
+    let reference = [ for i=0 to (N_list.Length - 1) do yield (N_list[i] * M_list[i]) * constant ]
 
-    printGraph N_listDistinct skRunTimes reference
+    printGraph N_list skRunTimes reference
 
     printfn "Finished simple Kruskal"
 
