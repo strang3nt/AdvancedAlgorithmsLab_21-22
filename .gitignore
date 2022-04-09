@@ -456,3 +456,4 @@ $RECYCLE.BIN/
 ## Other compilation artifacts
 
 *.local-chromium
+lab1/out/*
