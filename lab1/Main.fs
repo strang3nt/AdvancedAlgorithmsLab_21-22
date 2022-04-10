@@ -12,10 +12,10 @@ open System.IO
 let printData (graphsSize : int array) (runtimes : int array) = 
     let ratios = [float 0] @ [ for i = 0 to graphsSize.Length - 2 do yield System.Math.Round (float runtimes[i+1] / float runtimes[i], 3) ]
     let c_estimates = [ for i = 0 to graphsSize.Length - 1 do yield System.Math.Round (float runtimes[i]/ float graphsSize[i], 3) ]
-    printfn "%9s\t%9s\t%9s\t%9s" "Size" "Time(ns)" "Costant" "Ratio"
+    printfn "%9s\t%9s\t%9s\t%9s" "Size" "Time(ns)" "Constant" "Ratio"
     printfn "%s" (String.replicate 60 "-")
     for i = 0 to graphsSize.Length - 1 do
-        printfn "%9i\t%9i\t%9.3f\t%9.3f" graphsSize[i] runtimes[i] c_estimates[i] ratios[i]
+        printfn $"%9i{graphsSize[i]}\t%9i{runtimes[i]}\t%9.3f{c_estimates[i]}\t%9.3f{ratios[i]}"
     printfn "%s" (String.replicate 60 "-")
     c_estimates
 
@@ -32,11 +32,11 @@ let printGraph (graphsSize : int array) (runtimes : int array) (reference : int 
     |> Chart.combine
     |> Chart.withXAxisStyle("Graph size")
     |> Chart.withYAxisStyle("Run times")
-    |> Chart.withTitle("Simple Kruskal")
+    |> Chart.withTitle("Union-Find Kruskal")
     |> Chart.savePNG(
-        "lab1"+/"out"+/"simpleKruskal",
-        Width=800,
-        Height=500
+        "out"+/"unionFindKruskal",
+        Width=1920,
+        Height=1080
     )
 
 let measureRunTime f input numCalls =
@@ -53,13 +53,13 @@ let getRunTimeBySize l =
 
 [<EntryPoint>]
 let main argv =
-    let path = Directory.GetCurrentDirectory() +/ "lab1" +/ "graphs"
+    let path = Directory.GetCurrentDirectory() +/ "graphs"
     let files = 
         Directory.GetFiles (path)
         |> Array.sort
-        |> Array.truncate 40
+//        |> Array.truncate 40
 
-    printfn "Found %i files" files.Length
+    printfn $"Found %i{files.Length} files"
 
     let graphs = Array.Parallel.map buildGraph files
     let sizes = [| for f in files do (getHeader f) |] // get number of nodes per graph
@@ -67,25 +67,26 @@ let main argv =
     let N_list = Array.map (fun (x: int array) -> x[0]) sizes
     let N_listDistinct = N_list |> Array.distinct
 
-    printfn "%i graphs built" graphs.Length
+    printfn $"%i{graphs.Length} graphs built"
 
-    // simple kruskal runtimes
-    let skRunTimes = 
-        Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 100) graphs
+    // kruskal Union-Find based runtimes
+    let kruskalUFTimes = 
+//        Array.Parallel.map (fun g -> measureRunTime (kruskalUF) g 100) graphs
+        Array.map (fun g -> measureRunTime (kruskalUF) g 20) graphs
         |> Array.chunkBySize 4
         |> getRunTimeBySize
         |> Array.map (int)
 
     let constant = 
-        printData N_listDistinct skRunTimes 
+        printData N_listDistinct kruskalUFTimes 
         |> List.last
         |> round
         |> int
 
     let reference = [ for i in N_listDistinct do yield i * constant ]
 
-    printGraph N_listDistinct skRunTimes reference
+    printGraph N_listDistinct kruskalUFTimes reference
 
-    printfn "Finished simple Kruskal"
+    printfn "Finished Union-Find Kruskal"
 
     0
