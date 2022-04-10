@@ -19,7 +19,7 @@ let printData (graphsSize : int array) (runtimes : int array) =
     printfn "%s" (String.replicate 60 "-")
     c_estimates
 
-let printGraph (graphsSize : int array) (runtimes : int array) (reference : int list) = 
+let printGraph (graphsSize : int array) (runtimes : int array) (reference : int list) (switch : bool) = 
     [
         Chart.Line(graphsSize, runtimes)
         |> Chart.withTraceInfo(Name="Measured time")
@@ -32,9 +32,12 @@ let printGraph (graphsSize : int array) (runtimes : int array) (reference : int 
     |> Chart.combine
     |> Chart.withXAxisStyle("Graph size")
     |> Chart.withYAxisStyle("Run times")
-    |> Chart.withTitle("Simple Kruskal")
+    |> Chart.withTitle(if switch then "Prim" else "Simple Kruskal")
     |> Chart.savePNG(
-        "./out/simpleKruskal",
+        (if switch then
+            "./out/prim"
+        else
+            "./out/simpleKruskal"),
         Width=800,
         Height=500
     )
@@ -65,34 +68,42 @@ let main argv =
 
     printfn "%i graphs built" graphs.Length
 
-    // simple kruskal runtimes
-    let prRunTimes = 
-        Array.Parallel.map (fun g -> measureRunTime (prim) g 10000) graphs
-        |> Array.chunkBySize 4
-        |> getRunTimeBySize
-        |> Array.map (int)
-    (*let skRunTimes = 
-        Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 10000) graphs
-        |> Array.chunkBySize 4
-        |> getRunTimeBySize
-        |> Array.map (int)*)
+    let pr = fun _ -> 
+        printfn "Prim"
+        let prRunTimes = 
+            Array.Parallel.map (fun g -> measureRunTime (prim) g 10000) graphs
+            |> Array.chunkBySize 4
+            |> getRunTimeBySize
+            |> Array.map (int)
 
-    let constant = 
-        printData graphsSize prRunTimes 
-        |> List.last
-        |> round
-        |> int
-    (*let constant = 
-        printData graphsSize skRunTimes 
-        |> List.last
-        |> round
-        |> int*)
+        let constant = 
+            printData graphsSize prRunTimes 
+            |> List.last
+            |> round
+            |> int
+    
+        let reference = [ for i in graphsSize do yield i * constant ]
+        printGraph graphsSize prRunTimes reference true
+        printfn "Finished prim"
+    let sk = fun _ ->
+        printfn "Simple Kruskal"
+        let skRunTimes = 
+            Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 10000) graphs
+            |> Array.chunkBySize 4
+            |> getRunTimeBySize
+            |> Array.map (int)
 
-    let reference = [ for i in graphsSize do yield i * constant ]
+        let constant2 = 
+            printData graphsSize skRunTimes 
+            |> List.last
+            |> round
+            |> int
 
-    printGraph graphsSize prRunTimes reference
-    //printGraph graphsSize skRunTimes reference
-
-    printfn "Finished simple Kruskal"
+        let reference2 = [ for i in graphsSize do yield i * constant2 ]
+        printGraph graphsSize skRunTimes reference2 false
+        printfn "Finished simple kruskal"
+    
+    pr ()
+    // sk ()
 
     0

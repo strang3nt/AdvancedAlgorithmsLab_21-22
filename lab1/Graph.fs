@@ -2,10 +2,12 @@ module lab1.Graphs
 
 open FSharp.Collections
 
-type Nodes = int array
+type Node = int
+type Nodes = Node array
 type Weight = int
-type Edges = (int * int * Weight) array
-type AdjList = ( int list ) array // each node has its own adjacency list which is only a ref to edges
+type Edge = Node * Node * Weight
+type Edges = Edge array
+type AdjList = ( Node list ) array // each node has its own adjacency list which is only a ref to edges
 
 [<Struct>]
 type Graph = Graph of Nodes * Edges * AdjList
