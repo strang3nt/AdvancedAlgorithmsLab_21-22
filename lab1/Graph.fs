@@ -5,9 +5,9 @@ open FSharp.Collections
 type Node = int
 type Nodes = Node array
 type Weight = int
-type Edge = Node * Node * Weight
+type Edge = int * int * Weight // refs to the nodes, not actual nodes
 type Edges = Edge array
-type AdjList = ( Node list ) array // each node has its own adjacency list which is only a ref to edges
+type AdjList = ( int list ) array // each node has its own adjacency list which is only a ref to edges
 
 [<Struct>]
 type Graph = Graph of Nodes * Edges * AdjList
@@ -27,14 +27,14 @@ let w n1 n2 (Graph (_, es, adj) as g) : Weight Option =
 let totalWeight ( Graph (_, es, _) ) : int =
     Array.sumBy (fun (_, _, w) -> w) es
 
-let private searchNode n (Graph (ns, _, _)) = 
+let searchNode n (Graph (ns, _, _)) = 
     Array.findIndex (fun x -> n = x) ns
 
 let private setEdge n1 n2 w i (Graph (ns, es, adj) as g) : unit =
     let idx1 = searchNode n1 g
     let idx2 = searchNode n2 g
-    adj[idx1] <- (es.Length :: adj[idx1]) 
-    adj[idx2] <- (es.Length :: adj[idx2])
+    adj[idx1] <- (i :: adj[idx1]) 
+    adj[idx2] <- (i :: adj[idx2])
     es[i] <- (idx1, idx2, w)
 
 let buildGraph (edges: int array array) (sizes : int array) : Graph =

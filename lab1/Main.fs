@@ -71,7 +71,7 @@ let main argv =
     let pr = fun _ -> 
         printfn "Prim"
         let prRunTimes = 
-            Array.Parallel.map (fun g -> measureRunTime (prim) g 10000) graphs
+            Array.Parallel.map (fun g -> measureRunTime (prim 0) g 10000) graphs
             |> Array.chunkBySize 4
             |> getRunTimeBySize
             |> Array.map (int)
