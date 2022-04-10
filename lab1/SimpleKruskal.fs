@@ -2,18 +2,46 @@ module lab1.SimpleKruskal
 
 open Graphs
 
-let isAcyclical A n1 n2 : bool =
-    let mutable found1 = false
-    let mutable found2 = false
-    Seq.tryFind (fun (v1, v2, _) -> 
-        if (v1 = n1 || v2 = n1) then
-            found1 <- true
-        if (v1 = n2 || v2 = n2) then
-            found2 <- true
-        found1 && found2
-    ) A |> ignore
-    not (found1 && found2)
+type Visit =
+    | Visited
+    | NotVisited
+
+type EdgeVisit = Visit
+type NodeVisit = Visit
+
+type DFSGraph = 
+    DFSGraph of Graph * NodeVisit array * EdgeVisit array
+
+let rec cycleDetectDfs v (A: bool array) (DFSGraph (Graph (_, _, adj) as G, nv, ev) as dfsG : DFSGraph) : bool = 
+    nv[v] <- Visited
+    List.forall (fun e -> 
+        if (ev[e] = NotVisited && A[e]) then
+            let u = opposite v e G
+            if (nv[u] = NotVisited) then
+                ev[e] <- Visited
+                (cycleDetectDfs u A dfsG)
+            else false
+        else true
+        ) adj[v]
+
+let isAcyclical e (A: bool array) (Graph (ns, es, _) as G) : bool =
+    let (n1, _, _) = es[e]
+    A[e] <- true
+    let nv = Array.create ns.Length NotVisited
+    let ev = Array.create es.Length NotVisited
+
+    let res = cycleDetectDfs n1 A (DFSGraph (G, nv, ev))
+    A[e] <- false
+    res
     
-let simpleKruskal (Graph (_, g, _)) = 
-    Array.sortBy (fun (_, _, weight) -> weight) g 
-    |> Array.fold (fun acc ((n1, n2, w) as e) -> if (isAcyclical acc n1 n2) then e :: acc else acc ) List.empty
+let simpleKruskal (Graph (_, es, _) as G) = 
+    let A = Array.create es.Length false
+    sortedEdges G 
+    |> Array.fold (
+        fun acc e -> 
+            if (isAcyclical e A G) 
+            then 
+                A[e] <- true 
+                es[e] :: acc 
+            else acc 
+        ) List.empty

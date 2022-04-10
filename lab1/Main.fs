@@ -1,7 +1,7 @@
 ﻿module lab1.Main
 
-open lab1.Parsing
-open lab1.SimpleKruskal
+open Parsing
+open SimpleKruskal
 
 // For more information see https://aka.ms/fsharp-console-apps
 open Plotly.NET
@@ -58,7 +58,7 @@ let main argv =
     let files = 
         Directory.GetFiles (path)
         |> Array.sort
-        |> Array.truncate 30
+        |> Array.truncate 50
 
     printfn "Found %i files" files.Length
 
