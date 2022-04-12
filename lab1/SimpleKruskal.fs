@@ -1,6 +1,7 @@
 module lab1.SimpleKruskal
 
 open Graphs
+open System.Collections.Generic
 
 type Visit =
     | Visited
@@ -12,17 +13,24 @@ type NodeVisit = Visit
 type DFSGraph = 
     DFSGraph of Graph * NodeVisit array * EdgeVisit array
 
-let rec cycleDetectDfs v (A: bool array) (DFSGraph (Graph (_, _, adj) as G, nv, ev) as dfsG : DFSGraph) : bool = 
-    nv[v] <- Visited
-    List.forall (fun e -> 
-        if (ev[e] = NotVisited && A[e]) then
-            let u = opposite v e G
-            if (nv[u] = NotVisited) then
-                ev[e] <- Visited
-                (cycleDetectDfs u A dfsG)
-            else false
-        else true
-        ) adj[v]
+let cycleDetectDfs v (A: bool array) (DFSGraph (Graph (_, es, adj) as G, nv, ev) as dfsG : DFSGraph) : bool = 
+    let stack = new Stack<int>()
+    stack.Push(v)
+    let mutable notCycle = true
+    while (stack.Count <> 0 && notCycle) do
+        let s = stack.Pop()
+        if(nv[s] = NotVisited) then
+            nv[s] <- Visited
+        else  notCycle <- false
+   
+        for e in adj[s] do
+            if A[e] && (ev[e] = NotVisited) then         
+                let u = opposite s e G
+                if nv[u] = NotVisited then
+                    ev[e] <- Visited
+                    stack.Push(u)
+
+    notCycle
 
 let isAcyclical e (A: bool array) (Graph (ns, es, _) as G) : bool =
     let (n1, _, _) = es[e]

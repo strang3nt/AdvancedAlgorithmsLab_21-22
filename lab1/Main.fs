@@ -77,7 +77,7 @@ let main argv =
 
     // simple kruskal runtimes
     let skRunTimes = 
-        Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 100) graphs
+        Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 1) graphs
         |> getAverageBySize
         |> Array.map int
 
