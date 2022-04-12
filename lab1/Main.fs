@@ -8,17 +8,17 @@ open Plotly.NET
 open Plotly.NET.ImageExport
 open System.IO
 
-let printData (graphsSize : int array) (avgEdgeSize : int array) (runtimes : int array) = 
-    let ratios = [float 0] @ [ for i = 0 to graphsSize.Length - 2 do yield System.Math.Round (float runtimes[i+1] / float runtimes[i], 3) ]
-    let c_estimates = [ for i = 0 to graphsSize.Length - 1 do yield System.Math.Round (float runtimes[i]/ float (graphsSize[i] * avgEdgeSize[i]), 3) ]
+let printData (graphsSize : int array) (avgEdgeSize : int array) (runtimes : int64 array) = 
+    let ratios = [float 0] @ [ for i = 0 to graphsSize.Length - 2 do yield (float runtimes[i+1] / float runtimes[i]) ]
+    let c_estimates = [ for i = 0 to graphsSize.Length - 1 do yield System.Math.Round ( float runtimes[i]/ float (graphsSize[i] * avgEdgeSize[i]), 3) ]
     printfn "%9s\t%9s\t%9s\t%9s" "Size" "Time(ns)" "Costant" "Ratio"
     printfn "%s" (String.replicate 60 "-")
     for i = 0 to graphsSize.Length - 1 do
-        printfn "%9i\t%9i\t%9.3f\t%9.3f" graphsSize[i] runtimes[i] c_estimates[i] ratios[i]
+        printfn "%9i\t%9i\t%9f\t%9.3f" graphsSize[i] runtimes[i] c_estimates[i] ratios[i]
     printfn "%s" (String.replicate 60 "-")
     c_estimates
 
-let printGraph (graphsSize : int array) (runtimes : int array) (reference : int list) = 
+let printGraph (graphsSize : int array) (runtimes : int64 array) (reference : int64 list) = 
     [
         Chart.Line(graphsSize |> Array.distinct, runtimes)
         |> Chart.withTraceInfo(Name="Measured time")
@@ -43,7 +43,7 @@ let measureRunTime f input numCalls =
     watch.Start()
     for i = 1 to numCalls do
         f input |> ignore
-    let time = watch.Elapsed.TotalMilliseconds * float 1000000 // get nanoseconds
+    let time = watch.Elapsed.TotalMilliseconds * 1000000.0 // get nanoseconds
     watch.Stop()
     time / float numCalls
 
@@ -79,15 +79,15 @@ let main argv =
     let skRunTimes = 
         Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 1) graphs
         |> getAverageBySize
-        |> Array.map int
+        |> Array.map int64
 
     let constant = 
         printData N_listDistinct M_avgEdgeSize skRunTimes 
         |> List.last
         |> round
-        |> int
+        |> int64
 
-    let reference = [ for i=0 to (N_list.Length - 1) do yield (N_list[i] * M_list[i]) * constant ]
+    let reference = [ for i=0 to (N_list.Length - 1) do yield  int64 (N_list[i] * M_list[i]) * constant ]
 
     printGraph N_list skRunTimes reference
 
