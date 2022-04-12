@@ -44,9 +44,10 @@ let buildGraph (edges: int array array) (sizes : int array) : Graph =
     g
 
 let sortedEdges ( Graph (_, es, _) ) : int array =
-    let tupleEs = es |> Array.Parallel.mapi ( fun x (_, _, w) -> ( w , x ) ) 
-    tupleEs |> Array.sortInPlace
-    tupleEs |> Array.Parallel.map ( fun (_, x) -> x )
+    es 
+    |> Array.mapi ( fun x (_, _, w) -> ( w , x ) ) 
+    |> Array.sort
+    |> Array.map ( fun (_, x) -> x )
 
 let opposite n e ( Graph (_, es, _) ) =
     let (n1, n2, _) = es[e]

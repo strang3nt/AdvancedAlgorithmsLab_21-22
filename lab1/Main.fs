@@ -41,7 +41,7 @@ let printGraph (graphsSize : int array) (runtimes : int64 array) (reference : in
 let measureRunTime f input numCalls =
     let watch = System.Diagnostics.Stopwatch()
     watch.Start()
-    for i = 1 to numCalls do
+    for _ = 1 to numCalls do
         f input |> ignore
     let time = watch.Elapsed.TotalMilliseconds * 1000000.0 // get nanoseconds
     watch.Stop()
@@ -52,13 +52,27 @@ let getAverageBySize a =
     |> Array.chunkBySize 4
     |> Array.fold (fun acc  x -> Array.append acc [| (Array.average x) |]) Array.empty
 
+let getResults f graphs : unit =
+    let result = 
+        sprintf "%9s\t%9s\t%9s\n" "Nodes" "Edges" "MST weight" +
+        String.replicate 50 "-"
+    graphs
+    |> Array.fold ( fun str (Graphs.Graph (ns, es, _) as g) -> 
+            let r : (int * int * int) list = f g
+            let totalWeight = 
+                r 
+                |> List.sumBy (fun (_,_,w) -> w)
+            str + (sprintf "\n%9i\t%9i\t%9i" ns.Length es.Length totalWeight)
+        ) result
+    |> printfn "%s"
+
 [<EntryPoint>]
 let main argv =
     let path = Directory.GetCurrentDirectory() +/ "lab1" +/ "graphs"
     let files = 
         Directory.GetFiles (path)
         |> Array.sort
-        |> Array.truncate 50
+        |> Array.truncate 30
 
     printfn "Found %i files" files.Length
 
@@ -75,9 +89,10 @@ let main argv =
 
     printfn "%i graphs built" graphs.Length
 
+    getResults simpleKruskal graphs
     // simple kruskal runtimes
     let skRunTimes = 
-        Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 1) graphs
+        Array.map (fun g -> measureRunTime (simpleKruskal) g 1) graphs
         |> getAverageBySize
         |> Array.map int64
 
