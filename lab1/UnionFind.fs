@@ -29,12 +29,12 @@ let size (uf : Map<'a,'a UFNode>) x =
 let change_root (uf : Map<'a,'a UFNode>) i j =
     let i, _ = i
     let j, j_size = j
-    // O(log n)
+        // O(log n)
     uf  |> Map.change j (fun j ->
             match j with
             | None -> failwith "No value associated to the given element"
             | Some (_, j_size) -> Some (i, j_size))
-    // O(log n)
+        // O(log n)
         |> Map.change i (fun i ->
             match i with
             | None -> failwith "No value associated to the given element"
@@ -42,13 +42,15 @@ let change_root (uf : Map<'a,'a UFNode>) i j =
     
 // Merges the trees in the Union-Find uf associated to the nodes x and y in O(k), with k = uf depth = log n
 let union (uf : Map<'a,'a UFNode>) x y =
+    // O(log n)
     let x_root, x_size = find uf x
+    // O(log n)
     let y_root, y_size = find uf y
     if x_root = y_root then
         uf
     elif x_size >= y_size then
-    // O(log n)
+        // O(log n)
         change_root uf (x_root, x_size) (y_root, y_size)
     else
-    // O(log n)
+        // O(log n)
         change_root uf (y_root, y_size) (x_root, x_size)

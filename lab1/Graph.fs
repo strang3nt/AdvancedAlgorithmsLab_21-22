@@ -47,6 +47,3 @@ let sortedEdges ( Graph (_, es, _) ) : int array =
     let tupleEs = es |> Array.Parallel.mapi ( fun x (_, _, w) -> ( w , x ) ) 
     tupleEs |> Array.sortInPlace
     tupleEs |> Array.Parallel.map ( fun (_, x) -> x )
-
-let getNodes ( Graph (nodes, _, _)) : Nodes =
-    nodes
