@@ -1,7 +1,6 @@
 module lab1.SimpleKruskal
 
 open Graphs
-open System.Collections.Generic
 
 type Visit =
     | Visited
@@ -10,28 +9,24 @@ type Visit =
 type EdgeVisit = Visit
 type NodeVisit = Visit
 
-type DFSGraph = 
-    DFSGraph of Graph * NodeVisit array * EdgeVisit array
-
-let rec cycleDetectDfs v (A: bool array) (DFSGraph (Graph (_, _, adj) as G, nv, ev) as dfsG : DFSGraph) : bool = 
+let rec cycleDfs v (A: bool array) (Graph (_,_, adj) as G) (nv: Visit array) (ev: Visit array): bool = 
     nv[v] <- Visited
     List.forall (fun e -> 
         if (ev[e] = NotVisited && A[e]) then
             let u = opposite v e G
             if (nv[u] = NotVisited) then
                 ev[e] <- Visited
-                (cycleDetectDfs u A dfsG)
+                (cycleDfs u A G nv ev)
             else false
         else true
         ) adj[v]
 
-let isAcyclical e (A: bool array) (Graph (ns, es, _) as G) : bool =
+let isAcyclical e (A: bool array) (Graph (ns, es, adj) as G) : bool =
     let (n1, _, _) = es[e]
     A[e] <- true
     let nv = Array.create ns.Length NotVisited
     let ev = Array.create es.Length NotVisited
-
-    let res = cycleDetectDfs n1 A (DFSGraph (G, nv, ev))
+    let res = cycleDfs n1 A G nv ev
     A[e] <- false
     res
     
@@ -40,9 +35,7 @@ let simpleKruskal (Graph (_, es, _) as G) =
     sortedEdges G 
     |> Array.fold (
         fun acc e -> 
-            if (isAcyclical e A G) 
-            then 
-                A[e] <- true 
-                es[e] :: acc 
-            else acc 
+            match e with 
+            | e when (isAcyclical e A G) -> A[e] <- true; es[e] :: acc 
+            | _ -> acc 
         ) List.empty
