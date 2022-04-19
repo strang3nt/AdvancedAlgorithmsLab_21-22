@@ -13,4 +13,6 @@ input-files:
 
 output-file: AA_21-22_report.pdf
 
+highlight-style: tango
+
 metadata-file: ${.}/metadata.yaml
