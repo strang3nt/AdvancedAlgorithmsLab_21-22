@@ -1,6 +1,7 @@
 module lab1.Graphs
 
 open FSharp.Collections
+open System
 
 type Nodes = int array
 type Weight = int
@@ -44,10 +45,9 @@ let buildGraph (edges: int array array) (sizes : int array) : Graph =
     g
 
 let sortedEdges ( Graph (_, es, _) ) : int array =
-    es 
-    |> Array.mapi ( fun x (_, _, w) -> ( w , x ) ) 
-    |> Array.sort
-    |> Array.map ( fun (_, x) -> x )
+    let sortedArr = Array.mapi ( fun x (_, _, w) -> ( w , x ) ) es
+    Array.Sort sortedArr
+    Array.map ( fun (_, x) -> x ) sortedArr
 
 let opposite n e ( Graph (_, es, _) ) =
     let (n1, n2, _) = es[e]
