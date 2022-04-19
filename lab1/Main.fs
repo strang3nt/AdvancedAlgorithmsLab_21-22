@@ -65,6 +65,7 @@ let getResults f graphs : unit =
             str + (sprintf "\n%9i\t%9i\t%9i" ns.Length es.Length totalWeight)
         ) result
     |> printfn "%s"
+    printfn "%s" (String.replicate 50 "-")
 
 [<EntryPoint>]
 let main argv =

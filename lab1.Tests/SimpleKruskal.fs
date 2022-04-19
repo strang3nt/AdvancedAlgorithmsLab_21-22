@@ -28,45 +28,6 @@ let graph =
     )
 
 [<Test>]
-let Test0_isAcyclical_WholeGraph () =
-    let Graph (_, es, _) as G = graph
-    let A = Array.create es.Length true
-    let checkIfAcyclical = isAcyclical 3 A G
-    Assert.False ( checkIfAcyclical )
-
-[<Test>]
-let Test1_isAcyclical_WithTree () =
-    let Graph (_, es, _) as G = graph
-    let A = Array.create es.Length false
-    A[0] <- true
-    A[1] <- true
-    A[3] <- true
-    let checkIfAcyclical = isAcyclical 8 A G
-    Assert.True ( checkIfAcyclical )
-
-[<Test>]
-let Test2_isAcyclical_WithRejectedNode () =
-    let Graph (_, es, _) as G = graph
-    let A = Array.create es.Length false
-    A[0] <- true
-    A[1] <- true
-    A[3] <- true
-    let checkIfAcyclical = isAcyclical 4 A G
-    Assert.False ( checkIfAcyclical )
-
-[<Test>]
-let Test3_isAcyclical_MSTAlreadyFound () =
-    let Graph (_, es, _) as G = graph
-    let A = Array.create es.Length false
-    A[1] <- true
-    A[0] <- true
-    A[3] <- true
-    A[6] <- true
-    let checkIfAcyclical = isAcyclical 2 A G
-    Assert.False ( checkIfAcyclical )
-
-
-[<Test>]
 let Test0_simpleKruskal () =
     let Graph (_, es, _) as G = graph
     let expected =

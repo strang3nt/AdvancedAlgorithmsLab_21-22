@@ -6,14 +6,17 @@ type Visit =
     | Visited
     | NotVisited
 
-let rec cycleDfs v (A: bool array) (Graph (_,_, adj) as G) (nv: Visit array) (ev: Visit array): bool = 
+type MST = 
+    MST of int list * AdjList
+
+let rec cycleDfs v (G: Graph) (MST (_, adj) as A : MST) (nv: Visit array) (ev: Visit array): bool = 
     nv[v] <- Visited
 
     // forall adjacent nodes to v
     List.forall (fun e ->
 
         // if edge e is not visited and it is part of MST
-        if (ev[e] = NotVisited && A[e]) then
+        if (ev[e] = NotVisited) then
 
             // get u, adjacent node of v in edge e
             let u = opposite v e G
@@ -23,32 +26,40 @@ let rec cycleDfs v (A: bool array) (Graph (_,_, adj) as G) (nv: Visit array) (ev
 
                 // set edge (u, v) as visited and continue
                 ev[e] <- Visited
-                (cycleDfs u A G nv ev)
+                (cycleDfs u G A nv ev)
 
             // else we have found a backedge, thus a cycle
             else false
         else true
         ) adj[v]
 
-let isAcyclical e (A: bool array) (Graph (ns, es, adj) as G) : bool =
-    let (n1, _, _) = es[e]
+/// makes side effects
+let updateMst e (MST (mstEdges, mstAdj): MST) (Graph (_, es, _): Graph): MST =
+    let (v, u, _) = es[e]
+    mstAdj[v] <- e :: mstAdj[v]
+    mstAdj[u] <- e :: mstAdj[u]
+    MST (e :: mstEdges, mstAdj)
 
-    // suppose edge to check e is part of MST
-    A[e] <- true
-
+let isAcyclical e (MST (edges, adjList)) (Graph (_, es, _) as G : Graph): bool =
+    
+    // suppose edge to check e is part of MST and add it to MST
+    let adj = Array.copy adjList
+    let A = updateMst e (MST (edges, adj)) G
+    
     // init auxiliary arrays nodes visit and edges visit
-    let nv = Array.create ns.Length NotVisited
+    let nv = Array.create adj.Length NotVisited
     let ev = Array.create es.Length NotVisited
-    let res = cycleDfs n1 A G nv ev
-
-    // remove edge from MST, it will eventually be added in main funciton
-    A[e] <- false
+    
+    let (v, _, _) = es[e]
+    let res = cycleDfs v G A nv ev
     res
     
-let simpleKruskal (Graph (_, es, _) as G) =
+let simpleKruskal (Graph (ns, es, _) as G) =
 
     // Init A, it will hold the mst
-    let A = Array.create es.Length false
+    let mstEdges = List.empty
+    let mstAdj = Array.create ns.Length List.empty
+    let A = MST (mstEdges, mstAdj)
 
     // sort edges in non decreasing order
     sortedEdges G
@@ -59,7 +70,9 @@ let simpleKruskal (Graph (_, es, _) as G) =
             match e with
 
             // if adding edge to MST doesn't make it acyclical, add edge
-            | e when (isAcyclical e A G) -> A[e] <- true; es[e] :: acc
+            | e when (isAcyclical e A G) -> 
+                let A = updateMst e A G
+                es[e] :: acc
 
             // else don't add edge
             | _ -> acc
