@@ -11,12 +11,12 @@ let prim (s: Node) (g : Graph) : Edges = // TODO: change output to create a new 
     let mutable graph : Edges = Array.empty
     Array.set keys s 0
     let mutable queue = Array.toSeq nodes |> Heap.ofSeq false
-    let mutable queueArray = Heap.toSeq queue |> Array.ofSeq
+    let mutable queueArray = Heap.toSeq queue
     
     let updateWeigths (u: int) s (edgeIndex: int) =
         let (a, b, w) = edges[edgeIndex]
         let v = if a = u then b else a
-        if Array.contains nodes[v] queueArray && w < (Array.get keys v) then 
+        if Seq.contains nodes[v] queueArray && w < (Array.get keys v) then 
             Array.set keys v w
             graph <- Array.append graph [|(u, v, w)|]
         s
@@ -27,7 +27,7 @@ let prim (s: Node) (g : Graph) : Edges = // TODO: change output to create a new 
         let updateWeigthsOfU = updateWeigths u
         List.fold updateWeigthsOfU List.empty list
         |> ignore
-        queueArray <- Array.removeAt 0 queueArray
+        queueArray <- Seq.removeAt 0 queueArray
         queue <- queue.Tail()
 
     graph
