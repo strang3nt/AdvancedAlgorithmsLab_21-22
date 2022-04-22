@@ -81,6 +81,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Utils.fs" />
     <Compile Include="Graph.fs" />
     <Compile Include="Parsing.fs" />
     <Compile Include="SimpleKruskal.fs" />
