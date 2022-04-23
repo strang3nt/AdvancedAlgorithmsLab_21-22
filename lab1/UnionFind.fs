@@ -25,7 +25,7 @@ let size (uf : Map<'a,'a UFNode>) x =
     uf  |>  Map.find x
         |>  snd
     
-// Changes the parent of the j element to i in the UnionFind data structure uf and updates the size of i accordingly in O(log n)
+// Changes the parent of the element j to i in the UnionFind data structure uf and updates the size of i accordingly in O(log n)
 let change_root (uf : Map<'a,'a UFNode>) i j =
     let i, _ = i
     let j, j_size = j
@@ -40,7 +40,8 @@ let change_root (uf : Map<'a,'a UFNode>) i j =
             | None -> failwith "No value associated to the given element"
             | Some (i, i_size) -> Some (i, i_size + j_size))
     
-// Merges the trees in the Union-Find uf associated to the nodes x and y in O(k), with k = uf depth = log n
+// Merges the trees in the Union-Find uf associated to the nodes x and y with a union-by-size policy.
+// The complexity of the method is O(k), with k = uf depth = log n
 let union (uf : Map<'a,'a UFNode>) x y =
     // O(log n)
     let x_root, x_size = find uf x

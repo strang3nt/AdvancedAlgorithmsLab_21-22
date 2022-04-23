@@ -1,10 +1,10 @@
-module lab1.KruskalUF
+module lab1.UnionFindKruskal
 
 open lab1.Graphs
 open lab1.UnionFind
 
 // Computes one of the MSTs of the given graph using the kruskal algorithm with the Union-Find data structure in O(mlog n)
-let kruskalUF (Graph (nodes, edges, adjList)) =
+let UnionFindKruskal (Graph (nodes, edges, adjList)) =
     let mutable U = initUF nodes
     // sort the elements in the graph, which is composed by an array of edges and their respective weight, by weight
     Graph (nodes, edges, adjList)

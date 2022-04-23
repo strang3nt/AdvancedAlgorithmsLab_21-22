@@ -86,7 +86,7 @@
     <Compile Include="Parsing.fs" />
     <Compile Include="SimpleKruskal.fs" />
     <Compile Include="UnionFind.fs" />
-    <Compile Include="KruskalUF.fs" />
+    <Compile Include="UnionFindKruskal.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
 

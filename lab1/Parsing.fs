@@ -1,10 +1,8 @@
 module lab1.Parsing
 
-open lab1.Graphs
 open System.IO
 open System.Linq
-
-let (+/) path1 path2 = Path.Combine(path1, path2)
+open lab1.Graphs
 
 let file filename =
     filename
