@@ -28,7 +28,6 @@
     <Content Include="graphs\input_random_15_80.txt" />
     <Content Include="graphs\input_random_16_80.txt" />
     <Content Include="graphs\input_random_17_100.txt" />
-    <Compile Include="Graph.fs" />
     <Content Include="graphs\input_random_18_100.txt" />
     <Content Include="graphs\input_random_19_100.txt" />
     <Content Include="graphs\input_random_20_100.txt" />

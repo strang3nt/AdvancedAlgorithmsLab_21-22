@@ -1,5 +1,6 @@
 module lab1.Graphs
 
+open System
 open FSharp.Collections
 
 type Node = int
@@ -30,7 +31,7 @@ let totalWeight ( Graph (_, es, _) ) : int =
 let searchNode n (Graph (ns, _, _)) = 
     Array.findIndex (fun x -> n = x) ns
 
-let private setEdge n1 n2 w i (Graph (ns, es, adj) as g) : unit =
+let private setEdge n1 n2 w i (Graph (_, es, adj) as g) : unit =
     let idx1 = searchNode n1 g
     let idx2 = searchNode n2 g
     adj[idx1] <- (i :: adj[idx1]) 
@@ -46,6 +47,10 @@ let buildGraph (edges: int array array) (sizes : int array) : Graph =
     g
 
 let sortedEdges ( Graph (_, es, _) ) : int array =
-    let tupleEs = es |> Array.Parallel.mapi ( fun x (_, _, w) -> ( w , x ) ) 
-    tupleEs |> Array.sortInPlace
-    tupleEs |> Array.Parallel.map ( fun (_, x) -> x )
+    let sortedArr = Array.mapi ( fun x (_, _, w) -> ( w , x ) ) es
+    Array.Sort sortedArr
+    Array.map ( fun (_, x) -> x ) sortedArr
+
+let opposite n e ( Graph (_, es, _) ) =
+    let (n1, n2, _) = es[e]
+    if n1 = n then n2 else n1
