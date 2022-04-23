@@ -5,30 +5,45 @@ open FSharpx.Collections
 open System
 
 
-let prim (s: Node) (g : Graph) : Edges = // TODO: change output to create a new graph
+let prim (s: Node) (g : Graph) : Edge list =
     let nodes, edges, adjLs = match g with Graph (n, e, l) -> n, e, l
     let keys : Weight array = Array.create nodes.Length Int32.MaxValue
-    let mutable graph : Edges = Array.empty
-    Array.set keys s 0
-    let mutable queue = Array.toSeq nodes |> Heap.ofSeq false
-    let mutable queueArray = Heap.toSeq queue
-    
-    let updateWeigths (u: int) s (edgeIndex: int) =
+    let parents = Array.create nodes.Length None
+    let mutable graph (*: Edges*) = List.empty
+    let zipped = Array.zip keys nodes
+    let mutable queue = Array.toSeq zipped |> Heap.ofSeq false
+
+    let updateWeigths (uIdx: int) (u: Node) (k: Weight) state (edgeIndex: int) =
         let (a, b, w) = edges[edgeIndex]
-        let v = if a = u then b else a
-        if Seq.contains nodes[v] queueArray && w < (Array.get keys v) then 
-            Array.set keys v w
-            graph <- Array.append graph [|(u, v, w)|]
-        s
+        let vIdx = if a = uIdx then b else a
+        let v = nodes[vIdx]
+        let mutable newQueue = Heap.empty false
+        while not queue.IsEmpty do
+            let (ck, cv), tail = queue.Uncons ()
+            queue <- tail
+            if cv = v then
+                newQueue <- 
+                    if w < ck then
+                        Array.set parents vIdx (Some uIdx)
+                        newQueue.Insert (w, cv)
+                    else newQueue.Insert (ck, cv)
+            else
+                newQueue <- newQueue.Insert (ck, cv)
+        
+        queue <- newQueue
+        state
 
     while not queue.IsEmpty do
-        let u = (searchNode queue.Head g)
-        let list = Array.get adjLs u
-        let updateWeigthsOfU = updateWeigths u
+        let (k, u), tail = queue.Uncons()
+        queue <- tail
+        let uIdx = searchNode u g
+        let list = Array.get adjLs uIdx
+        let updateWeigthsOfU = updateWeigths uIdx u k
         List.fold updateWeigthsOfU List.empty list
         |> ignore
-        queueArray <- Seq.removeAt 0 queueArray
-        queue <- queue.Tail()
+        graph <-
+            match (Array.get parents uIdx) with | None -> [] | Some p -> [p, uIdx, k]
+            |> List.append graph
 
     graph
     
