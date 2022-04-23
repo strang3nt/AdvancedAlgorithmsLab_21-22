@@ -5,11 +5,11 @@ open System.IO
 open System.Linq
 
 let file filename =
-    Directory.GetCurrentDirectory() + "../../../../graphs/" + filename
+    Directory.GetCurrentDirectory() + "/graphs/" + filename
     |> File.ReadAllLines
 
 let getHeader filename =
-    let s = File.ReadLines( Directory.GetCurrentDirectory() + "../../../../graphs/" + filename ).First()
+    let s = File.ReadLines( Directory.GetCurrentDirectory() + "/graphs/" + filename ).First()
     Array.map int (s.Split [| ' ' |])
 
 let buildGraph (filename : string) : Graph =
