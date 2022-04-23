@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FSharpx.Collections" Version="3.0.1" />
     <PackageReference Include="Plotly.NET" Version="2.0.0-preview.18" />
     <PackageReference Include="Plotly.NET.ImageExport" Version="2.0.0-preview.18" />
   </ItemGroup>
@@ -83,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Graph.fs" />
     <Compile Include="Parsing.fs" />
+    <Compile Include="Prim.fs" />
     <Compile Include="SimpleKruskal.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>

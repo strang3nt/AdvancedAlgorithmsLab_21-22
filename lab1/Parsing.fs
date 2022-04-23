@@ -1,6 +1,6 @@
 module lab1.Parsing
 
-open Graphs
+open lab1.Graphs
 open System.IO
 open System.Linq
 

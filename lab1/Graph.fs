@@ -1,11 +1,13 @@
 module lab1.Graphs
 
-open FSharp.Collections
 open System
+open FSharp.Collections
 
-type Nodes = int array
+type Node = int
+type Nodes = Node array
 type Weight = int
-type Edges = (int * int * Weight) array
+type Edge = int * int * Weight // refs to the nodes, not actual nodes
+type Edges = Edge array
 type AdjList = ( int list ) array // each node has its own adjacency list which is only a ref to edges
 
 [<Struct>]
@@ -26,7 +28,7 @@ let w n1 n2 (Graph (_, es, adj) as g) : Weight Option =
 let totalWeight ( Graph (_, es, _) ) : int =
     Array.sumBy (fun (_, _, w) -> w) es
 
-let private searchNode n (Graph (ns, _, _)) = 
+let searchNode n (Graph (ns, _, _)) = 
     Array.findIndex (fun x -> n = x) ns
 
 let private setEdge n1 n2 w i (Graph (_, es, adj) as g) : unit =
