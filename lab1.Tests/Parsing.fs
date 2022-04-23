@@ -1,6 +1,7 @@
-module lab1.Tests
+module lab1.Tests.Parsing
 
 open lab1.Graphs
+open lab1.Parsing
 open NUnit.Framework
 open System.IO
 
@@ -32,9 +33,9 @@ let graph =
     )
 
 [<Test>]
-let buildGraph () =
-    let Graph(ns, es, adj) as actualG = Parsing.buildGraph file
-    let Graph (ns_, es_, adj_) as expectedG= graph
+let Test0_buildGraph () =
+    let Graph(ns, es, adj) as actualG = buildGraph file
+    let Graph (ns_, es_, adj_) as expectedG = graph
     CollectionAssert.AreEqual(ns_, ns, "%A %A", [ ns_, ns])
     CollectionAssert.AreEqual(es_, es)
     CollectionAssert.AreEqual(adj_, adj,(sprintf "%A\n %A" adj_ adj))
