@@ -32,10 +32,20 @@ let kruskalUF (Graph (nodes, edges, adjList)) =
 ```
 
 The complexity of the algorithm depends on the implementation of the data 
-structure which is the following
+structure which is the following:
 
 ```fsharp
-// Changes the parent of the j element to i in the UnionFind data structure uf and updates the size of i accordingly in O(log n)
+type Size = int
+type 'a UFNode = 'a * Size
+```
+
+There is a type alias `Size` of `int` used to represent the size of the tree 
+
+```fsharp
+
+
+// Changes the parent of the j element to i in the UnionFind data structure uf 
+// and updates the size of i accordingly in O(log n)
 let change_root (uf : Map<'a,'a UFNode>) i j =
     let i, _ = i
     let j, j_size = j
