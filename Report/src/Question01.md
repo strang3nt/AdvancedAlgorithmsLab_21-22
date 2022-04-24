@@ -73,6 +73,7 @@
 
 Table: Weight of all MSTs
 
+
          N         M   Time(ns)    Constant     Ratio
 ---------- --------- ---------- ----------- --------- 
        10         9     12631   422.479     0.000

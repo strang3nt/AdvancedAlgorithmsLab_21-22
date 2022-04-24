@@ -1,8 +1,6 @@
 ## Prim
 
-
 ```fsharp
-
 [<Struct>]
 type Key = Key of (Weight * Node)
 
