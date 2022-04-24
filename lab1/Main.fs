@@ -1,6 +1,5 @@
 module lab1.Main
 
-open Microsoft.FSharp.Core
 open lab1.Utils
 open lab1.Parsing
 open lab1.Prim
