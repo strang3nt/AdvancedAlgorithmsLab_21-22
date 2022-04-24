@@ -46,11 +46,10 @@ Above is Prim's algorithm. Due to the lack of a suitable heap implementation in 
  - insertion is $O(\log(n))$
  - deletion is $O(\log(n))$
  - lookup is $O(\log(n))$
- - lookup is $O(\log(n))$
  - min lookup is constant
  - min extraction is $O(\log(n))$.
  
-From the complexities reported above `SortedSet` (taken from [Microsoft documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedset-1?redirectedfrom=MSDN&view=net-6.0)) seems to be equivalent to a heap structure, at least regarding time complexity.
+From the numbers reported above ([Microsoft documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedset-1?redirectedfrom=MSDN&view=net-6.0)), `SortedSet` seems to be equivalent to a heap data structure, at least regarding time complexity.
 
 Complexity of the whole algorithm is $O (m \log(n))$:
 
