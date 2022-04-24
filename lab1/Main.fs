@@ -1,90 +1,87 @@
-﻿module lab1.Main
+module lab1.Main
 
+open lab1.Utils
 open lab1.Parsing
+open lab1.Prim
 open lab1.SimpleKruskal
+open lab1.UnionFindKruskal
 
-// For more information see https://aka.ms/fsharp-console-apps
-open Plotly.NET
-open Plotly.NET.ImageExport
 open System.IO
 
-let printData (graphsSize : int array) (runtimes : int array) = 
-    let ratios = [float 0] @ [ for i = 0 to graphsSize.Length - 2 do yield System.Math.Round (float runtimes[i+1] / float runtimes[i], 3) ]
-    let c_estimates = [ for i = 0 to graphsSize.Length - 1 do yield System.Math.Round (float runtimes[i]/ float graphsSize[i], 3) ]
-    printfn "%9s\t%9s\t%9s\t%9s" "Size" "Time(ns)" "Costant" "Ratio"
-    printfn "%s" (String.replicate 60 "-")
-    for i = 0 to graphsSize.Length - 1 do
-        printfn "%9i\t%9i\t%9.3f\t%9.3f" graphsSize[i] runtimes[i] c_estimates[i] ratios[i]
-    printfn "%s" (String.replicate 60 "-")
-    c_estimates
-
-let printGraph (graphsSize : int array) (runtimes : int array) (reference : int list) = 
-    [
-        Chart.Line(graphsSize, runtimes)
-        |> Chart.withTraceInfo(Name="Measured time")
-        |> Chart.withLineStyle(Width=2.0, Dash=StyleParam.DrawingStyle.Solid)
-
-        Chart.Line(graphsSize, reference)
-        |> Chart.withTraceInfo(Name="Expected asymptotic growth")
-        |> Chart.withLineStyle(Width=2.0, Dash=StyleParam.DrawingStyle.Solid) 
-    ]
-    |> Chart.combine
-    |> Chart.withXAxisStyle("Graph size")
-    |> Chart.withYAxisStyle("Run times")
-    |> Chart.withTitle("Simple Kruskal")
-    |> Chart.savePNG(
-        "lab1"+/"out"+/"simpleKruskal",
-        Width=800,
-        Height=500
-    )
-
-let measureRunTime f input numCalls =
-    let watch = System.Diagnostics.Stopwatch()
-    watch.Start()
-    for i = 1 to numCalls do
-        f input |> ignore
-    let time = watch.Elapsed.TotalMilliseconds * float 1000000 // get nanoseconds
-    watch.Stop()
-    time / float numCalls
-
-let getRunTimeBySize l =
-    Array.fold (fun acc  x -> Array.append acc [| (Array.average x) |]) Array.empty l
+let getResults f graphs : unit =
+    let result = 
+        sprintf "%9s\t%9s\t%9s\n" "Nodes" "Edges" "MST weight" +
+        String.replicate 50 "-"
+    graphs
+    |> Array.fold ( fun str (Graphs.Graph (ns, es, _) as g) -> 
+            let r : Graphs.Edge list = f g
+            let totalWeight = 
+                r 
+                |> List.sumBy (fun (_,_,w) -> w)
+            str + $"\n%9i{ns.Length}\t%9i{es.Length}\t%9i{totalWeight}"
+        ) result
+    |> printfn "%s"
 
 [<EntryPoint>]
 let main argv =
-    let path = Directory.GetCurrentDirectory() +/ "lab1" +/ "graphs"
+    
+    let iterations = 1
+    let path = Directory.GetCurrentDirectory() +/ "graphs"
     let files = 
-        Directory.GetFiles (path)
+        Directory.GetFiles path
         |> Array.sort
-        |> Array.truncate 40
 
-    printfn "Found %i files" files.Length
+    printfn $"Found %i{files.Length} files"
 
     let graphs = Array.Parallel.map buildGraph files
     let sizes = [| for f in files do (getHeader f) |] // get number of nodes per graph
     let M_list = Array.map (fun (x: int array) -> x[1]) sizes
     let N_list = Array.map (fun (x: int array) -> x[0]) sizes
-    let N_listDistinct = N_list |> Array.distinct
+    let N_distinctList = N_list |> Array.distinct
+    let MNi_list =
+            (M_list, N_list) ||> Array.mapi2 (fun i m n -> m*n, i)
+            |> Array.sort
 
-    printfn "%i graphs built" graphs.Length
+    let reference f (m: int array) (n: int array) c =
+        [| for i=0 to n.Length-1 do yield c * f m[i] n[i] |]
+    
+    let reference f c = reference f M_list N_list c
+    
+    let mLogNReference = reference MlogN
+    let mnReference = reference MN
 
-    // simple kruskal runtimes
-    let skRunTimes = 
-        Array.Parallel.map (fun g -> measureRunTime (simpleKruskal) g 100) graphs
-        |> Array.chunkBySize 4
-        |> getRunTimeBySize
-        |> Array.map (int)
+    printfn $"%i{graphs.Length} graphs built"
+    
+    getResults UnionFindKruskal graphs
 
-    let constant = 
-        printData N_listDistinct skRunTimes 
-        |> List.last
-        |> round
-        |> int
+    let algorithm f estimation_f reference filename name =
+        printfn $"\n%s{name}"
+        
+        let runTimes = Array.map (fun g -> measureRunTime f g iterations) graphs
+            
+        let nAvgRunTime =
+            runTimes |> Array.chunkBySize 4
+            |> getRunTimeBySize
+            |> Array.map int64
+        
+        let i64RunTimes =
+            runTimes |> Array.map int64
 
-    let reference = [ for i in N_listDistinct do yield i * constant ]
+        // array containing the hidden constants computed for each graph
+        let C = printData N_list M_list i64RunTimes estimation_f
+        
+        let c = C |> Array.last
+        
+        let orderedRunTimes = MNi_list |> Array.fold (fun acc (_, i) -> acc @ [i64RunTimes[i]] ) List.empty |> Array.ofList
+        let MN_list = MNi_list |> Array.map fst
+        
+        printGraphs N_distinctList nAvgRunTime MN_list orderedRunTimes N_list (reference c) filename name
+        saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ filename) N_list M_list i64RunTimes C
 
-    printGraph N_listDistinct skRunTimes reference
-
-    printfn "Finished simple Kruskal"
+        printfn $"Finished %s{name}\n"
+    
+    algorithm simpleKruskal MN_estimate_f mnReference "SimpleKruskal" "Simple Kruskal"
+    algorithm UnionFindKruskal MlogN_estimate_f mLogNReference "UnionFindKruskal" "Union-Find Kruskal"
+//    algorithm (prim 0) MlogN_estimate_f mLogNReference "Prim" "Prim"
 
     0

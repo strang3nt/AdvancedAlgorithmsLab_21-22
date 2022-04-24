@@ -1,10 +1,13 @@
 module lab1.Graphs
 
+open System
 open FSharp.Collections
 
-type Nodes = int array
+type Node = int
+type Nodes = Node array
 type Weight = int
-type Edges = (int * int * Weight) array
+type Edge = int * int * Weight // refs to the nodes, not actual nodes
+type Edges = Edge array
 type AdjList = ( int list ) array // each node has its own adjacency list which is only a ref to edges
 
 [<Struct>]
@@ -25,10 +28,10 @@ let w n1 n2 (Graph (_, es, adj) as g) : Weight Option =
 let totalWeight ( Graph (_, es, _) ) : int =
     Array.sumBy (fun (_, _, w) -> w) es
 
-let private searchNode n (Graph (ns, _, _)) = 
+let searchNode n (Graph (ns, _, _)) = 
     Array.findIndex (fun x -> n = x) ns
 
-let private setEdge n1 n2 w i (Graph (ns, es, adj) as g) : unit =
+let private setEdge n1 n2 w i (Graph (_, es, adj) as g) : unit =
     let idx1 = searchNode n1 g
     let idx2 = searchNode n2 g
     adj[idx1] <- (i :: adj[idx1]) 
@@ -44,6 +47,10 @@ let buildGraph (edges: int array array) (sizes : int array) : Graph =
     g
 
 let sortedEdges ( Graph (_, es, _) ) : int array =
-    let tupleEs = es |> Array.Parallel.mapi ( fun x (_, _, w) -> ( w , x ) ) 
-    tupleEs |> Array.sortInPlace
-    tupleEs |> Array.Parallel.map ( fun (_, x) -> x )
+    let sortedArr = Array.mapi ( fun x (_, _, w) -> ( w , x ) ) es
+    Array.Sort sortedArr
+    Array.map snd sortedArr
+
+let opposite n e ( Graph (_, es, _) ) =
+    let (n1, n2, _) = es[e]
+    if n1 = n then n2 else n1
