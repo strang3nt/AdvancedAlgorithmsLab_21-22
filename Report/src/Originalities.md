@@ -10,10 +10,6 @@ declarations) others actually increment complexity.
 Functional and immutable data structures: these type of data structures offer some great guarantees but at the same
 time they inherently create a lot of garbage and increased time complexity.
 
-## Prim's implementation
-
-
-
 ## .NET Garbage collection
 
 ```fsharp
