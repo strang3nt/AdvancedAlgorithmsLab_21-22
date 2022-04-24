@@ -49,7 +49,7 @@ let buildGraph (edges: int array array) (sizes : int array) : Graph =
 let sortedEdges ( Graph (_, es, _) ) : int array =
     let sortedArr = Array.mapi ( fun x (_, _, w) -> ( w , x ) ) es
     Array.Sort sortedArr
-    Array.map ( fun (_, x) -> x ) sortedArr
+    Array.map snd sortedArr
 
 let opposite n e ( Graph (_, es, _) ) =
     let (n1, n2, _) = es[e]
