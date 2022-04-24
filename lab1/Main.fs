@@ -1,4 +1,4 @@
-module lab1.Main
+﻿module lab1.Main
 
 open lab1.Utils
 open lab1.Parsing
@@ -99,29 +99,29 @@ let main argv =
     printfn $"%i{graphs.Length} graphs built"
 
     let ufk = fun _ ->
-    printfn "Union-Find Kruskal"
-    
-    // Union-Find Kruskal run times
-    let kruskalUFTimes = 
-        Array.map (fun g -> measureRunTime (UnionFindKruskal) g iterations) graphs
-        |> Array.map (int)
+        printfn "Union-Find Kruskal"
+        
+        // Union-Find Kruskal run times
+        let kruskalUFTimes = 
+            Array.map (fun g -> measureRunTime (UnionFindKruskal) g iterations) graphs
+            |> Array.map (int)
 
-    // array containing the hidden constants computed for each graph with the Union-Find Kruskal algorithm
-    let C = printData N_list M_list kruskalUFTimes MlogN_estimate_f
-    
-    let constant =
-        C   |> Array.average
-            |> round
+        // array containing the hidden constants computed for each graph with the Union-Find Kruskal algorithm
+        let C = printData N_list M_list kruskalUFTimes MlogN_estimate_f
+        
+        let constant =
+            C   |> Array.average
+                |> round
 
-    let reference f =
-        [| for i=0 to N_list.Length-1 do yield constant * f M_list[i] N_list[i] |]
-    
-    printfn $"Hidden constant: %f{constant}"
-    
-    printGraph N_list kruskalUFTimes (reference MlogN)
-    saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ "unionFindKruskal") N_list M_list kruskalUFTimes C
+        let reference f =
+            [| for i=0 to N_list.Length-1 do yield constant * f M_list[i] N_list[i] |]
+        
+        printfn $"Hidden constant: %f{constant}"
+        
+        printGraph N_list kruskalUFTimes (reference MlogN)
+        saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ "unionFindKruskal") N_list M_list kruskalUFTimes C
 
-    printfn "Finished Union-Find Kruskal"
+        printfn "Finished Union-Find Kruskal"
 
     let pr = fun _ -> 
         printfn "Prim"
