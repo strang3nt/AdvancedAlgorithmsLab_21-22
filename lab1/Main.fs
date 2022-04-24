@@ -14,7 +14,7 @@ let getResults f graphs : unit =
         String.replicate 50 "-"
     graphs
     |> Array.fold ( fun str (Graphs.Graph (ns, es, _) as g) -> 
-            let r : Graphs.Edge list = f g
+            let r = f g
             let totalWeight = 
                 r 
                 |> List.sumBy (fun (_,_,w) -> w)
@@ -25,7 +25,6 @@ let getResults f graphs : unit =
 [<EntryPoint>]
 let main argv =
     
-    let iterations = 1
     let path = Directory.GetCurrentDirectory() +/ "graphs"
     let files = 
         Directory.GetFiles path
@@ -52,9 +51,9 @@ let main argv =
 
     printfn $"%i{graphs.Length} graphs built"
     
-    getResults UnionFindKruskal graphs
+    getResults (UnionFindKruskal) graphs
 
-    let algorithm f estimation_f reference filename name =
+    let algorithm f estimation_f reference filename name iterations =
         printfn $"\n%s{name}"
         
         let runTimes = Array.map (fun g -> measureRunTime f g iterations) graphs
@@ -80,8 +79,8 @@ let main argv =
 
         printfn $"Finished %s{name}\n"
     
-    algorithm simpleKruskal MN_estimate_f mnReference "SimpleKruskal" "Simple Kruskal"
-    algorithm UnionFindKruskal MlogN_estimate_f mLogNReference "UnionFindKruskal" "Union-Find Kruskal"
-//    algorithm (prim 0) MlogN_estimate_f mLogNReference "Prim" "Prim"
+    algorithm simpleKruskal MN_estimate_f mnReference "SimpleKruskal" "Simple Kruskal" 100
+    algorithm UnionFindKruskal MlogN_estimate_f mLogNReference "UnionFindKruskal" "Union-Find Kruskal" 100
+    algorithm (prim 0) MlogN_estimate_f mLogNReference "Prim" "Prim" 100
 
     0

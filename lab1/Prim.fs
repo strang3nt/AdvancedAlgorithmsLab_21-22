@@ -13,34 +13,31 @@ let prim s (Graph (ns, es, adj) as G : Graph) =
     // init heap structure
     let Q = SortedSet<Key>()
     let keys = Array.create ns.Length -1
-    let Pi = Array.zeroCreate ns.Length
-
-    // init MST (edge list)
-    let MST = List.empty
+    let Pi = Array.create ns.Length None
 
     // build heap
     Q.Add (Key (0, s)) |> ignore
     keys[0] <- Int32.MaxValue
-    for i = 1 to ns.Length do
+    for i = 1 to ns.Length - 1 do
         Q.Add (Key (Int32.MaxValue, i)) |> ignore
         keys[i] <- Int32.MaxValue
-
 
     while Q.Count > 0 do
 
         // take min key and update heap
-        let (Key (u, _) as k) = Q.Min
-        Q.ExceptWith (seq { k })
+        let (Key (_, u) as k) = Q.Min
+        Q.Remove (k) |> ignore
         
         // update heap
         for e in adj[u] do
             let v = opposite u e G
-            let k = Key (v, keys[v])
+            let k = Key (keys[v], v)
             let (_, _, w) = es[e]
+
             if Q.Contains k && w < keys[v] then
                 Q.ExceptWith (seq { k })
-                Q.Add (Key (v, w)) |> ignore
+                Q.Add (Key (w, v)) |> ignore
                 keys[v] <- w
-                Pi[v] <- es[e]
+                Pi[v] <- Some(es[e])
 
-        
+    Pi
