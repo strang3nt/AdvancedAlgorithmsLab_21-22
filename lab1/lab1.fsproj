@@ -82,10 +82,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Utils.fs" />
     <Compile Include="Graph.fs" />
     <Compile Include="Parsing.fs" />
     <Compile Include="Prim.fs" />
     <Compile Include="SimpleKruskal.fs" />
+    <Compile Include="UnionFind.fs" />
+    <Compile Include="UnionFindKruskal.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
 
