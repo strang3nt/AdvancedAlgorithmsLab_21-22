@@ -67,7 +67,7 @@ let main argv =
             runTimes |> Array.map int64
 
         // array containing the hidden constants computed for each graph
-        let C = printData N_list M_list i64RunTimes estimation_f
+        let (C, ratios) = printData N_list M_list i64RunTimes estimation_f
         
         let c = C |> Array.last
         
@@ -75,11 +75,11 @@ let main argv =
         let MN_list = MNi_list |> Array.map fst
         
         printGraphs N_distinctList nAvgRunTime MN_list orderedRunTimes N_list (reference c) filename name
-        saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ filename) N_list M_list i64RunTimes C
+        saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ filename) N_list M_list i64RunTimes C ratios
 
         printfn $"Finished %s{name}\n"
     
-    algorithm simpleKruskal MN_estimate_f mnReference "SimpleKruskal" "Simple Kruskal" 100
+    // algorithm simpleKruskal MN_estimate_f mnReference "SimpleKruskal" "Simple Kruskal" 100
     algorithm UnionFindKruskal MlogN_estimate_f mLogNReference "UnionFindKruskal" "Union-Find Kruskal" 100
     algorithm (prim 0) MlogN_estimate_f mLogNReference "Prim" "Prim" 100
 
