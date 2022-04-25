@@ -71,8 +71,8 @@ let getRunTimeBySize (l: float[][]) =
 let saveToCSV filename (N: int array) (M: int array) (rTs: int64 array) (C: float array) (ratio: float list)=
     let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
     let writer = new IO.StreamWriter (filename + "_" + dateTime + ".csv")
-    writer.WriteLine "N M Time(ns) Constant Ratio"
+    writer.WriteLine "N, M, Time(ns), Constant, Ratio,"
     for i=0 to N.Length-1 do
-        writer.WriteLine $"%9i{N[i]} %9i{M[i]} %9i{rTs[i]} %12.3f{C[i]} %9.3f{ratio[i]}"
+        writer.WriteLine $"%9i{N[i]}, %9i{M[i]}, %9i{rTs[i]}, %12.3f{C[i]}, %9.3f{ratio[i]},"
 
     writer.Close()
