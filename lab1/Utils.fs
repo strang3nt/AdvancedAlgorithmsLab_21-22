@@ -25,10 +25,9 @@ let printData (graphsN : int array) (graphsM: int array) (runtimes : int64 array
     for i = 0 to graphsN.Length - 1 do
         printfn $"%9i{graphsN[i]}\t%9i{runtimes[i]}\t%9.3f{c_estimates[i]}\t%9.3f{ratios[i]}"
     printfn "%s" (String.replicate 60 "-")
-    c_estimates
+    c_estimates, ratios
 
-    
-let graph (x1 : int array) (y1 : int64 array) (x2: int array) (y2 : float array) (filename: string) (big: bool) (title: string) (x_label: string) = 
+let graph (x1 : int64 array) (y1 : int64 array) (x2: int64 array) (y2 : float array) (filename: string) (big: bool) (title: string) (x_label: string) = 
     [
         Chart.Line(x1, y1)
         |> Chart.withTraceInfo(Name="Measured time")
@@ -69,10 +68,11 @@ let measureRunTime f input numCalls =
 let getRunTimeBySize (l: float[][]) =
     Array.fold (fun acc  x -> Array.append acc [| (Array.average x) |]) Array.empty l
     
-let saveToCSV filename (N: int array) (M: int array) (rTs: int64 array) (C: float array) =
+let saveToCSV filename (N: int array) (M: int array) (rTs: int64 array) (C: float array) (ratio: float list)=
     let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
     let writer = new IO.StreamWriter (filename + "_" + dateTime + ".csv")
-    writer.WriteLine "n, m, runtime, c"
+    writer.WriteLine "N M Time(ns) Constant Ratio"
     for i=0 to N.Length-1 do
-        writer.WriteLine $"%9i{N[i]}, %9i{M[i]}, %9i{rTs[i]}, %9.3f{C[i]}"
+        writer.WriteLine $"%9i{N[i]} %9i{M[i]} %9i{rTs[i]} %12.3f{C[i]} %9.3f{ratio[i]}"
+
     writer.Close()
