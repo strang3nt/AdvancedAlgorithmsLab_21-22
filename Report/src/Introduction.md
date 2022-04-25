@@ -20,7 +20,7 @@ The source code is comprised of the following relevant files (or "modules" in `F
  - `UnionFind.fs` is the structure used by Union-find Kruskal.
  - `UnionFindKruskal.fs` contains Union-find Kruskal
  - `Prim.fs` contains Prim's algorithm
- - `SimpleKruskal.fs` contains Naive Kruskal's algorithm
+ - `SimpleKruskal.fs` contains Naive Kruskal's algorithm.
 
 ## Graph data structure
 
