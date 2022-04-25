@@ -1,3 +1,5 @@
+\newpage
+
 ## Prim
 
 ```fsharp
@@ -42,10 +44,10 @@ let prim s (Graph (ns, es, adj) as G : Graph) =
 The algorithm above is Prim's algorithm. Due to the lack of a suitable heap implementation in either .NET's APi or other `F#` libraries, a structure called `SortedSet` was used:
 
  - insertion is $O(\log(n))$
- - removal of one element is $O(\log(n))$, but according to the documentation, the method `exceptWith` is `O(n)` which should be `O(1)` in this instance because we are removing only 1 element at a time
+ - removal of one element is $O(\log(n))$, but according to the documentation, the method `exceptWith` is `O(n)`, with $n$ being the size of the function parameter, which is a collection, which should be `O(1)` in this instance because we are removing only 1 element at a time
  - lookup is $O(\log(n))$
  - min lookup is constant
- - min extraction is $O(\log(n))$.
+ - min extraction should be $O(1)$.
  
 From the data reported above ([see Microsoft documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedset-1?redirectedfrom=MSDN&view=net-6.0)), `SortedSet` seems to be equivalent to a heap data structure, at least regarding time complexity.
 

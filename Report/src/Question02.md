@@ -1,3 +1,5 @@
+\newpage
+
 # On algorithms behaviour
 
  - How do the algorithms behave with respect to the various instances?

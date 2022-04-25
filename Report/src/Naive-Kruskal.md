@@ -1,3 +1,5 @@
+\newpage
+
 ## Naive Kruskal
 
 Follows Naive Kruskal without auxiliary functions:

@@ -1,3 +1,5 @@
+\newpage
+
 # Results and explanatory graphs
 
 For each algorithm there are two graphs representing the run times, 

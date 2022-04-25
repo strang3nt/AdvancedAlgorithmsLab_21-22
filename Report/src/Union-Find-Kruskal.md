@@ -1,3 +1,5 @@
+\newpage
+
 ## Union-find Kruskal
 
 The Kruskal's algorithm based on the Union-Find data structure has been 

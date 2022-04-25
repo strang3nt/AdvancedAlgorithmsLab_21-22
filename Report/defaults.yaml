@@ -9,7 +9,6 @@ input-files:
 - src/Prim.md
 - src/Question01.md
 - src/Question02.md
-- src/Originalities.md
 - src/Conclusion.md
 
 output-file: AA_21-22_report.pdf
