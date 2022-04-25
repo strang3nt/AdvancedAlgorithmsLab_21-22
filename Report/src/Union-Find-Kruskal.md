@@ -8,8 +8,7 @@ implemented as follows:
 // with the Union-Find data structure in O(mlog n)
 let UnionFindKruskal (Graph (nodes, edges, adjList)) =
     let mutable U = initUF nodes
-    // sort the elements in the graph, which is composed by an array of edges 
-    // and their respective weight, by weight
+    // sort the edges in the graph by weight
     Graph (nodes, edges, adjList)
         |> sortedEdges
         // Folds the array of sorted edges to operate on the given graph and 
@@ -29,7 +28,7 @@ let UnionFindKruskal (Graph (nodes, edges, adjList)) =
 ```
 
 The complexity of the algorithm depends on the implementation of the methods 
-of the Union-Find data structure, which is internally represented as follows
+of the Union-Find data structure, its internal representation is the following:
 
 ```fsharp
 type Size = int                 // Size of the current set
@@ -37,23 +36,21 @@ type 'a UFNode = 'a * Size      // Pair representing the parent and the size
                                 // of the set
 ```
 
-finally the data structure is represented in the code as a `Map<'a,'a UFNode>`, 
-with `'a` a type variable for indicating the effective type stored in the Union-Find.
+while externally the data structure is represented in the code as a `Map<'a,'a UFNode>`, 
+with `'a` a type variable replaced at runtime by the effective type stored in the Union-Find.
 
 It follows the code of the most important methods of the Union-Find data 
 structure:
 
 The `initUF` function initializes the Union-Find data structure starting from 
-an array of objects with a complexity $O(n)$, with $n =$ length of the given 
-array.
+an array of objects with a complexity $O(n)$, with $n = p.Length$.
 
 ```fsharp
 let rec initUF (p: 'a array) : Map<'a,'a UFNode> =
     Map (p |> Array.map (fun x -> x, (x, 1)))
 ```
 
-The `find` function finds the root of the node in the given Union-Find in 
-$O(k)$, with $k = uf depth = \log n $
+The `find` function finds the root of the node `x` in the given Union-Find `uf` in $O(k)$, with $k = \max uf \text{depth} = \log n$
 
 ```fsharp
 let rec find (uf: Map<'a,'a UFNode>) x =
@@ -66,9 +63,9 @@ let rec find (uf: Map<'a,'a UFNode>) x =
             )
 ```
 
-The `union` function merges the sets in the Union-Find uf associated to the 
-nodes x and y with a union-by-size policy.
-The complexity of the method is $O(k)$, with $k = uf depth = \log n$
+The `union` function merges the sets in the Union-Find `uf` associated to the 
+nodes `x` and `y` with a union-by-size policy, therefore the maximum depth of 
+`uf` is $O(\log n)$, hence the complexity of the function is $O(k)$, with $k = \max uf \text(depth) = \log n$
 
 ```fsharp
 let union (uf : Map<'a,'a UFNode>) x y =
@@ -86,33 +83,12 @@ let union (uf : Map<'a,'a UFNode>) x y =
         change_root uf (y_root, y_size) (x_root, x_size)
 ```
 
-```fsharp
-// Changes the parent of the j element to i in the UnionFind data structure uf 
-// and updates the size of i accordingly in O(log n)
-let change_root (uf : Map<'a,'a UFNode>) i j =
-    let i, _ = i
-    let j, j_size = j
-        // O(log n)
-    uf  |> Map.change j (fun j ->
-            match j with
-            | None -> failwith "No value associated to the given element"
-            | Some (_, j_size) -> Some (i, j_size))
-        // O(log n)
-        |> Map.change i (fun i ->
-            match i with
-            | None -> failwith "No value associated to the given element"
-            | Some (i, i_size) -> Some (i, i_size + j_size))
-
-```
-
 From the complexity of the methods of the Union-Find data structure it's 
 possible to determine the complexity of the Union-Find Kruskal's algorithm, 
-which is indeed $O(m\log n)$
-- `initUf` initialize the Union-Find data structure and is $O(n)$ with 
-$n=|V|$, number of nodes of the graph
-- `sortedEdges` sorts the edges with Introsort and has complexity $O(n\log n)$
-- the fold function has $O(m)$ complexity with $m=|E|$, number of edges
-- `find` has complexity $O(d)$ with $d=\text{depth of Union-Find}$
-- `union` has complexity $O(d)$ with $d=\text{depth of Union-Find}$; given the 
-"union-by-size" implementation of the function the depth of the Union-Find is 
-$O(\log n)$
+which is $O(m\log n)$, in fact:
+
+- `initUf` has complexity $O(n)$ and is executed only once;
+- `sortedEdges` sorts the edges with Introsort and has complexity $O(n\log n)$;
+- the fold function iterates through the edges, hence it has complexity $O(m)$ with $m=|E|$, number of edges;
+- `find` has complexity $O(\log n)$ and it's executed $O(m)$ times;
+- `union` has complexity $O(\log n)$ and it's executed $O(m)$ times.
