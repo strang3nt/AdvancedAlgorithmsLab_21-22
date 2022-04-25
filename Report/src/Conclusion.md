@@ -22,7 +22,8 @@ the presence of the garbage collector, which can't be totally disabled in the
 ```fsharp
 let measureRunTime f input numCalls =
     let defaultLatency = Runtime.GCSettings.LatencyMode
-    Runtime.GCSettings.LatencyMode <- Runtime.GCLatencyMode.SustainedLowLatency
+    Runtime.GCSettings.LatencyMode <-
+        Runtime.GCLatencyMode.SustainedLowLatency
     // ...
     Runtime.GCSettings.LatencyMode <- defaultLatency
     // ...

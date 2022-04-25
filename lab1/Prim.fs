@@ -26,7 +26,7 @@ let prim s (Graph (ns, es, adj) as G : Graph) =
 
         // take min key and update heap
         let (Key (_, u) as k) = Q.Min
-        Q.Remove (k) |> ignore
+        Q.ExceptWith (seq { k })
         
         // update heap
         for e in adj[u] do

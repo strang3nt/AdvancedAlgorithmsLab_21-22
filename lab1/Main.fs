@@ -31,31 +31,32 @@ let main argv =
         |> Array.sort
 
     printfn $"Found %i{files.Length} files"
-
+    
     let graphs = Array.Parallel.map buildGraph files
     let sizes = [| for f in files do (getHeader f) |] // get number of nodes per graph
     let M_list = Array.map (fun (x: int array) -> x[1]) sizes
     let N_list = Array.map (fun (x: int array) -> x[0]) sizes
     let N_distinctList = N_list |> Array.distinct
     let MNi_list =
-            (M_list, N_list) ||> Array.mapi2 (fun i m n -> m*n, i)
+            (M_list, N_list) ||> Array.mapi2 (fun i m n -> (int64 m) * (int64 n), i)
             |> Array.sort
 
     let reference f (m: int array) (n: int array) c =
         [| for i=0 to n.Length-1 do yield c * f m[i] n[i] |]
-    
-    let reference f c = reference f M_list N_list c
-    
-    let mLogNReference = reference MlogN
-    let mnReference = reference MN
 
     printfn $"%i{graphs.Length} graphs built"
     
     getResults (UnionFindKruskal) graphs
 
-    let algorithm f estimation_f reference filename name iterations =
+    let algorithm f estimation_f reference_f filename name iterations numGraphs =
+
         printfn $"\n%s{name}"
         
+        let graphs = Array.truncate numGraphs graphs
+        let M_list = Array.truncate numGraphs M_list
+        let N_list = Array.truncate numGraphs N_list
+        let MNi_list = Array.truncate numGraphs MNi_list
+
         let runTimes = Array.map (fun g -> measureRunTime f g iterations) graphs
             
         let nAvgRunTime =
@@ -67,20 +68,22 @@ let main argv =
             runTimes |> Array.map int64
 
         // array containing the hidden constants computed for each graph
-        let (C, ratios) = printData N_list M_list i64RunTimes estimation_f
+        let C, ratio = printData N_list M_list i64RunTimes estimation_f
         
         let c = C |> Array.last
         
         let orderedRunTimes = MNi_list |> Array.fold (fun acc (_, i) -> acc @ [i64RunTimes[i]] ) List.empty |> Array.ofList
         let MN_list = MNi_list |> Array.map fst
         
-        printGraphs N_distinctList nAvgRunTime MN_list orderedRunTimes N_list (reference c) filename name
-        saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ filename) N_list M_list i64RunTimes C ratios
+        let referenceArray = reference reference_f M_list N_list c
+
+        printGraphs (N_distinctList |> Array.map int64) nAvgRunTime MN_list orderedRunTimes (N_list |> Array.map int64) referenceArray filename name
+        saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ filename) N_list M_list i64RunTimes C ratio
 
         printfn $"Finished %s{name}\n"
     
-    // algorithm simpleKruskal MN_estimate_f mnReference "SimpleKruskal" "Simple Kruskal" 100
-    algorithm UnionFindKruskal MlogN_estimate_f mLogNReference "UnionFindKruskal" "Union-Find Kruskal" 100
-    algorithm (prim 0) MlogN_estimate_f mLogNReference "Prim" "Prim" 100
+    algorithm simpleKruskal MN_estimate_f MN "SimpleKruskal" "Simple Kruskal" 100 50
+    algorithm UnionFindKruskal MlogN_estimate_f MlogN "UnionFindKruskal" "Union-Find Kruskal" 100 68
+    algorithm (prim 0) MlogN_estimate_f MlogN "Prim" "Prim" 100 68
 
     0

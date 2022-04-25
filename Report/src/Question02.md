@@ -45,4 +45,3 @@ how `Prim` outperforms both `NaiveKruskal` (trivially due to an higher time
 complexity) and `UnionFindKruskal`, despite having the same theoretical time complexity of 
 the latter. This result can be justified by a lower hidden constant due to the 
 different implementations of the algorithms.
-
