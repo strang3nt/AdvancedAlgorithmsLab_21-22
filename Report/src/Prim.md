@@ -22,7 +22,7 @@ let prim s (Graph (ns, es, adj) as G : Graph) =
 
         // take min key and update heap
         let (Key (_, u) as k) = Q.Min
-        Q.Remove (k) |> ignore
+        Q.ExceptWith (seq { k })
         
         // update heap
         for e in adj[u] do
@@ -39,10 +39,10 @@ let prim s (Graph (ns, es, adj) as G : Graph) =
     Pi
 ```
 
-Above is Prim's algorithm. Due to the lack of a suitable heap implementation in either `.NET` or `F#` api a structure called `SortedSet` was used:
+The algorithm above is Prim's algorithm. Due to the lack of a suitable heap implementation in either `.NET` or `F#` api a structure called `SortedSet` was used:
 
  - insertion is $O(\log(n))$
- - deletion is $O(\log(n))$
+ - removal of one element is $O(\log(n))$, but according to the documentation, the method `exceptWith` is `O(n)` which should be `O(1)` in this instance because we are removing only 1 element at a time
  - lookup is $O(\log(n))$
  - min lookup is constant
  - min extraction is $O(\log(n))$.
@@ -52,5 +52,6 @@ From the numbers reported above ([Microsoft documentation](https://docs.microsof
 Complexity of the whole algorithm is $O (m \log(n))$:
 
  - the main cycle has a complexity at most $O(m)$
- - removal of an element has cost $O(\log(n))$
+ - removal of an element has cost $O(1)$
+ - checking if a node is in the sorted set `Q` is $(\log(n))$
  - the inner cycle has cost $O(n\log(n))$.
