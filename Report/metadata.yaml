@@ -20,3 +20,7 @@ geometry:
 - top=40mm
 - left=40mm
 - right=40mm
+
+header-includes: 
+ \usepackage{float}
+ \floatplacement{figure}{H}

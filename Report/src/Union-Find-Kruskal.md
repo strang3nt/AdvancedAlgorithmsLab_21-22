@@ -41,7 +41,7 @@ type 'a UFNode = 'a * Size      // Pair representing parent and  size
 While externally the data structure is represented in the code as a `Map<'a,'a UFNode>`, 
 with `'a` being a type variable replaced at runtime by the effective type stored in the Union-Find.
 
-The follwing code snippets contain the most important methods of the Union-Find data 
+The following code snippets contain the most important methods of the Union-Find data 
 structure:
 
  - the `initUF` function initializes the Union-Find data structure starting from 
