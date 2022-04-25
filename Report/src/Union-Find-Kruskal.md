@@ -89,8 +89,8 @@ From the complexity of the methods of the Union-Find data structure it's
 possible to determine the complexity of the Union-Find Kruskal's algorithm, 
 which is $O(m\log n)$, in fact:
 
-- `initUf` has complexity $O(n)$ and is executed only once
-- `sortedEdges` sorts the edges with Introsort and has complexity $O(n\log n)$
-- the fold function iterates through the edges, hence it has complexity $O(m)$ with $m=|E|$, number of edges
-- `find` has complexity $O(\log n)$ and is executed $O(m)$ times
+- `initUf` has complexity $O(n)$ and is executed only once;
+- `sortedEdges` sorts the edges with Introsort and has complexity $O(n\log n)$;
+- the fold function iterates through the edges, hence it has complexity $O(m)$ with $m=|E|$, number of edges;
+- `find` has complexity $O(\log n)$ and is executed $O(m)$ times;
 - `union` has complexity $O(\log n)$ and is executed $O(m)$ times.

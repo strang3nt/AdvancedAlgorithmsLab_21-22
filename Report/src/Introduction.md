@@ -3,8 +3,8 @@
 The assignment required to implement three MST algorithms in a programming language of choice.
 The algorithms are: 
 
- - Naive Kruskal, which from now on will be referred to either as Naive or Simple Kruskal
- - Union-find Kruskal
+ - Naive Kruskal, which from now on will be referred to either as Naive or Simple Kruskal;
+ - Union-find Kruskal;
  - Prim.
 
 We decided to use `F#`: it is a functional language that runs on Microsoft's .NET platform, 
@@ -14,12 +14,12 @@ and thus allowing us to use the .NET's API, while also supporting imperative pro
 
 The source code is comprised of the following relevant files (or "modules" in `F#` jargon)
 
- - `Graph.fs` contains the graph abstraction
- - `Main.fs` executes all algorithms and prints all necessary data
- - `Parsing.fs` parses the source files into a `Graph` type 
- - `UnionFind.fs` is the structure used by Union-find Kruskal.
- - `UnionFindKruskal.fs` contains Union-find Kruskal
- - `Prim.fs` contains Prim's algorithm
+ - `Graph.fs` contains the graph abstraction;
+ - `Main.fs` executes all algorithms and prints all necessary data;
+ - `Parsing.fs` parses the source files into a `Graph` type;
+ - `UnionFind.fs` is the structure used by Union-find Kruskal;
+ - `UnionFindKruskal.fs` contains Union-find Kruskal;
+ - `Prim.fs` contains Prim's algorithm;
  - `SimpleKruskal.fs` contains Naive Kruskal's algorithm.
 
 ## Graph data structure
