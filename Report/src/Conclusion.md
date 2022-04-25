@@ -2,7 +2,7 @@
 
 # Conclusion
 
-## `F#` as a imperative language
+## `F#` as an imperative language
 
 `F#` is a functional and declarative language, but it supports object oriented and imperative paradigms.
 We initially chose said language because we wanted to implement all three algorithms through the functional
