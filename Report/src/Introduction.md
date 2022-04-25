@@ -16,7 +16,7 @@ The source code is comprised of the following relevant files (or "modules" in F#
 
  - `Graph.fs` contains the graph abstraction
  - `Main.fs` executes all algorithms and prints all necessary data
- - `KruskalUF.fs` contains Union-find Kruskal
+ - `UnionFindKruskal.fs` contains Union-find Kruskal
  - `Parsing.fs` parses into a `Graph` type the source files
  - `Prim.fs` contains Prim's algorithm
  - `SimpleKruskal.fs` contains Naive Kruskal's algorithm
