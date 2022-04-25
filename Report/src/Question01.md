@@ -20,7 +20,7 @@ variables with the effective run time.
 ![Prim's run times x M*N\label{fig:MNPrim}](img/MNPrim.png)
 
 It then follows a single graph comparing the run times of the three algorithms in 
-order to analyze and compare the behaviour of the three implementations on the 
+order to analyze and compare the behavior of the three implementations on the 
 same instances and determine the most efficient one.
 
 ![Algorithms comparison\label{fig:comparison}](img/Algorithms_comparison.png)
@@ -111,7 +111,7 @@ nodes, number of edges, run time, the calculated constant and the ratio of the
 runtime respect to the previous instance. Graphs instances were executed 100 
 times each. Naive-Kruskal was executed only on the first 50 inputs, that is
 because execution times after the 50th input are too long: 50 inputs were considered
-enough to show the algorithm behaviour with respect to the other 2 implementations.
+enough to show the algorithm behavior with respect to the other 2 implementations.
 
          N         M     Time(ns)    Constant     Ratio
 ---------- --------- ------------ ----------- --------- 

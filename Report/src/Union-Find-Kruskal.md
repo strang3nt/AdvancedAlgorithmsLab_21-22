@@ -41,7 +41,7 @@ type 'a UFNode = 'a * Size      // Pair representing parent and  size
 While externally the data structure is represented in the code as a `Map<'a,'a UFNode>`, 
 with `'a` being a type variable replaced at runtime by the effective type stored in the Union-Find.
 
-The follwing code snippets contain the most important methods of the Union-Find data 
+The following code snippets contain the most important methods of the Union-Find data 
 structure:
 
  - the `initUF` function initializes the Union-Find data structure starting from 
@@ -89,8 +89,8 @@ From the complexity of the methods of the Union-Find data structure it's
 possible to determine the complexity of the Union-Find Kruskal's algorithm, 
 which is $O(m\log n)$, in fact:
 
-- `initUf` has complexity $O(n)$ and is executed only once;
-- `sortedEdges` sorts the edges with Introsort and has complexity $O(n\log n)$;
-- the fold function iterates through the edges, hence it has complexity $O(m)$ with $m=|E|$, number of edges;
-- `find` has complexity $O(\log n)$ and is executed $O(m)$ times;
+- `initUf` has complexity $O(n)$ and is executed only once
+- `sortedEdges` sorts the edges with Introsort and has complexity $O(n\log n)$
+- the fold function iterates through the edges, hence it has complexity $O(m)$ with $m=|E|$, number of edges
+- `find` has complexity $O(\log n)$ and is executed $O(m)$ times
 - `union` has complexity $O(\log n)$ and is executed $O(m)$ times.
