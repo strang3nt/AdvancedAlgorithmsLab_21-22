@@ -1,5 +1,28 @@
 # Results and explanatory graphs
 
+For each algorithm there are two graphs representing the run times, 
+respectively one with $n=|V|$ the other one with $m*n$ ($m=|E|,\;n=|V|$) in 
+the abscissa axis in order to have a comparison of the relation of both the 
+variables with the effective run time.
+
+Then there's a graph comparing the run times of the three algorithms in 
+order to analyze and compare the behaviour of the three implementations with 
+equal instances and determine the most efficient one.
+
+In the end there's a table reporting the weight of the MST for each given 
+graph, calculated by applying one of the three algorithms.
+
+![](N graph Naive Kruskal)
+![](MN graph Naive Kruskal)
+
+![](N graph Union-Find Kruskal)
+![](MN graph Union-Find Kruskal)
+
+![](N graph Prim)
+![](MN graph Prim)
+
+![](graph of all three algs)
+
         Nodes           Edges           MST weight
 ------------- --------------- --------------------
        10               9           29316
