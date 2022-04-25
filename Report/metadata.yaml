@@ -6,8 +6,8 @@ subtitle: |
   Advanced Algorithms 2021-2022 first assignment report
 
 abstract: |
-  Report on the results gathered about the execution of 3 MST algorithms.
-  The algorithms executed are Naive Kruskal, Union-Find Kruskal and Prim's algorithm.
+  Report on the results gathered about the execution of three MST algorithms.
+  The considered algorithms are Naive Kruskal, Union-Find Kruskal and Prim's algorithm.
 
 author:
 - Daniel Eduardo Contro

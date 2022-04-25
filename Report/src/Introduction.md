@@ -7,20 +7,20 @@ The algorithms are:
  - Union-find Kruskal
  - Prim.
 
-We decided to use `F#`: it is a functional language that runs on microsoft's platform .NET, thus it can use
-.NET api's and supports imperative programming, which was heavily used in this assignment.
+We decided to use `F#`: it is a functional language that runs on Microsoft's .NET platform, 
+and thus allowing us to use the .NET's API, while also supporting imperative programming, which was heavily used in this assignment.
 
 ## Source code structure
 
-The source code is comprised of the following relevant files (or "modules" in F# jargon)
+The source code is comprised of the following relevant files (or "modules" in `F#` jargon)
 
  - `Graph.fs` contains the graph abstraction
  - `Main.fs` executes all algorithms and prints all necessary data
+ - `Parsing.fs` parses the source files into a `Graph` type 
+ - `UnionFind.fs` is the structure used by Union-find Kruskal.
  - `UnionFindKruskal.fs` contains Union-find Kruskal
- - `Parsing.fs` parses into a `Graph` type the source files
  - `Prim.fs` contains Prim's algorithm
  - `SimpleKruskal.fs` contains Naive Kruskal's algorithm
- - `UnionFind.fs` is the structure used by Union-find Kruskal.
 
 ## Graph data structure
 
@@ -46,7 +46,7 @@ languages, we decided to use indices:
 incident edges of the `i-th` node in `Nodes` array.
 
 `Graph.fs` contains a few auxiliary functions to build a graph instance and 
-to interact with it. Note that we suppose a Graph instance to be immutable 
+to interact with it. Note that we assume a `Graph` instance to be immutable 
 even though, for example, `Nodes`, which is an alias for an array of integers, 
 is a mutable structure. 
 Using immutable structures such as lists would have slowed down graphs 

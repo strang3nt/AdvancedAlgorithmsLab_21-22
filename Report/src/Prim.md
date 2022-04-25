@@ -39,7 +39,7 @@ let prim s (Graph (ns, es, adj) as G : Graph) =
     Pi
 ```
 
-The algorithm above is Prim's algorithm. Due to the lack of a suitable heap implementation in either `.NET` or `F#` api a structure called `SortedSet` was used:
+The algorithm above is Prim's algorithm. Due to the lack of a suitable heap implementation in either .NET's APi or other `F#` libraries, a structure called `SortedSet` was used:
 
  - insertion is $O(\log(n))$
  - removal of one element is $O(\log(n))$, but according to the documentation, the method `exceptWith` is `O(n)` which should be `O(1)` in this instance because we are removing only 1 element at a time
@@ -47,9 +47,9 @@ The algorithm above is Prim's algorithm. Due to the lack of a suitable heap impl
  - min lookup is constant
  - min extraction is $O(\log(n))$.
  
-From the numbers reported above ([Microsoft documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedset-1?redirectedfrom=MSDN&view=net-6.0)), `SortedSet` seems to be equivalent to a heap data structure, at least regarding time complexity.
+From the data reported above ([see Microsoft documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedset-1?redirectedfrom=MSDN&view=net-6.0)), `SortedSet` seems to be equivalent to a heap data structure, at least regarding time complexity.
 
-Complexity of the whole algorithm is $O (m \log(n))$:
+Complexity of the whole algorithm is then $O (m \log(n))$:
 
  - the main cycle has a complexity at most $O(m)$
  - removal of an element has cost $O(1)$
