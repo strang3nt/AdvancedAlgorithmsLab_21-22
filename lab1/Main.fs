@@ -49,6 +49,7 @@ let main argv =
     getResults (UnionFindKruskal) graphs
 
     let algorithm f estimation_f reference_f filename name iterations numGraphs =
+
         printfn $"\n%s{name}"
         
         let graphs = Array.truncate numGraphs graphs
