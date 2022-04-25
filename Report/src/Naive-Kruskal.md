@@ -1,3 +1,5 @@
+\newpage
+
 ## Naive Kruskal
 
 Follows Naive Kruskal without auxiliary functions:
@@ -29,11 +31,11 @@ let simpleKruskal (Graph (ns, es, _) as G) =
 ```
 Cost is $O( n*m )$: 
 
- - `sortedEdge` function has worse case complexity $O(n\log(n))$, it uses Introsort
- - the folding function has a $O(m)$ complexity, with $m = |M|$, number of edges
- - `isAcyclical` has a $O(n)$ cost.
+ - `sortedEdge` function has worst case complexity $O(n\log(n))$, since it internally uses Introsort
+ - the folding function has a $O(m)$ complexity, with $m = |M|$, the number of edges
+ - `isAcyclical` has a $O(n)$ complexity.
 
-The following code snippet is the function in charge of checking wether if the MST becomes cyclic by adding a new edge:
+The following code snippet is the function in charge of checking whether if the MST becomes cyclic by adding a new edge:
 
 ```fsharp
 let rec cycleDfs 
@@ -68,8 +70,8 @@ let rec cycleDfs
         ) adj[v]
 ```
 
-`cycleDfs` is a dfs based algorithm, that stops whenever it finds a cycle in a graph.
-`MST` is a type that represents the current MST, this way the function checks only the tree and
-nothing else. The function checks all edges which (in a MST) are at most $n - 1$ thus the overall cost
-is $O( n )$. More precisely it is $O( 2n )$ and that is because the adjacency list holds each edge twice,
-but we can drop the constant.
+`cycleDfs` is a DFS based algorithm, that stops whenever it finds a cycle in a graph.
+`MST` is a type that represents the current MST: this way the function checks only the tree and
+nothing else. The function checks all the edges which are, in a MST, at most $n - 1$. Thus the overall cost
+is $O( n )$. More precisely, it is $O( 2n )$, because the adjacency list holds each edge twice,
+but the constant can be dropped.

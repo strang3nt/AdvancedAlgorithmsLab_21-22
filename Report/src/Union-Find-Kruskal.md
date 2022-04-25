@@ -1,3 +1,5 @@
+\newpage
+
 ## Union-find Kruskal
 
 The Kruskal's algorithm based on the Union-Find data structure has been 
@@ -11,9 +13,9 @@ let UnionFindKruskal (Graph (nodes, edges, adjList)) =
     // sort the edges in the graph by weight
     Graph (nodes, edges, adjList)
         |> sortedEdges
-        // Folds the array of sorted edges to operate on the given graph and 
-        // produces a list containing the edges of the MST and the respective 
-        // weight of each edge in O(m)
+        // Folds the array of sorted edges to operate on the given graph 
+        // and produces a list containing the edges of the MST and the
+        // respective weight of each edge in O(m)
         |> Array.fold (fun acc edge_idx ->
             let u_idx, v_idx, weight = edges[edge_idx]
             let u = nodes[u_idx]
@@ -28,29 +30,29 @@ let UnionFindKruskal (Graph (nodes, edges, adjList)) =
 ```
 
 The complexity of the algorithm depends on the implementation of the methods 
-of the Union-Find data structure, its internal representation is the following:
+of the Union-Find data structure. Its internal representation is the following:
 
 ```fsharp
 type Size = int                 // Size of the current set
-type 'a UFNode = 'a * Size      // Pair representing the parent and the size 
+type 'a UFNode = 'a * Size      // Pair representing parent and  size 
                                 // of the set
 ```
 
-while externally the data structure is represented in the code as a `Map<'a,'a UFNode>`, 
-with `'a` a type variable replaced at runtime by the effective type stored in the Union-Find.
+While externally the data structure is represented in the code as a `Map<'a,'a UFNode>`, 
+with `'a` being a type variable replaced at runtime by the effective type stored in the Union-Find.
 
-It follows the code of the most important methods of the Union-Find data 
+The follwing code snippets contain the most important methods of the Union-Find data 
 structure:
 
-The `initUF` function initializes the Union-Find data structure starting from 
-an array of objects with a complexity $O(n)$, with $n = p.Length$.
+ - the `initUF` function initializes the Union-Find data structure starting from 
+an array of objects with a complexity $O(n)$, with $n = p.Length$;
 
 ```fsharp
 let rec initUF (p: 'a array) : Map<'a,'a UFNode> =
     Map (p |> Array.map (fun x -> x, (x, 1)))
 ```
 
-The `find` function finds the root of the node `x` in the given Union-Find `uf` in $O(k)$, with $k = \max uf \text{depth} = \log n$
+ - the `find` function finds the root of the node `x` in the given Union-Find `uf` in $O(k)$, with $k = \max uf \text{depth} = \log n$;
 
 ```fsharp
 let rec find (uf: Map<'a,'a UFNode>) x =
@@ -63,9 +65,9 @@ let rec find (uf: Map<'a,'a UFNode>) x =
             )
 ```
 
-The `union` function merges the sets in the Union-Find `uf` associated to the 
+ - the `union` function merges the sets in the Union-Find `uf` associated to the 
 nodes `x` and `y` with a union-by-size policy, therefore the maximum depth of 
-`uf` is $O(\log n)$, hence the complexity of the function is $O(k)$, with $k = \max uf \text(depth) = \log n$
+`uf` is $O(\log n)$, hence the complexity of the function is $O(k)$, with $k = \max uf \text(depth) = \log n$.
 
 ```fsharp
 let union (uf : Map<'a,'a UFNode>) x y =
@@ -90,5 +92,5 @@ which is $O(m\log n)$, in fact:
 - `initUf` has complexity $O(n)$ and is executed only once;
 - `sortedEdges` sorts the edges with Introsort and has complexity $O(n\log n)$;
 - the fold function iterates through the edges, hence it has complexity $O(m)$ with $m=|E|$, number of edges;
-- `find` has complexity $O(\log n)$ and it's executed $O(m)$ times;
-- `union` has complexity $O(\log n)$ and it's executed $O(m)$ times.
+- `find` has complexity $O(\log n)$ and is executed $O(m)$ times;
+- `union` has complexity $O(\log n)$ and is executed $O(m)$ times.
