@@ -7,7 +7,7 @@ subtitle: |
 
 abstract: |
   Report on the results gathered about the execution of 3 MST algorithms.
-  The algoritms executed are Naive Kruskal, Union-find Kruskal and Prim's algorithm.
+  The algorithms executed are Naive Kruskal, Union-Find Kruskal and Prim's algorithm.
 
 author:
 - Daniel Eduardo Contro

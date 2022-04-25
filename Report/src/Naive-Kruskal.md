@@ -33,7 +33,7 @@ Cost is $O( n*m )$:
  - the folding function has a $O(m)$ complexity, with $m = |M|$, number of edges
  - `isAcyclical` has a $O(n)$ cost.
 
-The following code snippet is the function in charge of checking wether if the MST becomes cyclic by adding a new edge:
+The following code snippet is the function in charge of checking whether if the MST becomes cyclic by adding a new edge:
 
 ```fsharp
 let rec cycleDfs 
