@@ -25,6 +25,8 @@ same instances and determine the most efficient one.
 
 ![Algorithms comparison\label{fig:comparison}](img/Algorithms_comparison.png)
 
+## MST results
+
 Next, a table reporting the weight of the MST for each given 
 graph, calculated by applying any of the three algorithms.
 
@@ -101,10 +103,15 @@ graph, calculated by applying any of the three algorithms.
 
 Table: Weight of all MSTs
 
+## Algorithms data
+
 Finally, here are presented the outputs of the executions of the three 
 algorithms on the test graphs given, specifying for each instance number of 
 nodes, number of edges, run time, the calculated constant and the ratio of the 
-runtime respect to the previous instance.
+runtime respect to the previous instance. Graphs instances were executed 100 
+times each. Naive-Kruskal was executed only on the first 50 inputs, that is
+because execution times after the 50th input are too long: 50 inputs were considered
+enough to show the algorithm behaviour with respect to the other 2 implementations.
 
          N         M     Time(ns)    Constant     Ratio
 ---------- --------- ------------ ----------- --------- 
