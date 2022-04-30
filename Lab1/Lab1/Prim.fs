@@ -1,6 +1,6 @@
-﻿module lab1.Prim
+﻿module Lab1.Prim
 
-open lab1.Graphs
+open Graphs
 open FSharpx.Collections
 open System
 open System.Collections.Generic

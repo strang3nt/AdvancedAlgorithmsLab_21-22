@@ -1,10 +1,10 @@
-﻿module lab1.Main
+﻿module Lab1.Main
 
-open lab1.Utils
-open lab1.Parsing
-open lab1.Prim
-open lab1.SimpleKruskal
-open lab1.UnionFindKruskal
+open Utils
+open Parsing
+open Prim
+open SimpleKruskal
+open UnionFindKruskal
 
 open System.IO
 

@@ -1,4 +1,4 @@
-module lab1.UnionFind
+module Lab1.UnionFind
 
 open System
 open Microsoft.FSharp.Collections

@@ -3,26 +3,52 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "lab1", "lab1\lab1.fsproj", "{BBC8F92A-B293-4C0D-86E1-6BC8655E95A7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lab1", "Lab1", "{F0BA767E-EDD9-45FB-8250-8D9B19D1A0B2}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "lab1.Tests", "lab1.Tests\lab1.Tests.fsproj", "{277AB671-2C27-4D48-84F4-46A120ACDD61}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Lab1", "Lab1\Lab1\Lab1.fsproj", "{49E42E9E-D238-4970-B1A0-4F0433E8034D}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Lab1.Tests", "Lab1\Lab1.Tests\Lab1.Tests.fsproj", "{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}"
 EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BBC8F92A-B293-4C0D-86E1-6BC8655E95A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BBC8F92A-B293-4C0D-86E1-6BC8655E95A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BBC8F92A-B293-4C0D-86E1-6BC8655E95A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BBC8F92A-B293-4C0D-86E1-6BC8655E95A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{277AB671-2C27-4D48-84F4-46A120ACDD61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{277AB671-2C27-4D48-84F4-46A120ACDD61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{277AB671-2C27-4D48-84F4-46A120ACDD61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{277AB671-2C27-4D48-84F4-46A120ACDD61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Debug|x64.Build.0 = Debug|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Debug|x86.Build.0 = Debug|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Release|x64.ActiveCfg = Release|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Release|x64.Build.0 = Release|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Release|x86.ActiveCfg = Release|Any CPU
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D}.Release|x86.Build.0 = Release|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Debug|x64.Build.0 = Debug|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Debug|x86.Build.0 = Debug|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Release|x64.ActiveCfg = Release|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Release|x64.Build.0 = Release|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{49E42E9E-D238-4970-B1A0-4F0433E8034D} = {F0BA767E-EDD9-45FB-8250-8D9B19D1A0B2}
+		{142F0D7F-CEEC-4526-BAC0-0E7E6A4340A3} = {F0BA767E-EDD9-45FB-8250-8D9B19D1A0B2}
 	EndGlobalSection
 EndGlobal

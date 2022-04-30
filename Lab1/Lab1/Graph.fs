@@ -1,4 +1,4 @@
-module lab1.Graphs
+module Lab1.Graphs
 
 open System
 open FSharp.Collections

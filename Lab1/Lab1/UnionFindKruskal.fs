@@ -1,7 +1,7 @@
-module lab1.UnionFindKruskal
+module Lab1.UnionFindKruskal
 
-open lab1.Graphs
-open lab1.UnionFind
+open Graphs
+open UnionFind
 
 // Computes one of the MSTs of the given graph using the kruskal algorithm with the Union-Find data structure in O(mlog n)
 let UnionFindKruskal (Graph (nodes, edges, adjList)) =

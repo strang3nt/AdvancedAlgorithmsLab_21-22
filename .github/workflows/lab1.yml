@@ -3,7 +3,7 @@ name: Build lab1
 on:
   push:
     paths:
-      - 'lab1/**'
+      - 'Lab1/**'
 
 jobs:
   build:
@@ -17,4 +17,4 @@ jobs:
         with:
           dotnet-version: '6.x'
       - run: cd lab1    
-      - run: dotnet build lab1
+      - run: dotnet build Lab1/Lab1

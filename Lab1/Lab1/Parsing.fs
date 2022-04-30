@@ -1,8 +1,8 @@
-module lab1.Parsing
+module Lab1.Parsing
 
 open System.IO
 open System.Linq
-open lab1.Graphs
+open Graphs
 
 let file filename =
     filename

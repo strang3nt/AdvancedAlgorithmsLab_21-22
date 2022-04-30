@@ -1,4 +1,4 @@
-module lab1.SimpleKruskal
+module Lab1.SimpleKruskal
 
 open Graphs
 
