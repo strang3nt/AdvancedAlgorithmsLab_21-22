@@ -2,18 +2,15 @@ module Lab2.TspGraph
 
 open Lab1.Graphs
 
-type Name = String
-
-type Comment = String
-
+type Name = string
+type Comment = string
 type Dimension = int
-
 type EdgeWeightType =
     | Geo
     | Eucl2d
 
 [<Struct>]
-type TspGraph = TspGraph of (Name * Comment * Dimension * EdgeWeightType * Graph)
+type TspGraph = TspGraph of (Name * Comment * Dimension * Graph)
 
 //For converting coordinate input to longitude and latitude in radian:
 //
@@ -22,11 +19,11 @@ type TspGraph = TspGraph of (Name * Comment * Dimension * EdgeWeightType * Graph
 //  deg = (int) x[i];
 //  min = x[i]- deg;
 //  rad = PI * (deg + 5.0 * min/ 3.0) / 180.0;
-let private radian (x) =
+let private radian (coord: float) =
     let PI = 3.141592
-    let deg = floor x
-    let min = x - deg
-    PI * (deg + 5.0 * min/ 3.0) / 180.0
+    let deg = floor coord
+    let min = coord - deg
+    PI * (deg + 5.0 * min / 3.0) / 180.0
 
 //For computing the geographical distance:
 //
@@ -44,10 +41,10 @@ let w (x1: float) (y1: float) (x2: float) (y2: float) weightType : int =
         let x2 = radian x2
         let y2 = radian y2
         let RRR = 6378.388
-        let q1 = cos (x1 - x2)
-        let q2 = cos (y1 - y2)
-        let q3 = cos (y1 + y2)
-        int (RRR * acos( 0.5*((1.0+q1)*q2 - (1.0-q1)*q3) ) + 1.0)
+        let q1 = cos (y1 - y2)
+        let q2 = cos (x1 - x2)
+        let q3 = cos (x1 + x2)
+        int (RRR * acos(0.5 * ((1.0 + q1) * q2 - (1.0 - q1) * q3)) + 1.0)
     | Eucl2d ->
         let distance = System.Math.Sqrt ( ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) )
         int (System.Math.Round distance)
