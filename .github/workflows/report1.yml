@@ -9,13 +9,13 @@ jobs:
   convert_via_pandoc:
     runs-on: ubuntu-latest  
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: |
           cd Reports/Assignment1
           docker run -v "$(pwd):/data" pandoc/latex --defaults=defaults.yaml
 
       - name: Publish artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: assignment1_report
           path: Reports/Assignment1/AA_21-22_report1.pdf

@@ -49,5 +49,5 @@ let w (x1: float) (y1: float) (x2: float) (y2: float) weightType : int =
         let q3 = cos (y1 + y2)
         int (RRR * acos( 0.5*((1.0+q1)*q2 - (1.0-q1)*q3) ) + 1.0)
     | Eucl2d ->
-        let distance = System.Math.Sqrt ( ((y1 - x1) * (y1 - x1) - (y2 - x2) * (y2 - x2)) )
+        let distance = System.Math.Sqrt ( ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) )
         int (System.Math.Round distance)
