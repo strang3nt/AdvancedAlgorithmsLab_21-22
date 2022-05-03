@@ -1,10 +1,18 @@
 module Lab1.Utils
 
 open System
+open System.IO
 open Plotly.NET
 open Plotly.NET.ImageExport
 
 let (+/) path1 path2 = IO.Path.Combine(path1, path2)
+
+let getFiles dir =
+    let files = Directory.GetFiles dir |> Array.sort
+    printfn $"Found %i{files.Length} files: "
+    printfn "%A" files
+    files
+
 let MN m n =
     Math.Round (float m * float n, 3)
 
