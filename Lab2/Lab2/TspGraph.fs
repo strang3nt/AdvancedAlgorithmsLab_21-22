@@ -7,7 +7,7 @@ type Comment = string
 type Dimension = int
 type EdgeWeightType =
     | Geo
-    | Eucl2d
+    | Euc2d
 
 [<Struct>]
 type TspGraph = TspGraph of (Name * Comment * Dimension * Graph)
@@ -45,6 +45,6 @@ let w (x1: float) (y1: float) (x2: float) (y2: float) weightType : int =
         let q2 = cos (x1 - x2)
         let q3 = cos (x1 + x2)
         int (RRR * acos(0.5 * ((1.0 + q1) * q2 - (1.0 - q1) * q3)) + 1.0)
-    | Eucl2d ->
+    | Euc2d ->
         let distance = System.Math.Sqrt ( ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) )
         int (System.Math.Round distance)
