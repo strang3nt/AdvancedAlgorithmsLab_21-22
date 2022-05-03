@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Main.fs" />
+    <Compile Include="TspGraph.fs" />
+    <Compile Include="Parsing.fs" />
+    <Content Include="tsp_dataset\ulysses22.tsp" />
+    <Content Include="tsp_dataset\ulysses16.tsp" />
+    <Content Include="tsp_dataset\pcb442.tsp" />
+    <Content Include="tsp_dataset\kroD100.tsp" />
+    <Content Include="tsp_dataset\kroA100.tsp" />
+    <Content Include="tsp_dataset\gr229.tsp" />
+    <Content Include="tsp_dataset\gr202.tsp" />
+    <Content Include="tsp_dataset\eil51.tsp" />
+    <Content Include="tsp_dataset\dsj1000.tsp" />
+    <Content Include="tsp_dataset\d493.tsp" />
+    <Content Include="tsp_dataset\ch150.tsp" />
+    <Content Include="tsp_dataset\burma14.tsp" />
+    <Content Include="tsp_dataset\berlin52.tsp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lab1\Lab1\Lab1.fsproj" />
+  </ItemGroup>
+
+</Project>

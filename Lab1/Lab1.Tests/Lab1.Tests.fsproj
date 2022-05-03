@@ -19,6 +19,6 @@
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lab1\lab1.fsproj" />
+    <ProjectReference Include="..\Lab1\Lab1.fsproj" />
   </ItemGroup>
 </Project>

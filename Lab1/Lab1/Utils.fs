@@ -1,4 +1,4 @@
-module lab1.Utils
+module Lab1.Utils
 
 open System
 open Plotly.NET

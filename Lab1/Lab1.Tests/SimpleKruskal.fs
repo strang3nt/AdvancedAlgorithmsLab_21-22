@@ -1,7 +1,7 @@
-module lab1.Tests.SimpleKruskal
+module Lab1.Tests.SimpleKruskal
 
-open lab1.Graphs
-open lab1.SimpleKruskal
+open Lab1.Graphs
+open Lab1.SimpleKruskal
 open NUnit.Framework
 
 let graph = 

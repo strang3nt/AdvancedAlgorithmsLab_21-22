@@ -1,7 +1,7 @@
-module lab1.Tests.Parsing
+module Lab1.Tests.Parsing
 
-open lab1.Graphs
-open lab1.Parsing
+open Lab1.Graphs
+open Lab1.Parsing
 open NUnit.Framework
 open System.IO
 
