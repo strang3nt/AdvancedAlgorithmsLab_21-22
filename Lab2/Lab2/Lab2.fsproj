@@ -22,8 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="MetricTsp.fs" />    
     <Compile Include="TspGraph.fs" />
     <Compile Include="Parsing.fs" />
+    <Compile Include="Utils.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
 
