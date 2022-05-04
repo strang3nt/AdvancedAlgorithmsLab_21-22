@@ -36,7 +36,8 @@ let rec preorder v (H: List<Node>) T: unit =
 
 let metricTsp (G: Graph) =
     let root = 0
-    let T = prim root G |> buildTree
     let H = List<Node>()
-    preorder root H T
-    H
+    prim root G 
+    |> buildTree
+    |> preorder root H
+    H.Add(root); H
