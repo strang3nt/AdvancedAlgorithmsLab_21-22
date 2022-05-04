@@ -20,7 +20,7 @@ let areAdjacent (n1 : int) (n2 : int) (Graph (_, es, adj)) : bool =
 
 let w n1 n2 (Graph (_, es, adj) as g) : Weight Option =
     if (areAdjacent n1 n2 g) then
-        let edgeIndex = List.find (fun x -> let (x, y, _) = es[x] in  n2 = x || n2 = y) adj[n1]
+        let edgeIndex = List.find (fun e -> let (u, v, _) = es[e] in  n2 = u || n2 = v) adj[n1]
         let (_, _, w) = es[edgeIndex]
         Some w
     else None

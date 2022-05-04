@@ -23,14 +23,9 @@ let getResults f graphs : unit =
     |> printfn "%s"
 
 [<EntryPoint>]
-let main argv =
+let main _ =
     
-    let path = Directory.GetCurrentDirectory() +/ "graphs"
-    let files = 
-        Directory.GetFiles path
-        |> Array.sort
-
-    printfn $"Found %i{files.Length} files"
+    let files = getFiles (Directory.GetCurrentDirectory() +/ "graphs")
     
     let graphs = Array.Parallel.map buildGraph files
     let sizes = [| for f in files do (getHeader f) |] // get number of nodes per graph

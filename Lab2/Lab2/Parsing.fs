@@ -3,6 +3,7 @@ module Lab2.Parsing
 open Lab1.Parsing
 open Lab1.Graphs
 open TspGraph
+open System
 
 let private name = "NAME: "
 let private ty = "TYPE: "
@@ -19,11 +20,13 @@ let getGraph (nodes: float array array) weightType: Graph =
     let sizes = [| N; M |]
     let edges : int array array = Array.zeroCreate M
     
+    let mutable x = 0
     for i = 0 to N - 1 do
         for n = i + 1 to N - 1 do
-            edges[i + n - 1] <- [| int nodes[i].[0]; int nodes[n].[0]; (w nodes[i].[1] nodes[i].[2] nodes[n].[1] nodes[n].[2] weightType) |]
+            edges[x] <- [| int nodes[i].[0]; int nodes[n].[0]; (w nodes[i].[1] nodes[i].[2] nodes[n].[1] nodes[n].[2] weightType) |]
+            x <- x + 1
 
-    buildGraph edges sizes
+    (buildGraph edges sizes)
 
 let private (|Prefix|_|) (p:string) (s:string) =
     if s.StartsWith(p) then
@@ -42,15 +45,15 @@ let getNodeCoordSection (arr: string array): float array array =
     let startOf =  Array.findIndex (fun (str: string) -> (str.StartsWith(nodeCoordSect))) arr
     let endOf = Array.findIndexBack (fun (str: string) -> (str.StartsWith(eof))) arr
     let ar = Array.sub arr (startOf + 1) (endOf - startOf - 1)
-    ar |> Array.map (fun str -> Array.map float (str.Trim().Split()))
+    ar |> Array.map (fun str -> Array.map float (str.Split(' ', StringSplitOptions.RemoveEmptyEntries)))
 
 let buildGraph filename: TspGraph =
     let arr = Array.toList (file filename)
 
     let weightType =
         match (parseMetadata edgeWeightType arr) with
-        | "GEP" -> Geo
-        | "EUC_2D" -> Eucl2d  
+        | "GEO" -> Geo
+        | "EUC_2D" -> Euc2d  
         | _ -> failwith "Error during parsing: could not find weight type"
 
     TspGraph (

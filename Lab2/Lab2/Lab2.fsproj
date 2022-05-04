@@ -6,9 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Main.fs" />
-    <Compile Include="TspGraph.fs" />
-    <Compile Include="Parsing.fs" />
     <Content Include="tsp_dataset\ulysses22.tsp" />
     <Content Include="tsp_dataset\ulysses16.tsp" />
     <Content Include="tsp_dataset\pcb442.tsp" />
@@ -22,6 +19,14 @@
     <Content Include="tsp_dataset\ch150.tsp" />
     <Content Include="tsp_dataset\burma14.tsp" />
     <Content Include="tsp_dataset\berlin52.tsp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="MetricTsp.fs" />    
+    <Compile Include="TspGraph.fs" />
+    <Compile Include="Parsing.fs" />
+    <Compile Include="Utils.fs" />
+    <Compile Include="Main.fs" />
   </ItemGroup>
 
   <ItemGroup>
