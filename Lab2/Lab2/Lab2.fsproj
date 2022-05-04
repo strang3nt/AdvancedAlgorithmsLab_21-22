@@ -9,6 +9,8 @@
     <Compile Include="Main.fs" />
     <Compile Include="TspGraph.fs" />
     <Compile Include="Parsing.fs" />
+    <Compile Include="ConstructiveHeuristic.fs" />
+    <Compile Include="NearestNeighbourHeuristic.fs" />
     <Content Include="tsp_dataset\ulysses22.tsp" />
     <Content Include="tsp_dataset\ulysses16.tsp" />
     <Content Include="tsp_dataset\pcb442.tsp" />
