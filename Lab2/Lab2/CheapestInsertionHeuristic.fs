@@ -15,27 +15,36 @@ let initialisation (Graph (V,E,A)) =
         V[0] :: V[i] :: List.Empty
 
 let private findEdge (Es: Edges) u v e = let (x,y,_) = Es[e] in (x=u && y=v) || (x=v && y=u)
-let private getEdge (adjList: AdjList) E u v = let _,_,w = adjList[u] |> List.find (findEdge E u v) |> Array.get E in w
+let private getEdge (adjList: AdjList) (Graph(V,E,l)) u v = let _,_,w = adjList[u] |> List.find (findEdge E u v) |> Array.get E in w
 
 // Find (i,j), k s.t. they minimize w(i,k) + w(j,k) - w(i,j)
 let selection (Graph (V,E,adjList)) (partialCircuit: Node list) =
     let rest = V |> Array.filter (fun x -> not (List.contains x partialCircuit))
     let checkNode (prevI, prevK, prevW) currK =
         let final = adjList[currK]
-                    |> List.fold (fun prev -> fun j ->
-                        match prev,j with 
-                        | None, _ -> Some (j, 0, 0)
-                        | Some (i, k, w), j ->
-                            let w_ij = getEdge adjList E j i
-                            let w_ik = getEdge adjList E i currK
-                            let w_jk = getEdge adjList E currK j
-                            if w_ik + w_jk - w_ij < w then Some (j, currK, w_ik + w_jk - w_ij) else Some (j, k, w)
-                    ) None
+                    |> List.fold (fun prev -> fun e -> // fold on a list of edges' indexes
+                        let u, v, currW = E[e]
+                        let j = if u = currK then v else u
+                        if Array.contains j rest then
+                            prev
+                        else
+                            match prev,j with 
+                            | None, _ -> Some (j, j, currK, currW)
+                            | Some (i, pos, k, w), j ->
+                                let w_ij = getEdge adjList (Graph(V,E,adjList)) j i
+                                let w_ik = getEdge adjList (Graph(V,E,adjList)) i currK
+                                let w_jk = getEdge adjList (Graph(V,E,adjList)) currK j
+                                if w_ik + w_jk - w_ij < w then Some (j, i, currK, w_ik + w_jk - w_ij) else Some (j, pos, k, w)
+                        ) None
         match final with 
         | None -> failwith "Algorithm broke"
-        | Some (i,k,w) -> if prevW < w then i,k,w else prevI, prevK, prevW
-    let i,k,_ = rest |> Array.fold checkNode (0, 0, 0)
-    i,k
+        | Some (_,i,k,w) -> if prevW > w then i,k,w else prevI, prevK, prevW
+    
+    let circHeadIdx = V |> Array.findIndex (fun x -> x = List.head partialCircuit)
+    let restHeadIdx = V |> Array.findIndex (fun x -> x = Array.head rest)
+
+    let i,k,_ = rest |> Array.mapi (fun i -> fun _ -> i) |> Array.fold checkNode (circHeadIdx, restHeadIdx, 0)
+    V[i],V[k]
 
 // Insert k between i and j
 let insertion partialCircuit i k =
