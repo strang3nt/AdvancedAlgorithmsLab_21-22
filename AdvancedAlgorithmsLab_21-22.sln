@@ -15,6 +15,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Lab2", "Lab2\Lab2\Lab2.fspr
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Lab2.Tests", "Lab2\Lab2.Tests\Lab2.Tests.fsproj", "{13297E01-1C58-4389-ACD3-AE064DD107C6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{9BF64882-6D2B-4880-B88F-E5ED42740FBE}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
