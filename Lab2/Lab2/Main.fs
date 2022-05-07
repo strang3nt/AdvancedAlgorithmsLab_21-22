@@ -1,7 +1,6 @@
 ﻿module Lab2.Main
 
 open Lab1.Utils
-open Lab1.Graphs
 open TspGraph
 open Parsing
 open MetricTsp
@@ -34,4 +33,4 @@ let main _ =
         0
             
 //    algorithm metricTsp 100
-    algorithm nearestNeighbourHeuristic 100 "Nearest Neighbour"
+    algorithm nearestNeighbourHeuristic 1 "Nearest Neighbour"
