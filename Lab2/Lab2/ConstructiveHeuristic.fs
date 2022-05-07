@@ -11,15 +11,9 @@ let rec loop selection insertion (partialCircuit: int list) (Graph (V, _, _) as 
     if partialCircuit.Length = n then
         0 :: partialCircuit
     else
-<<<<<<< HEAD
         let node = selection G partialCircuit visitedMap
         let partialCircuit, visitedMap = insertion node partialCircuit visitedMap
         loop selection insertion partialCircuit G visitedMap 
-=======
-        let node1, node2 = selection G partialCircuit
-        let partialCircuit = insertion partialCircuit node1 node2
-        loop selection insertion partialCircuit G
->>>>>>> a70a769 (Created cheapest insertion)
         
 // Initialize the tsp for the algorithm as specified by the chosen heuristic
 // and then loops between the selection and the insertion of the heuristic with

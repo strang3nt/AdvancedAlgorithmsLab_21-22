@@ -44,14 +44,14 @@ let selection (Graph (V,E,adjList)) (partialCircuit: Node list) =
     let restHeadIdx = V |> Array.findIndex (fun x -> x = Array.head rest)
 
     let i,k,_ = rest |> Array.mapi (fun i -> fun _ -> i) |> Array.fold checkNode (circHeadIdx, restHeadIdx, 0)
-    V[i],V[k]
+    V[i]// ,V[k]
 
 // Insert k between i and j
-let insertion partialCircuit i k =
+let insertion partialCircuit i _ =
     let circ1, circ2 = 
         partialCircuit
         |> List.findIndex (fun x -> x = i)
         |> List.splitAt <| partialCircuit
-    circ1 @ [k] @ circ2
+    circ1 @ [i] @ circ2
 
 let CheapestInsertionHeuristic G = ConstructiveHeuristic initialisation selection insertion G

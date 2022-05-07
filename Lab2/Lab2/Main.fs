@@ -6,6 +6,8 @@ open TspGraph
 open Parsing
 open MetricTsp
 open NearestNeighbourHeuristic
+open CheapestInsertionHeuristic
+open ClosestInsertionHeuristic
 open Utils
 
 open System.IO
