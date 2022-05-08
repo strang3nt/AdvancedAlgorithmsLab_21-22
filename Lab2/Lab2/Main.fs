@@ -11,12 +11,14 @@ open System.IO
 [<EntryPoint>]
 let main _ =
     let files = getFiles (Directory.GetCurrentDirectory() +/ "tsp_dataset")
-    let tspGraphs = Array.map buildGraph files
+    let tspGraphs = 
+        Array.map buildGraph files
+        |> Array.sortBy (fun (TspGraph (_, _, dimension, _, _)) -> dimension)
     
     printfn "%9s\t%9s\t%9s" "Name" "Dimension" "Weight"
     printfn "%s" (String.replicate 60 "-")
     for tspGraph in tspGraphs do
-        let TspGraph (name, comment, dimension, G) as _ = tspGraph
+        let TspGraph (name, comment, dimension, optimalSolution, G) as _ = tspGraph
         metricTsp G 
         |> Seq.toList 
         |> getTotalWeightFromTree G 
