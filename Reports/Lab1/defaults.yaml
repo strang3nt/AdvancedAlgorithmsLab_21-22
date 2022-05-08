@@ -15,4 +15,6 @@ output-file: AA_21-22_report1.pdf
 
 highlight-style: tango
 
-metadata-file: ${.}/metadata.yaml
+metadata-files: 
+  - ${.}/metadata.yaml
+  - ${.}/../metadata.yaml
