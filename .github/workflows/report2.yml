@@ -11,11 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          cd Reports/Lab2
-          docker run -v "$(pwd):/data" pandoc/latex --defaults=defaults.yaml
+          cd Reports
+          docker run -v "$(pwd):/data" pandoc/latex --defaults=Lab2/defaults.yaml
 
       - name: Publish artifact
         uses: actions/upload-artifact@v3
         with:
           name: Lab2_report
-          path: Reports/Lab2/AA_21-22_report2.pdf
+          path: Reports/AA_21-22_report2.pdf

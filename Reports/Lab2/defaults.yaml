@@ -3,17 +3,21 @@ from: markdown
 to: pdf
 
 input-files:
-- src/Introduction.md
-- src/2-Approx-Metric-Tsp.md
-- src/Nearest-Neighbour.md
+- ${.}/src/Introduction.md
+- ${.}/src/2-Approx-Metric-Tsp.md
+- ${.}/src/Nearest-Neighbour.md
 # - src/the other heuristic
-- src/Question01.md
-- src/Question02.md
-- src/Conclusion.md
+- ${.}/src/Question01.md
+- ${.}/src/Question02.md
+- ${.}/src/Conclusion.md
 
 output-file: AA_21-22_report2.pdf
 
 highlight-style: tango
+
+resource-path:
+ - ${.}
+ - ${.}/img
 
 metadata-files: 
   - ${.}/metadata.yaml
