@@ -9,8 +9,7 @@ let (+/) path1 path2 = IO.Path.Combine(path1, path2)
 
 let getFiles dir =
     let files = Directory.GetFiles dir |> Array.sort
-    printfn $"Found %i{files.Length} files: "
-    printfn "%A" files
+    printfn $"Found %i{files.Length} files"
     files
 
 let MN m n =
