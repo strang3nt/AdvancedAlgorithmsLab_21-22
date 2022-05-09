@@ -15,7 +15,7 @@ let initialisation (Graph (V,E,A)) =
         V[0] :: V[i] :: List.Empty
 
 let private findEdge (Es: Edges) u v e = let (x,y,_) = Es[e] in (x=u && y=v) || (x=v && y=u)
-let private getEdge (adjList: AdjList) (Graph(V,E,l)) u v = let _,_,w = adjList[u] |> List.find (findEdge E u v) |> Array.get E in w
+let private getEdge (adjList: AdjList) (Graph(V,E,l)) u v = if u = v then 0 else let _,_,w = adjList[u] |> List.find (findEdge E u v) |> Array.get E in w
 
 // Find (i,j), k s.t. they minimize w(i,k) + w(j,k) - w(i,j)
 let selection (Graph (V,E,adjList)) (partialCircuit: Node list) =
@@ -30,13 +30,20 @@ let selection (Graph (V,E,adjList)) (partialCircuit: Node list) =
 
 type EdgeType = IJ | JK | Sum | NotRelated
 
+let decreaseIndex i k = 
+    if i = 0 then 0
+    else if i <> k then
+            i - 1
+         else if k - 2 <= 0 then 0
+            else i - 2 
+
 // Insert k between i and j
 let insertion partialCircuit k (Graph (V,E,adjList))=
     let circuitArray = partialCircuit |> Array.ofList
     let _, i = 
         circuitArray
-        |> Array.mapi (fun i -> fun v -> (v, circuitArray[if i = 0 then 0 else i-1]))
-        |> Array.removeAt 0
+        |> Array.mapi (fun i -> fun v -> (v, circuitArray[decreaseIndex i k]))
+        //|> Array.removeAt 0
         |> Array.map (fun (j, i) -> 
             let w_ik = getEdge adjList (Graph (V,E,adjList)) i k
             let _,_,_, w_jk_ij = adjList[j]
