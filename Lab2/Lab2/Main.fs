@@ -15,12 +15,13 @@ let main _ =
         Array.map buildGraph files
         |> Array.sortBy (fun (TspGraph (_, _, dimension, _, _)) -> dimension)
     
-    printfn "%9s\t%9s\t%9s" "Name" "Dimension" "Weight"
-    printfn "%s" (String.replicate 60 "-")
+    printfn "%9s\t%9s\t%9s\t%9s\t%9s" "Name" "Dimension" "TSP" "TSP*" "Error"
+    printfn "%s" (String.replicate 80 "-")
     for tspGraph in tspGraphs do
         let TspGraph (name, comment, dimension, optimalSolution, G) as _ = tspGraph
-        metricTsp G 
-        |> Seq.toList 
-        |> getTotalWeightFromTree G 
-        |> printfn "%9s\t%9i\t%9i" name dimension
+        let weight =
+            metricTsp G
+            |> Seq.toList
+            |> getTotalWeightFromTree G 
+        printfn $"%9s{name}\t%9i{dimension}\t%9i{weight}\t%9i{optimalSolution}\t%9f{(float weight-float optimalSolution)/(float optimalSolution)}"
     0
