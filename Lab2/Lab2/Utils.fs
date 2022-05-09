@@ -28,10 +28,10 @@ let measureRunTime f input numCalls =
     GCSettings.LatencyMode <- defaultLatency
     time / float numCalls
 
-let saveToCSV filename (names: string array) (N: int array) (weights: int array) (rTs: int64 array) =
+let saveToCSV filename (names: string array) (N: int array) (weights: int array) (optSolutions: int array) (errors: float array) (rTs: int64 array) =
     let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
     let writer = new IO.StreamWriter (filename + "_" + dateTime + ".csv")
-    writer.WriteLine "Names, N, Weights, Time(ns)"
+    writer.WriteLine "Names, N, TSP, TSP*, Error, Time(ns)"
     for i=0 to N.Length-1 do
-        writer.WriteLine $"%s{names[i]}, %i{N[i]}, %i{weights[i]}, %i{rTs[i]}"
+        writer.WriteLine $"%s{names[i]}, %i{N[i]}, %i{weights[i]}, %i{optSolutions[i]}, %f{errors[i]}, %i{rTs[i]}"
     writer.Close()

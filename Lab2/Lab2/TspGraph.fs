@@ -8,9 +8,10 @@ type Dimension = int
 type EdgeWeightType =
     | Geo
     | Euc2d
+type OptimalSolution = int
 
 [<Struct>]
-type TspGraph = TspGraph of (Name * Comment * Dimension * Graph)
+type TspGraph = TspGraph of (Name * Comment * Dimension * OptimalSolution * Graph)
 
 //For converting coordinate input to longitude and latitude in radian:
 //
