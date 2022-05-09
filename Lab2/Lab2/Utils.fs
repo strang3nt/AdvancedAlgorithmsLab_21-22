@@ -29,7 +29,7 @@ let measureRunTime f input numCalls =
     time / float numCalls
 
 let saveToCSV filename (names: string array) (N: int array) (weights: int array) (optSolutions: int array) (errors: float array) (rTs: int64 array) =
-    let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
+    let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_').Replace(':', '_')
     let writer = new IO.StreamWriter (filename + "_" + dateTime + ".csv")
     writer.WriteLine "Names, N, TSP, TSP*, Error, Time(ns)"
     for i=0 to N.Length-1 do
