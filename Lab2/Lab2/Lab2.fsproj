@@ -22,6 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="ConstructiveHeuristic.fs" />
+    <Compile Include="NearestNeighbourHeuristic.fs" />
     <Compile Include="MetricTsp.fs" />    
     <Compile Include="TspGraph.fs" />
     <Compile Include="Parsing.fs" />
