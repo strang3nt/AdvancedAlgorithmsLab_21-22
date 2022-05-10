@@ -1,9 +1,9 @@
-name: Compile report 1 and upload
+name: Compile report 2 and upload
 
 on:
   push:
     paths:
-      - 'Reports/Lab1**'
+      - 'Reports/Lab2**'
 
 jobs:
   convert_via_pandoc:
@@ -12,10 +12,10 @@ jobs:
       - uses: actions/checkout@v3
       - run: |
           cd Reports
-          docker run -v "$(pwd):/data" pandoc/latex --defaults=Lab1/defaults.yaml
+          docker run -v "$(pwd):/data" pandoc/latex --defaults=Lab2/defaults.yaml
 
       - name: Publish artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Lab1_report
-          path: Reports/AA_21-22_report1.pdf
+          name: Lab2_report
+          path: Reports/AA_21-22_report2.pdf

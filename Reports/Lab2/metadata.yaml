@@ -1,0 +1,8 @@
+title: Second assignment report
+
+subtitle: |
+  Advanced Algorithms 2021-2022 second assignment report
+
+abstract: |
+  Brief report about 3 approximation algorithm solving the Traveling Salesman Problem.
+  We implemented 3 different TSP algorithms: a 2-approx algorithm based on MST and 2 heuristics.
