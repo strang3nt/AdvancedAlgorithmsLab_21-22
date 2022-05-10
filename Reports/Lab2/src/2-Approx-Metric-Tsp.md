@@ -54,7 +54,7 @@ let metricTsp (G: Graph) =
 ```
 
 The code above contains the implementation of the 2-approximation algorithm, it builds the MST using Prim.
-The implementation follows closely the one from the lectures, which basically does a preorder visit on the
+The implementation follows closely the one from the lectures, which does a preorder visit on the
 MST built using a MST algorithm: we chose Prim because it was the fastest between the ones we implemented 
 during the last assignment.
 
@@ -63,13 +63,13 @@ contains at a given index the parent in the MST, it could have been complicated 
 using only the list provided by Prim. Thus `buildTree` builds a convenience structure which is a `Tree` of `Children`:
 
  - `Tree` is an array of `Children` at index i there are the children of the node with index i in the graph
- - `Children` is an optional array (contains elements or no elements) and simply is a list of ints (which are
+ - `Children` is an optional array (contains elements or no elements) and simply is a list of int values (which are
  indices to nodes in the graph).
 
 The time complexity is the following:
 
  - `prim` is $O(m\log n)$
  - `buildTree` is $O(n)$ on the graph (nodes)
- - the preorder visits at most twice all edges thus costs $O(m)$.
+ - the preorder visits at most twice all edges of the MST thus it costs $O(n)$.
 
 Thus the overall complexity is $O(m\log n)$.

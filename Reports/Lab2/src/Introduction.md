@@ -27,7 +27,7 @@ are:
 
 ## Graph data structure
 
-The Graph itself is the same as the structure implemented during the previous assignment thus (citing from the previous report):
+The Graph itself is the same as the structure implemented during the previous assignment, from the previous report:
 
     `Graph` is the name of the data structure representing a simple undirected 
     graph. Instead of working with references, as one would have done with C-like 
@@ -53,4 +53,4 @@ type TspGraph = TspGraph of (Name * Comment * Dimension * OptimalSolution * Grap
 ```
 
 The code above represents the new TspGraph type, which is basically a Graph enriched with the data contained
-in the files provided which is useful only when printing the results.
+in the files provided which will be useful when printing the results.
