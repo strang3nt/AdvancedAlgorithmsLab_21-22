@@ -6,13 +6,12 @@ open TspGraph
 open System
 
 let private name = "NAME: "
-let private ty = "TYPE: "
 let private comment = "COMMENT: "
 let private dimension = "DIMENSION: "
 let private edgeWeightType = "EDGE_WEIGHT_TYPE: "
-let private displayDataType = "DISPLAY_DATA_TYPE: "
 let private nodeCoordSect = "NODE_COORD_SECTION"
 let private eof = "EOF"
+let private optimalSolution = "OPTIMAL_SOLUTION: "
 
 let getGraph (nodes: float array array) weightType: Graph =
     let N = nodes.Length
@@ -58,5 +57,6 @@ let buildGraph filename: TspGraph =
         parseMetadata name arr,
         parseMetadata comment arr,
         parseMetadata dimension arr |> int,
-        getGraph (getNodeCoordSection (List.toArray arr)) weightType
+        parseMetadata optimalSolution arr |> int,
+        getGraph (getNodeCoordSection (List.toArray arr)) weightType |> orderedAdjList
     )

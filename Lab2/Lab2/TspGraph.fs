@@ -8,9 +8,10 @@ type Dimension = int
 type EdgeWeightType =
     | Geo
     | Euc2d
+type OptimalSolution = int
 
 [<Struct>]
-type TspGraph = TspGraph of (Name * Comment * Dimension * Graph)
+type TspGraph = TspGraph of (Name * Comment * Dimension * OptimalSolution * Graph)
 
 //For converting coordinate input to longitude and latitude in radian:
 //
@@ -48,3 +49,16 @@ let w (x1: float) (y1: float) (x2: float) (y2: float) weightType : int =
     | Euc2d ->
         let distance = System.Math.Sqrt ( ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) )
         int (System.Math.Round distance)
+
+let orderedAdjList (Graph (ns, es, adjList)): Graph = 
+    let adjList =
+        adjList
+        |> Array.map (
+            fun adj -> 
+                adj |> List.sortBy (fun e -> let (_, _, weight): Edge = es[e] in weight)
+        )
+    Graph (
+        ns,
+        es,
+        adjList
+    )
