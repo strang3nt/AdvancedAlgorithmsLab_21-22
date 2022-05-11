@@ -12,7 +12,7 @@ let rec loop selection insertion (partialCircuit: int list) (Graph (V, _, _) as 
         0 :: partialCircuit
     else
         let node = selection G partialCircuit visitedMap
-        let partialCircuit, visitedMap = insertion node partialCircuit visitedMap
+        let partialCircuit, visitedMap = insertion node partialCircuit G visitedMap
         loop selection insertion partialCircuit G visitedMap 
         
 // Initialize the tsp for the algorithm as specified by the chosen heuristic

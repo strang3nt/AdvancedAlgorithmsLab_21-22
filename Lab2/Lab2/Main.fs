@@ -6,9 +6,7 @@ open TspGraph
 open Parsing
 open MetricTsp
 open NearestNeighbourHeuristic
-open CheapestInsertionHeuristic
 open ClosestInsertionHeuristic
-open Utils
 
 open System.IO
 
@@ -47,4 +45,5 @@ let main _ =
         0
             
 //    algorithm metricTsp 100
-    algorithm nearestNeighbourHeuristic 100 "Nearest Neighbour"
+//    algorithm nearestNeighbourHeuristic 1 "Nearest Neighbour"
+    algorithm closestInsertionHeuristic 1 "Closest Insertion"

@@ -32,11 +32,6 @@ let selection (Graph (_, _, adjList) as G) (partialCircuitIndexes: int list) (vi
     )
 //  Returns the index of the opposite node of the edge with minimum weight from
 //  the last inserted node in O(1)
-    |> List.minBy (fun eIdx ->
-        let (_, _, w) = E[eIdx]
-        w
-    )
-//  O(1)
     |> (fun e ->
         opposite lastNodeIdx e G
     )
