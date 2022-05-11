@@ -1,5 +1,6 @@
 ﻿module Lab2.ClosestInsertionHeuristic
 
+open System.Collections.Generic
 open Lab1.Graphs
 open Lab2.ConstructiveHeuristic
 
@@ -13,12 +14,15 @@ let initialisation (Graph (V,E,A)) =
         let _, i = A[0]
                 |> List.map (fun e -> let x,y,w = E[e] in if x = 0 then w,y else w,x) 
                 |> List.minBy (fun (w,_) -> w)
-        i :: 0 :: List.Empty, ()
+        let visitedMap = [ for v in 0..V.Length-1 -> v, false] |> dict |> Dictionary
+        visitedMap[0] <- true
+        visitedMap[i] <- true
+        i :: 0 :: List.Empty, visitedMap
 
 // Select the vertex k not in the current circuit with minimum distance from it
 // The distance is delta(C) = ...
-let selection (Graph (V,E,adjList)) (partialCircuit: int list) _ =
-    let rest = V |> Array.mapi (fun i -> fun _ -> i) |> Array.filter (fun x -> not (List.contains x partialCircuit))
+let selection (Graph (V,E,adjList)) (partialCircuit: int list) (visitedMap: Dictionary<int, bool>) =
+    let rest = V |> Array.mapi (fun i -> fun _ -> i) |> Array.filter (fun x -> not visitedMap[x])
     let _, k = rest
                 |> Array.map (fun k -> 
                     adjList[k]
@@ -46,7 +50,7 @@ let private getEdgeWeight (adjList: AdjList) E u v =
 // Find the i, j consecutive nodes in the circuit for which the triangular
 // inequality with the given node k (w_ik + w_jk - w_ij) has the minimum value,
 // then insert k between i and j
-let insertion k partialCircuit (Graph (_,E,adjList)) _ =
+let insertion k partialCircuit (Graph (_,E,adjList)) (visitedMap: Dictionary<int, bool>) =
     let _, i = 
         partialCircuit
 //  Associate each node with its predecessor in the circuit
@@ -86,7 +90,8 @@ let insertion k partialCircuit (Graph (_,E,adjList)) _ =
         partialCircuit
         |> List.findIndex (fun x -> x = i)
         |> List.splitAt <| partialCircuit
-    circ1 @ [k] @ circ2, ()
+    visitedMap[k] <- true
+    circ1 @ [k] @ circ2, visitedMap
 
 
 let closestInsertionHeuristic G = ConstructiveHeuristic initialisation selection insertion G

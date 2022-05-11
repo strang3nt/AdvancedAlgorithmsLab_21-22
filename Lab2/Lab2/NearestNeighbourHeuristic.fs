@@ -40,7 +40,7 @@ let selection (Graph (_, _, adjList) as G) (partialCircuitIndexes: int list) (vi
 // appending it as specified by the actual heuristic, in order to execute the
 // operation in O(1) and then updates the visited map setting as visited the
 // inserted node with complexity O(log n)
-let insertion vIdx partialCircuitIndexes (visitedMap: Dictionary<int, bool>) =
+let insertion vIdx partialCircuitIndexes _ (visitedMap: Dictionary<int, bool>) =
     visitedMap[vIdx] <- true
     vIdx :: partialCircuitIndexes, visitedMap
     
