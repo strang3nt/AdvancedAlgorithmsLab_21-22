@@ -65,7 +65,7 @@ let insertion k partialCircuit (Graph (_,E,adjList)) _ =
                         | x,y,w when x = k || y = k -> JK, w
                         | _ -> NotRelated, 0)
 //  Sum the weights according to formula
-                    |> List.reduce ( fun e1 -> fun e2 ->
+                    |> List.reduce (fun e1 -> fun e2 ->
                         let w = match e1 with
                                 | IJ, w_ij -> -w_ij
                                 | JK, w_jk -> w_jk
@@ -77,7 +77,7 @@ let insertion k partialCircuit (Graph (_,E,adjList)) _ =
                         | Sum, w
                         | NotRelated, w -> Sum, w)
 //  Return the calculated value and the i node
-            w_jk_ij + w_ik, i)
+            w_jk_ij + w_ik, j)
 //  Get the minimum value
         |> List.minBy (fun (w,_) -> w)
 
