@@ -45,4 +45,4 @@ let main _ =
         0
             
 //    algorithm metricTsp 100
-    algorithm nearestNeighbourHeuristic 1 "Nearest Neighbour"
+    algorithm nearestNeighbourHeuristic 100 "Nearest Neighbour"
