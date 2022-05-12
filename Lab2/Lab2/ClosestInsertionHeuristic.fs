@@ -24,7 +24,16 @@ let initialisation (Graph (V,E,A) as G) =
 let selection (Graph (V,E,adjList)) (partialCircuit: int list) (visitedMap: Dictionary<int, bool>) =
     seq { 0 .. V.Length - 1 }
     |> Seq.filter (fun x -> not visitedMap[x])
-    |> Seq.minBy (fun v -> let (_, _, w) = E[List.head adjList[v]] in w)
+    |> Seq.minBy (fun v -> 
+        let (_, _, w) = 
+            adjList[v]
+            |> List.minBy (fun e -> 
+                let x,y,w = E[e]
+                let edgeConnection = visitedMap[x] || visitedMap[y]
+                let w = if edgeConnection then w else System.Int32.MaxValue
+                w)
+            |> Array.get E
+        w)
 
 // Type that indicates what a weight in the list is generated from
 // IJ and JK are for edges connecting a j node to either an i or a k node
