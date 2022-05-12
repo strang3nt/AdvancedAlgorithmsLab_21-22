@@ -7,14 +7,12 @@ open Lab2.ConstructiveHeuristic
 // Find the edge from the first node of the graph with minimum weight and
 // use its adjacent vertices as the first 2 of the circuit, setting them 
 // as visited
-let initialisation (Graph (V,E,A)) =
+let initialisation (Graph (V,E,A) as G) =
     match V, A with
     | [||], _
     | _, [||] -> failwith "Invalid graph"
     | _, _ -> 
-        let _, i = A[0]
-                |> List.map (fun e -> let x,y,w = E[e] in if x = 0 then w,y else w,x) 
-                |> List.minBy (fun (w,_) -> w)
+        let i = List.head A[0] |> (fun e -> opposite 0 e G)
         let visitedMap = [ for v in 0..V.Length-1 -> v, false] |> dict |> Dictionary
         visitedMap[0] <- true
         visitedMap[i] <- true
@@ -24,25 +22,9 @@ let initialisation (Graph (V,E,A)) =
 // The distance of a vertex is the minimum weight of an edge from k to any node
 // of the circuit
 let selection (Graph (V,E,adjList)) (partialCircuit: int list) (visitedMap: Dictionary<int, bool>) =
-//  Select the nodes not already in the circuit
-    let rest = V |> Array.mapi (fun i -> fun _ -> i) |> Array.filter (fun x -> not visitedMap[x])
-    let _, k = rest
-                |> Array.map (fun k -> 
-                    adjList[k]
-//  Search the adjacency list of each node, and return the weights of the edges
-//  that connect it to a node of the circuit. Otherwise, return infinity 
-//  in order for it to not be selected by the min function
-                    |> List.map (fun e ->
-                        let x,y,w = E[e]
-                        let edgeConnection = visitedMap[x] || visitedMap[y]
-                        let w = if edgeConnection then w else System.Int32.MaxValue
-                        w, k)
-//  The edge with the minimum weight is the one corresponding to the distance
-                    |> List.minBy (fun (w,_) -> w))
-//  Select the node that has the minimum distance by the circuit
-                |> Array.minBy (fun (w,_) -> w)
-    k
-
+    seq { 0 .. V.Length - 1 }
+    |> Seq.filter (fun x -> not visitedMap[x])
+    |> Seq.minBy (fun v -> let (_, _, w) = E[List.head adjList[v]] in w)
 
 // Type that indicates what a weight in the list is generated from
 // IJ and JK are for edges connecting a j node to either an i or a k node
