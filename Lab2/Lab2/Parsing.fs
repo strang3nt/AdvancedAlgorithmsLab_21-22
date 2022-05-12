@@ -60,5 +60,5 @@ let buildGraph filename: TspGraph =
         parseMetadata comment arr,
         parseMetadata dimension arr |> int,
         parseMetadata optimalSolution arr |> int,
-        getGraph (getNodeCoordSection (List.toArray arr)) weightType
+        getGraph (getNodeCoordSection (List.toArray arr)) weightType |> orderedAdjList
     )
