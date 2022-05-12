@@ -54,3 +54,12 @@ let sortedEdges ( Graph (_, es, _) ) : int array =
 let opposite n e ( Graph (_, es, _) ) =
     let (n1, n2, _) = es[e]
     if n1 = n then n2 else n1
+
+let findEdge (Es: Edges) u v e = let (x,y,_) = Es[e] in x=u && y=v || x=v && y=u
+
+let getEdgeWeight (adjList: AdjList) E u v =
+    let _,_,w = 
+        adjList[u]
+        |> List.find (findEdge E u v)
+        |> Array.get E
+    w

@@ -4,8 +4,9 @@ open System.Collections.Generic
 open Lab1.Graphs
 open Lab2.ConstructiveHeuristic
 
-// Find the edge from the first node of the graph with minimum weight and add
-// use those vertices as the first 2 of the circuit
+// Find the edge from the first node of the graph with minimum weight and
+// use its adjacent vertices as the first 2 of the circuit, setting them 
+// as visited
 let initialisation (Graph (V,E,A)) =
     match V, A with
     | [||], _
@@ -20,14 +21,25 @@ let initialisation (Graph (V,E,A)) =
         i :: 0 :: List.Empty, visitedMap
 
 // Select the vertex k not in the current circuit with minimum distance from it
-// The distance is delta(C) = ...
+// The distance of a vertex is the minimum weight of an edge from k to any node
+// of the circuit
 let selection (Graph (V,E,adjList)) (partialCircuit: int list) (visitedMap: Dictionary<int, bool>) =
+//  Select the nodes not already in the circuit
     let rest = V |> Array.mapi (fun i -> fun _ -> i) |> Array.filter (fun x -> not visitedMap[x])
     let _, k = rest
                 |> Array.map (fun k -> 
                     adjList[k]
-                    |> List.map (fun e -> let x,y,w = E[e] in w, (if x = k then x else y))
+//  Search the adjacency list of each node, and return the weights of the edges
+//  that connect it to a node of the circuit. Otherwise, return infinity 
+//  in order for it to not be selected by the min function
+                    |> List.map (fun e ->
+                        let x,y,w = E[e]
+                        let edgeConnection = visitedMap[x] || visitedMap[y]
+                        let w = if edgeConnection then w else System.Int32.MaxValue
+                        w, k)
+//  The edge with the minimum weight is the one corresponding to the distance
                     |> List.minBy (fun (w,_) -> w))
+//  Select the node that has the minimum distance by the circuit
                 |> Array.minBy (fun (w,_) -> w)
     k
 
@@ -38,20 +50,11 @@ let selection (Graph (V,E,adjList)) (partialCircuit: int list) (visitedMap: Dict
 // NotRelated indicates weights of edges from j that are not needed for the result
 type EdgeType = IJ | JK | Sum | NotRelated
 
-// Utility functions that allow to obtain the weight of the edge from u to v
-let private findEdge (Es: Edges) u v e = let (x,y,_) = Es[e] in x=u && y=v || x=v && y=u
-let private getEdgeWeight (adjList: AdjList) E u v =
-    let _,_,w = 
-        adjList[u]
-        |> List.find (findEdge E u v)
-        |> Array.get E
-    w
-
 // Find the i, j consecutive nodes in the circuit for which the triangular
 // inequality with the given node k (w_ik + w_jk - w_ij) has the minimum value,
 // then insert k between i and j
 let insertion k partialCircuit (Graph (_,E,adjList)) (visitedMap: Dictionary<int, bool>) =
-    let _, i = 
+    let _, j = 
         partialCircuit
 //  Associate each node with its predecessor in the circuit
         |> List.pairwise
@@ -62,7 +65,7 @@ let insertion k partialCircuit (Graph (_,E,adjList)) (visitedMap: Dictionary<int
             let w_ik = getEdgeWeight adjList E i k
             let _,w_jk_ij =
                 adjList[j]
-//  Find the (i,j) and (j,k) edges and get their weights
+//  Find the (i,j) and (j,k) edges in the adjacency list and get their weights
                     |> List.map (fun e -> 
                         match E[e] with
                         | x,y,w when x = i || y = i -> IJ, w
@@ -80,17 +83,19 @@ let insertion k partialCircuit (Graph (_,E,adjList)) (visitedMap: Dictionary<int
                         | JK, w_jk -> Sum, w + w_jk
                         | Sum, w
                         | NotRelated, w -> Sum, w)
-//  Return the calculated value and the i node
+//  Return the calculated value and the j node for which it was calculated
             w_jk_ij + w_ik, j)
-//  Get the minimum value
+//  Get the vertex corresponding to the minimum value
         |> List.minBy (fun (w,_) -> w)
 
-//  Split the circuit at the vertex i and insert k before the vertex j
+//  Split the circuit at the vertex j and insert k before it
     let circ1, circ2 = 
         partialCircuit
-        |> List.findIndex (fun x -> x = i)
+        |> List.findIndex (fun x -> x = j)
         |> List.splitAt <| partialCircuit
+//  Set the node as visited
     visitedMap[k] <- true
+//  Return the expanded circuit and the updated map
     circ1 @ [k] @ circ2, visitedMap
 
 
