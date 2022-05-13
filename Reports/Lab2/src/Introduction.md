@@ -25,7 +25,7 @@ are:
  - `ConstructiveHeuristic.fs` applies the initialization, selection and insertion logic, which is shared between the 2 heuristics
  - `NearestNeighbourHeuristic.fs` implements the heuristic Nearest Neighbor.
 
-The source code for this assignment is located in Lab2/Lab2/, while the source code from the previous assignment is in Lab1/Lab1. We
+The source code for this assignment is located in `Lab2/Lab2/`, while the source code from the previous assignment is in `Lab1/Lab1/`. We
 use code from the previous assignment.
 
 ## Graph data structure
