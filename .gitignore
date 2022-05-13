@@ -456,5 +456,4 @@ $RECYCLE.BIN/
 ## Other compilation artifacts
 
 *.local-chromium
-**/out/*
 *.pdf
