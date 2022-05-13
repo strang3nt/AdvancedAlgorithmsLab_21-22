@@ -25,6 +25,9 @@ are:
  - `ConstructiveHeuristic.fs` applies the initialization, selection and insertion logic, which is shared between the 2 heuristics
  - `NearestNeighbourHeuristic.fs` implements the heuristic Nearest Neighbor.
 
+The source code for this assignment is located in Lab2/Lab2/, while the source code from the previous assignment is in Lab1/Lab1. We
+use code from the previous assignment.
+
 ## Graph data structure
 
 The Graph itself is the same as the structure implemented during the previous assignment, from the previous report:
@@ -38,6 +41,9 @@ The Graph itself is the same as the structure implemented during the previous as
      vertices and the edge's weight; 
      - `AdjList` is an array of lists of integers, with list `i` containing all 
      incident edges of the `i-th` node in `Nodes` array.
+     
+We slightly changed the adjacency list: its structure remains the same but now each list of adjacent edges is ordered in ascending order by weight.
+This small change reduces the complexity of the 2 heuristics which often need the least weighted edge adjacent to a certain vertex.
 
     `Graph.fs` contains a few auxiliary functions to build a graph instance and 
     to interact with it.
@@ -53,4 +59,4 @@ type TspGraph = TspGraph of (Name * Comment * Dimension * OptimalSolution * Grap
 ```
 
 The code above represents the new TspGraph type, which is basically a Graph enriched with the data contained
-in the files provided which will be useful when printing the results.
+in the files provided, the latter will be useful when printing the results. 
