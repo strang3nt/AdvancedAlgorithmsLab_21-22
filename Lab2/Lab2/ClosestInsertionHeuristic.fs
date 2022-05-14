@@ -1,4 +1,4 @@
-﻿module Lab2.ClosestInsertionHeuristic
+module Lab2.ClosestInsertionHeuristic
 
 open System.Collections.Generic
 open System
@@ -34,26 +34,26 @@ let selection (Graph (V,E,adjList) as G) (partialCircuit: int list) (visitedMap:
 // inequality with the given node k (w_ik + w_jk - w_ij) has the minimum value,
 // then insert k between i and j
 let insertion k partialCircuit (Graph (_,E,adjList)) (visitedMap: Dictionary<int, bool>) =
-    let _, j = 
+    let _, insertIdx = 
         partialCircuit
 //  Associate each node with its predecessor in the circuit
         |> List.pairwise
 //  For each node j in the circuit, its predecessor i, and the target node k
-//  calculate (w_ik + w_jk - w_ij)
+//  calculate (w_ik + w_jk - w_ij):
         |> List.mapi (fun insertAt (i, j) ->
-//  Get the weight for the edge (i,k)
+//  Get the weight for the edges (i,k), (j,k) and (i,j)
             let w_ik = getEdgeWeight adjList E i k
             let w_jk= getEdgeWeight adjList E j k 
             let w_ij = getEdgeWeight adjList E i j
-//  Return the calculated value and the j node for which it was calculated
+//  Return the calculated value and the index for which it was calculated
             (w_ik + w_jk - w_ij), insertAt + 1)
-//  Get the vertex corresponding to the minimum value
+//  Get the index corresponding to the minimum value
         |> List.minBy (fun (w,_) -> w)
 
 //  Set the node as visited
     visitedMap[k] <- true
 //  Return the expanded circuit and the updated map
-    List.insertAt j k partialCircuit, visitedMap
+    List.insertAt insertIdx k partialCircuit, visitedMap
 
 
 let closestInsertionHeuristic G = ConstructiveHeuristic initialisation selection insertion G
