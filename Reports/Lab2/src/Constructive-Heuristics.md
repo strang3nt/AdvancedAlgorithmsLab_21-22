@@ -1,6 +1,6 @@
 \newpage
 
-## Constructive heuristics
+# Constructive heuristics
 
 Given the fact that all the various constructive heuristics have the same 
 structure, we decided to take advantage of the choice of using a functional 
@@ -58,7 +58,7 @@ let rec loop selection
         loop selection insertion partialCircuit G visitedMap 
 ```
 
-The `loop` function performs the `selection` of the node from the graph, and 
+The `loop` function performs the `selection` of the node from the graph and 
 the `insertion` in the partial circuit by checking the length of the latter 
 and:
 

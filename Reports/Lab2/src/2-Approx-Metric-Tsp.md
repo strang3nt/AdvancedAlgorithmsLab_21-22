@@ -11,8 +11,9 @@ type Tree = Children array
 
 let private children v (T: Tree): Children = T[v]
 
-// Given the output of Prim (which in our implementation is an array edges
-// instead of parents) build the type Tree: should cost O(P.Length) => O(N)
+// Given the output of Prim (which in our implementation 
+// is an array edges instead of parents) build the type Tree: 
+// should cost O(P.Length) => O(N)
 let buildTree (P: Edge option array): Tree =
     let T = Array.create P.Length None
     Array.iteri (
@@ -53,18 +54,22 @@ let metricTsp (G: Graph) =
     H.Add(root); H
 ```
 
-The code above contains the implementation of the 2-approximation algorithm, it builds the MST using Prim.
-The implementation follows closely the one from the lectures, which does a preorder visit on the
-MST built using a MST algorithm: we chose Prim because it was the fastest between the ones we implemented 
-during the last assignment.
+The code above contains the implementation of the 2-approximation algorithm 
+which builds the MST using Prim.
+The implementation follows closely the one from the lectures, which does a 
+preorder visit on the MST built using a MST algorithm: we chose Prim because 
+it was the fastest between the ones we implemented during the last assignment.
 
-`buildTree` is the only function that wasn't in the pseudo-code provided: the output of Prim is a list that 
-contains at a given index the parent in the MST, it could have been complicated to implement a preorder visit
-using only the list provided by Prim. Thus `buildTree` builds a convenience structure which is a `Tree` of `Children`:
+`buildTree` is the only function that wasn't in the pseudo-code provided: the 
+output of Prim is a list that contains at a given index the parent in the MST. 
+Since it could have been complicated to implement a preorder visit using only 
+the list provided by Prim, `buildTree` builds a convenience structure which 
+is a `Tree` of `Children`:
 
- - `Tree` is an array of `Children` at index i there are the children of the node with index i in the graph
- - `Children` is an optional array (contains elements or no elements) and simply is a list of int values (which are
- indices to nodes in the graph).
+ - `Tree` is an array of `Children` at index i there are the children of the 
+ node with index i in the graph
+ - `Children` is an optional array (contains elements or no elements) and 
+ simply is a list of int values (which are indices to nodes in the graph).
 
 The time complexity is the following:
 

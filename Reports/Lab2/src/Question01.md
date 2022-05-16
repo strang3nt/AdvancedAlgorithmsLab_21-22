@@ -62,6 +62,8 @@
 
 ![Comparison between the execution time of Nearest Neighbour and Metric TSP \label{fig:time-comparison-2}](img/TimeComparison2.png)
 
+\newpage
+
 | Instance      | Closest Insertion | Nearest Neighbour | Metric TSP |
 | :------------ | :---------------- | :---------- | :-------------- |
 |               | **Errors** | | |
@@ -79,6 +81,6 @@
 | d493.tsp      | 17.60% | 25.34% | 30.46% |
 | dsj1000.tsp   | 21.77% | 32.00% | 37.88% |
 
-: Error of all 3 algorithms compared
+: Errors of all three algorithms compared
 
 ![Comparison between the error of the three algorithms\label{fig:error-comparison}](img/ErrorComparison.png)

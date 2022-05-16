@@ -1,6 +1,6 @@
 \newpage
 
-## Closest Insertion heuristic
+# Closest Insertion heuristic
 
 As for the Nearest Neighbour heuristic, Closest Insertion also uses the `ConstructiveHeuristic` function for its implementation, so the definition boils down to this:
 
@@ -30,7 +30,7 @@ let initialisation (Graph (V,E,A) as G) =
         i :: 0 :: List.Empty, visitedMap
 ```
 
-The cost for this function is $O(n)$, because it needs to initialise the support structure for the visited nodes, which are the nodes that have been added to the solution, and will allow for faster processing in the next 2 functions.
+The cost for this function is $O(n)$, because it needs to initialise the support structure for the visited nodes, which are the nodes that have been added to the solution, and will allow for faster processing in the next two functions.
 
 As for the `selection` function, the heuristic selects the node with the minimum distance from the vertex. This is the implementation:
 

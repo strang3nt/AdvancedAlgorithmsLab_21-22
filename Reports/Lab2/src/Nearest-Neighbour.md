@@ -1,6 +1,6 @@
 \newpage
 
-## Nearest Neighbour heuristic
+# Nearest Neighbour heuristic
 
 Thanks to the implementation of the function `ConstructiveHeuristic` the 
 definition of the Nearest Neighbour heuristic is the following:
@@ -34,9 +34,9 @@ let initialisation (Graph (V,_,_)) =
         [0], visitedMap
 ```
 
-it has a time complexity of $O(n)$ because it has to initialise the support 
-structure used for tracking the nodes already inserted in the partial circuit, 
-which enables faster operations later on.
+`initialisation` has a time complexity of $O(n)$ because it has to initialise 
+the support structure used for tracking the nodes already inserted in the 
+partial circuit, which enables faster operations later on.
 
 The `selection` function instead has to select one node of the graph that 
 respects a property that is heuristic specific and in the case of the Nearest 
@@ -101,7 +101,9 @@ in \ref{fig:ONearestNeighbour}
 
 ![Time complexity of NearestNeighbourHeuristic \label{fig:ONearestNeighbour}](img/ONearestNeighbour.png)
 
-### Optimizations
+\newpage
+
+## Optimizations
 
 In order to reach the current time complexity we iterated through different 
 implementations and for each of them we reported their performances.
