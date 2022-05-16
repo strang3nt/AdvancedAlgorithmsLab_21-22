@@ -101,7 +101,7 @@ in \ref{fig:ONearestNeighbour}
 
 ![Time complexity of NearestNeighbourHeuristic \label{fig:ONearestNeighbour}](img/ONearestNeighbour.png)
 
-### Variations
+### Optimizations
 
 In order to reach the current time complexity we iterated through different 
 implementations and for each of them we reported their performances.
@@ -110,7 +110,7 @@ implementations and for each of them we reported their performances.
 
 The first one, the most naive, simply followed step by step the heuristic 
 definition, without the use of the visited map and the use of the functions 
-`List.filter` with a $O(log n)$ lamba expression and `List.minBy`, resulting 
+`List.filter` with a $O(log n)$ lambda expression and `List.minBy`, resulting 
 in a total time complexity of $O(n^2 log n)$.
 
 ![Comparison of performances of different implementations of Nearest Neighbour heuristic 2\label{fig:NearestNeighbourComparison2}](img/NNComparison2.png)
@@ -132,4 +132,4 @@ instead of the alternated use of terminal and non terminal ones (`List.filter|>L
 At last we went back to constructing graphs with a sorted adjacency list with 
 respect to the weight of the edges and we changed the pipeline, with the use of 
 `List.find` instead of `List.filter |> List.minBy` resulting in a significant 
-improvement on run times as can be seen by \ref{fig:NearestNeighbourComparison2}
+improvement on run times as can be seen by \ref{fig:NearestNeighbourComparison2}.

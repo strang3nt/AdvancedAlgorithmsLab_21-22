@@ -7,7 +7,7 @@ input-files:
 - ${.}/src/2-Approx-Metric-Tsp.md
 - ${.}/src/Constructive-Heuristics.md
 - ${.}/src/Nearest-Neighbour.md
-# - src/the other heuristic
+- ${.}/src/Closest-Insertion.md
 - ${.}/src/Question01.md
 - ${.}/src/Question02.md
 - ${.}/src/Conclusion.md
