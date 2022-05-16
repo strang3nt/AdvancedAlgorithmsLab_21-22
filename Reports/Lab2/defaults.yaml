@@ -5,6 +5,7 @@ to: pdf
 input-files:
 - ${.}/src/Introduction.md
 - ${.}/src/2-Approx-Metric-Tsp.md
+- ${.}/src/Constructive-Heuristics.md
 - ${.}/src/Nearest-Neighbour.md
 # - src/the other heuristic
 - ${.}/src/Question01.md

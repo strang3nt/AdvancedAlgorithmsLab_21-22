@@ -6,26 +6,23 @@ open TspGraph
 open System
 
 let private name = "NAME: "
-let private ty = "TYPE: "
 let private comment = "COMMENT: "
 let private dimension = "DIMENSION: "
 let private edgeWeightType = "EDGE_WEIGHT_TYPE: "
-let private displayDataType = "DISPLAY_DATA_TYPE: "
 let private nodeCoordSect = "NODE_COORD_SECTION"
 let private eof = "EOF"
+let private optimalSolution = "OPTIMAL_SOLUTION: "
 
 let getGraph (nodes: float array array) weightType: Graph =
     let N = nodes.Length
     let M = ( nodes.Length * (nodes.Length - 1) ) / 2
     let sizes = [| N; M |]
-    let edges : int array array = Array.zeroCreate M
-    
-    let mutable x = 0
-    for i = 0 to N - 1 do
-        for n = i + 1 to N - 1 do
-            edges[x] <- [| int nodes[i].[0]; int nodes[n].[0]; (w nodes[i].[1] nodes[i].[2] nodes[n].[1] nodes[n].[2] weightType) |]
-            x <- x + 1
-
+    let edges : int array array = 
+        [| 
+            for i = 0 to N - 1 do
+                for n = i + 1 to N - 1 do
+                    [| int nodes[i].[0]; int nodes[n].[0]; (w nodes[i].[1] nodes[i].[2] nodes[n].[1] nodes[n].[2] weightType) |]
+        |]
     (buildGraph edges sizes)
 
 let private (|Prefix|_|) (p:string) (s:string) =
@@ -60,5 +57,6 @@ let buildGraph filename: TspGraph =
         parseMetadata name arr,
         parseMetadata comment arr,
         parseMetadata dimension arr |> int,
-        getGraph (getNodeCoordSection (List.toArray arr)) weightType
+        parseMetadata optimalSolution arr |> int,
+        getGraph (getNodeCoordSection (List.toArray arr)) weightType |> orderedAdjList
     )
