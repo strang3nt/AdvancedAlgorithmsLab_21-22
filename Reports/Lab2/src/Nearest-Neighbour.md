@@ -99,21 +99,21 @@ $O(O(initialisation) + O(n * (O(selection) + O(insertion)))) = O(n + n*(n+1))
 = O(n + n^2) = O(n^2)$, with an hidden constant $c\approx 2.4$ as can be seen 
 in \ref{fig:ONearestNeighbour} 
 
-![Time complexity of NearestNeighbourHeuristic \label{fig:ONearestNeighbour}]{img/ONearestNeighbour.png}
+![Time complexity of NearestNeighbourHeuristic \label{fig:ONearestNeighbour}](img/ONearestNeighbour.png)
 
 ### Variations
 
 In order to reach the current time complexity we iterated through different 
 implementations and for each of them we reported their performances.
 
-![Comparison of performances of different implementations of Nearest Neighbour heuristic 1\label{fig:NearestNeighbourComparison1}]{img/NNComparison1.png}
+![Comparison of performances of different implementations of Nearest Neighbour heuristic 1\label{fig:NearestNeighbourComparison1}](img/NNComparison1.png)
 
 The first one, the most naive, simply followed step by step the heuristic 
 definition, without the use of the visited map and the use of the functions 
 `List.filter` with a $O(log n)$ lamba expression and `List.minBy`, resulting 
 in a total time complexity of $O(n^2 log n)$.
 
-![Comparison of performances of different implementations of Nearest Neighbour heuristic 2\label{fig:NearestNeighbourComparison2}]{img/NNComparison2.png}
+![Comparison of performances of different implementations of Nearest Neighbour heuristic 2\label{fig:NearestNeighbourComparison2}](img/NNComparison2.png)
 
 The second implementation had a `Map` data structure to keep track of the 
 already visited nodes and the function `selection` used it in order to have a 
