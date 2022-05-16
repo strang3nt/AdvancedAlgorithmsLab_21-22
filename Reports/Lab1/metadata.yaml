@@ -1,5 +1,3 @@
-documentclass: article
-
 title: First assignment report
 
 subtitle: |
@@ -8,19 +6,3 @@ subtitle: |
 abstract: |
   Report on the results gathered about the execution of three MST algorithms.
   The considered algorithms are Naive Kruskal, Union-Find Kruskal and Prim's algorithm.
-
-author:
-- Daniel Eduardo Contro
-- Alessandro Flori
-- Damiano Mason
-
-colorlinks: true
-
-geometry:
-- top=40mm
-- left=40mm
-- right=40mm
-
-header-includes: 
- \usepackage{float}
- \floatplacement{figure}{H}

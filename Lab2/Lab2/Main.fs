@@ -44,6 +44,6 @@ let main _ =
         printf "\n \n"
         0
             
-//    algorithm metricTsp 100
-//    algorithm nearestNeighbourHeuristic 1 "Nearest Neighbour"
-    algorithm closestInsertionHeuristic 1 "Closest Insertion"
+    algorithm metricTsp 100 "Metric TSP"
+    algorithm nearestNeighbourHeuristic 100 "Nearest Neighbour"
+    algorithm closestInsertionHeuristic 10 "Closest Insertion"

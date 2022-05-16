@@ -1,0 +1,24 @@
+from: markdown
+
+to: pdf
+
+input-files:
+- ${.}/src/Introduction.md
+- ${.}/src/Naive-Kruskal.md
+- ${.}/src/Union-Find-Kruskal.md
+- ${.}/src/Prim.md
+- ${.}/src/Question01.md
+- ${.}/src/Question02.md
+- ${.}/src/Conclusion.md
+
+output-file: AA_21-22_report1.pdf
+
+highlight-style: tango
+
+resource-path:
+ - ${.}
+ - ${.}/img
+
+metadata-files: 
+  - ${.}/metadata.yaml
+  - ${.}/../metadata.yaml

@@ -2,7 +2,6 @@ module Lab2.ConstructiveHeuristic
 
 open Lab1.Graphs
 
-
 // Performs the selection of the edge of the given graph and the insertion in
 // the partialCircuit until the TSP is completed (at most n times), hence the
 // function has complexity O(n* (O(selection) + O(insertion)) )
