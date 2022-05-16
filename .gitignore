@@ -453,8 +453,10 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Visual Studio
+**/Properties/launchSettings.json
+
 ## Other compilation artifacts
 
 *.local-chromium
-lab1/out/*
 *.pdf
