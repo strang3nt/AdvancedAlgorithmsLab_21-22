@@ -5,8 +5,8 @@
 ## Clean and expressive code
 
 We think that the choice of using a functional language led to the 
-development of a clean code base, where code is succint and self explanatory 
-of its pourpose, which implies a reduced possibility of introducing error and 
+development of a clean code base, where code is succinct and self explanatory, 
+which implies a reduced possibility of introducing error and 
 bugs in the implementations of the methods.
 
 ## Code reuse

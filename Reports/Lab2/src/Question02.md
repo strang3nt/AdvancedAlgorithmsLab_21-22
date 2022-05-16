@@ -23,7 +23,7 @@ the `prim` algorithm for computing the MST of the graphs, and the errors
 computed on the solutions given by the algorithm respect its $2-$approximation 
 factor.
 
-The Closest Insertion heuristic has time complexity of $O(n^3)$.
+The Closest Insertion heuristic has time complexity of $O(n^3)$, but utilizes some optimizations to reduce the hidden constant.
 
 From \ref{fig:error-comparison} it can be seen that the Closest Insertion 
 heuristic in each instance has the lowest approximation error between the 

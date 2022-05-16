@@ -3,8 +3,8 @@
 ## Constructive heuristics
 
 Given the fact that all the various constructive heuristics have the same 
-structure we decided to take advantage of the choice of using a functional 
-programming language and implemented a function that handles the structure of 
+structure, we decided to take advantage of the choice of using a functional 
+programming language and implement a function that handles the structure of 
 the algorithms for all the heuristics; this means that in order to implement a 
 specific heuristic we will have to define only the three operations and pass 
 them as parameters.
@@ -33,8 +33,8 @@ structure we added the auxiliary function `loop` that handles it.
 
 In general, regardless of the specific heuristic, the complexity of 
 `ConstructiveHeuristic` is $O(O(initialisation) + O(loop))$, which is equal to 
-$O(O(initialisation) + O(n * (O(selection) + O(insertion))))$ because the 
-`loop` function gets executed $n$ times and it's implemented as follows:
+$O(O(initialisation) + O(n * (O(selection) + O(insertion))))$, because the 
+`loop` function gets executed $n$ times. Follows the implementation:
 
 ```fsharp
 // Performs the selection of the edge of the given graph and the 
@@ -58,12 +58,12 @@ let rec loop selection
         loop selection insertion partialCircuit G visitedMap 
 ```
 
-The `loop` function performs the `selection` of the node from the graph and 
+The `loop` function performs the `selection` of the node from the graph, and 
 the `insertion` in the partial circuit by checking the length of the latter 
 and:
 
 - if it has length $=n$ it means that all the nodes are in the partial circuit 
-so the partial circuit can be closed by adding the starting node
+so the partial circuit can be closed by adding the starting node;
 - otherwise it selects the next node by applying the `selection` function and 
 then updates the partial circuit applying the `insertion` function.
 
