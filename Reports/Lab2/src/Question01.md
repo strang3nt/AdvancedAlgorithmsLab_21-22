@@ -38,7 +38,7 @@
 | d493.tsp      | 35002    | 41163    | 43874    | 45666    |
 | dsj1000.tsp   | 18659688 | 22723503 | 24630960 | 25729081 |
 
-: Solutions of all 3 agorithms compared
+: Solutions of all 3 algorithms compared
 
 | Instance      | Closest Insertion | Nearest Neighbour | Metric TSP |
 | :-----------: | :---------------- | :---------- | :-------------- |
@@ -61,7 +61,7 @@
 
 ![Comparison between the execution time of the three algorithms \label{fig:time-comparison-1}](img/TimeComparison1.png)
 
-![Comparison between the execution time of Nearest Neighbour and Metric TSP \label{fig:time-comparison-2}](img/TimeComparison1.png)
+![Comparison between the execution time of Nearest Neighbour and Metric TSP \label{fig:time-comparison-2}](img/TimeComparison2.png)
 
 | Instance      | Closest Insertion | Nearest Neighbour | Metric TSP |
 | :-----------: | :---------------- | :---------- | :-------------- |

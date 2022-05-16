@@ -63,11 +63,11 @@ the `insertion` in the partial circuit by checking the length of the latter
 and:
 
 - if it has length $=n$ it means that all the nodes are in the partial circuit 
-so the partial circuit can be closed by adding the starting node;
+so the partial circuit can be closed by adding the starting node
 - otherwise it selects the next node by applying the `selection` function and 
-then updates the partial circuit applying the `insertion` function;
+then updates the partial circuit applying the `insertion` function.
 
-hence it has complexity $O(n*(O(selection) + O(insertion)))$.
+Hence `ConstructiveHeuristic` has complexity $O(n*(O(selection) + O(insertion)))$.
 
 Note the fact that the partial circuit is represented by a list of indexes of 
 nodes of the given `Graph` and it is closed adding the last node in the head 
@@ -76,4 +76,3 @@ specification of the heuristics, the implementation of the algorithms
 produces a reversed solution in order to insert nodes in some cases in less 
 than $O(n)$ (e.g. in the `NearestNeighbour` heuristic the insertion is 
 $O(1)$).
-

@@ -23,15 +23,14 @@ the `prim` algorithm for computing the MST of the graphs, and the errors
 computed on the solutions given by the algorithm respect its $2-$approximation 
 factor.
 
-The Closest Insertion heuristic has time complexity of $O(n^3)$
+The Closest Insertion heuristic has time complexity of $O(n^3)$.
 
 From \ref{fig:error-comparison} it can be seen that the Closest Insertion 
 heuristic in each instance has the lowest approximation error between the 
 algorithms analysed. It's interesting to notice that in average the Metric TSP 
 algorithm seems to have the worst approximation error with the given dataset 
-despite being a $2-$approximation algorithm as the Closest Insertion heuristic 
-is, even when compared with the Nearest Neighbour heuristic which is a 
-$\log(n)-$approximation algorithm.
+despite being a $2-$approximation, even when compared with 
+the Nearest Neighbour heuristic which is a $\log(n)-$approximation algorithm.
 
 
 Instead, regarding time efficiency, from \ref{fig:time-comparison-1} and 
