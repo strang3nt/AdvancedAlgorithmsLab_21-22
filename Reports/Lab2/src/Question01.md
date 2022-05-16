@@ -58,8 +58,8 @@
 | dsj1000.tsp   | 40525539930 | 2332551 | 445921915 |
 
 : Time execution of all 3 algorithms compared
-![Comparison between the execution time of the three algorithms\label{fig:time-comparison-1}](img/TimeComparison1.png)
-![Comparison between the execution time of Nearest Neighbour and Metric TSP\label{fig:time-comparison-2}](img/TimeComparison1.png)
+![Comparison between the execution time of the three algorithms \label{fig:time-comparison-1}](img/TimeComparison1.png)
+![Comparison between the execution time of Nearest Neighbour and Metric TSP \label{fig:time-comparison-2}](img/TimeComparison1.png)
 
 | Instance      | Closest Insertion | Nearest Neighbour | Metric TSP |
 | :-----------: | :---------------- | :---------- | :-------------- |

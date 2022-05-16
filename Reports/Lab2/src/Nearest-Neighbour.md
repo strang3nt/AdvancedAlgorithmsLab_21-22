@@ -101,7 +101,7 @@ in \ref{fig:ONearestNeighbour}
 
 ![Time complexity of NearestNeighbourHeuristic \label{fig:ONearestNeighbour}](img/ONearestNeighbour.png)
 
-### Variations
+### Optimizations
 
 In order to reach the current time complexity we iterated through different 
 implementations and for each of them we reported their performances.
