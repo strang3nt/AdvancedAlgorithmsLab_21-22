@@ -1,0 +1,24 @@
+from: markdown
+
+to: pdf
+
+input-files:
+- ${.}/src/Introduction.md
+- ${.}/src/Stoer-Wagner-alg.md
+- ${.}/src/Karger-Stein-alg.md
+- ${.}/src/Question01.md
+- ${.}/src/Question02.md
+- ${.}/src/Question03.md
+- ${.}/src/Conclusion.md
+
+output-file: AA_21-22_report3.pdf
+
+highlight-style: tango
+
+resource-path:
+ - ${.}
+ - ${.}/img
+
+metadata-files: 
+  - ${.}/metadata.yaml
+  - ${.}/../metadata.yaml
