@@ -1,9 +1,9 @@
-name: Build Lab2
+name: Build Lab3
 
 on:
   push:
     paths:
-      - 'Lab2/**'
+      - 'Lab3/**'
 
 jobs:
   build:
@@ -16,4 +16,4 @@ jobs:
       - uses: actions/setup-dotnet@v2
         with:
           dotnet-version: '6.x'  
-      - run: dotnet build Lab2/Lab2
+      - run: dotnet build Lab3/Lab3
