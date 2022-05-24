@@ -1,7 +1,11 @@
 ﻿module Lab3.Main
 
-open Lab3.Parsing
+open Parsing
+open KargerStein
+open Graph
 open Lab1.Utils
+
+open System
 
 open System.IO
 
@@ -12,5 +16,10 @@ let main _ =
     let graphs = Array.Parallel.map buildGraph files
     
     printfn $"%i{graphs.Length} graphs"
+
+    graphs
+    |> Array.iteri (fun i (MinCutGraph (V, _, _, _, _ ) as g) -> 
+        let k = int (floor (Math.Log2(V.Length))) 
+        printfn $"Graph {i} has Min Cut weight of {Karger g k}")
 
     0
