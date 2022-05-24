@@ -84,5 +84,5 @@ let main _ =
     karger_saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ "Karger-Stein") graphsN graphsM  minCuts runtimes instant c_estimates ratios
     printGraphs (graphsN |> Array.map int64) runtimes MN_list orderedRunTimes (graphsN |> Array.map int64) referenceArray "Karger-Stein" "Karger-stein"
     // -----------
-
+    
     0
