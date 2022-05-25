@@ -9,7 +9,9 @@
     <Compile Include="Graph.fs" />
     <Compile Include="Parsing.fs" />
     <Compile Include="KargerStein.fs" />    
+    <Compile Include="StoerWagner.fs" />
     <Compile Include="Main.fs" />
+    <Compile Include="FibonacciHeap.fs" />
   </ItemGroup>
 
   <ItemGroup>
