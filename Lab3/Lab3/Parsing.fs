@@ -1,6 +1,5 @@
 module Lab3.Parsing
 
-open Lab1.Parsing
 open Lab1.Graphs
 open Lab3.Graph
 
@@ -9,6 +8,7 @@ let buildGraph (filename: string): MinCutGraph =
     MinCutGraph (
         ns,
         es,
-        (es, adjList) ||> getWeightedDegree ,
-        es |> getWeightedAdj
+        adjList,
+        (es, adjList) ||> buildD ,
+        (ns, es) ||> buildW
     )
