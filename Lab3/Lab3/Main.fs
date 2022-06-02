@@ -2,6 +2,7 @@
 
 open Parsing
 open KargerStein
+open StoerWagner
 open Graph
 open Lab1.Utils
 
@@ -39,6 +40,7 @@ let karger_saveToCSV filename (N: int array) (M: int array) (minCut: int array) 
 
 [<EntryPoint>]
 let main _ =
+//    let files = getFiles (Directory.GetCurrentDirectory() +/ "../../.." +/ "dataset")
     let files = getFiles (Directory.GetCurrentDirectory() +/ "dataset")
 
     let graphs = Array.Parallel.map buildGraph files
@@ -84,5 +86,14 @@ let main _ =
     karger_saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ "Karger-Stein") graphsN graphsM  minCuts runtimes instant c_estimates ratios
     printGraphs (graphsN |> Array.map int64) runtimes MN_list orderedRunTimes (graphsN |> Array.map int64) referenceArray "Karger-Stein" "Karger-stein"
     // -----------
+    
+    graphs
+    |> Array.iteri (fun i (MinCutGraph (V, _, _, _, _ ) as g) -> 
+        let k = int (floor (Math.Log2(V.Length))) 
+        printfn $"Graph {i} has Min Cut weight of {Karger g k}")
+    
+    graphs |> Array.iteri (fun i g ->
+        let minCut = StoerWagner g
+        printfn $"Graph {i} has Min Cut weight of {CutWeight g minCut}")
     
     0

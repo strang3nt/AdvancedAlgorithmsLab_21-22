@@ -17,3 +17,7 @@ let buildW (ns: Nodes) (es: Edges): W =
 let buildD (es: Edges) (adj : AdjList): D =
     adj
     |> Array.map (List.sumBy (fun e -> let (_, _, w) = es[e] in w))
+
+let opposite n e ( MinCutGraph (_, es, _, _, _) ) =
+    let (n1, n2, _) = es[e]
+    if n1 = n then n2 else n1
