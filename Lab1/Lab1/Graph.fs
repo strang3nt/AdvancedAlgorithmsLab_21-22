@@ -63,3 +63,6 @@ let getEdgeWeight (adjList: AdjList) E u v =
         |> List.find (findEdge E u v)
         |> Array.get E
     w
+    
+let edgeWeight (E: Edges) e =
+    E[e] |> (fun (_,_,w) -> w)
