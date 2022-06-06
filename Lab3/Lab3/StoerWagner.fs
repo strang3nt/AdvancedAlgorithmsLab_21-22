@@ -15,20 +15,6 @@ let CrossingEdges (MinCutGraph (V, E, _, _, _)) (S: Nodes) =
 let CutWeight G (S: Nodes) =
     CrossingEdges G S |> Array.sumBy (fun (_,_,w) -> w) : int
     
-    
-let merge (MinCutGraph (V, E, A, D, W) as G) u v =
-    D[u] <- D[u] + D[v] - 2 * W[u, v]
-    D[v] <- 0
-    W[u, v] <- 0
-    W[v, u] <- 0
-    for w = 0 to V.Length - 1 do
-        if w <> u && w <> v then
-            W[u, w] <- W[u, w] + W[v, w]
-            W[w, u] <- W[w, u] + W[w, v]
-            W[v, w] <- 0
-            W[w, v] <- 0
-    MinCutGraph (V, E, A, D, W)
-    
 let stMinCut (MinCutGraph (V, E, A, D, W) as G) =
         
     let Q = SortedSet<Key>()
@@ -55,13 +41,19 @@ let stMinCut (MinCutGraph (V, E, A, D, W) as G) =
             )
     V |> Array.removeAt t.Value, s.Value, t.Value
     
-let rec StoerWagner (MinCutGraph (V, _, _, _, _) as G) =
+let rec StoerWagner (MinCutGraph (V, _, _, D, _) as G) =
     let CutWeight = CutWeight G
+//    let positive = fun x  -> x > 0
+//    if D |> Array.filter positive |> Array.length = 2 then
     if V.Length = 2 then
-        [| V[0]; V[1] |] : Nodes
+        [| V[0]; V[1] |]
+//        let Di = D |> Array.mapi (fun i x -> x,i)
+//        Di |> Array.filter (fun (x,_) -> positive x) |> Array.map (fun (_,i) -> V[i]) : Nodes
+//        [| V[Di |> Array.find (fun (x,i) -> positive x) |> fst]
+//           V[Di |> Array.f] |] : Nodes
     else
         let c1, s, t = stMinCut G
-        let c2 = StoerWagner (merge G s t)
+        let c2 = StoerWagner (fixedMerge G s t)
         if CutWeight c1 <= CutWeight c2 then
             c1
         else
