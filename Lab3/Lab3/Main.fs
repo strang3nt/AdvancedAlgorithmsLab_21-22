@@ -11,7 +11,8 @@ open System.IO
 
 [<EntryPoint>]
 let main _ =
-    let files = getFiles (Directory.GetCurrentDirectory() +/ "dataset")
+    let files = 
+        getFiles (Directory.GetCurrentDirectory() +/ "dataset")
 
     let graphs = Array.Parallel.map buildGraph files
     
@@ -19,7 +20,7 @@ let main _ =
 
     graphs
     |> Array.iteri (fun i (MinCutGraph (V, _, _, _, _ ) as g) -> 
-        let k = int (floor (Math.Log2(V.Length))) 
-        printfn $"Graph {i} has Min Cut weight of {Karger g k}")
+        let k = int (floor ((Math.Log2(V.Length)) * (Math.Log2(V.Length)))) 
+        printfn $"{Karger g k}")
 
     0
