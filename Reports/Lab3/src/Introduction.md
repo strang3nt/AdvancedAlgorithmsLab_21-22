@@ -1,34 +1,34 @@
 # Introduction
 
+The task is to build the implementations of:
+
+ - Karger-Stein random algorithm for Min Cuts
+ - Stoer-Wagner deterministic algorithm.
+
+The language of choice is again `F#`.
 
 ## Source code structure
+
+The directory `Lab3/Lab3` contains the source code for the third assignment.
+This is how we organized the source code directory:
+
+ - `Graph.fs` and `Parsing.fs` contain the graph abstraction and the parsing mechanism
+ - `Lab3/Lab3/dataset` contains all the graphs to be parsed
+ - `FibonacciHeap.fs` and `StoerWagner.fs` both contain Stoer-Wagner's implementation
+ - `Karger.fs` is Karger's implementation.
 
 ## Graph data structure
 
 ```fsharp
-type Node = int
-type Nodes = int array
-type Weight = int
-type Edges = (Node * Node * Weight) array
-type AdjList = ( int list ) array
-
+// 2 dimensional array
+type W = int[,]
+type D = int array
 [<Struct>]
-type Graph = Graph of Nodes * Edges * AdjList
+type MinCutGraph = MinCutGraph of Nodes * Edges * AdjList * D * W
 ```
 
-`Graph` is the name of the data structure representing a simple undirected 
-graph. Instead of working with references, as one would have done with C-like 
-languages, we decided to use indices:
-
- - `Nodes` is an array of integers; 
- - `Edges` is an array of tuples and contains the index of the two adjacent 
- vertices and the edge's weight; 
- - `AdjList` is an array of lists of integers, with list `i` containing all 
-incident edges of the `i-th` node in `Nodes` array.
-
-`Graph.fs` contains a few auxiliary functions to build a graph instance and 
-to interact with it. Note that we assume a `Graph` instance to be immutable 
-even though, for example, `Nodes`, which is an alias for an array of integers, 
-is a mutable structure. 
-Using immutable structures such as lists would have slowed down graphs 
-building and visit significantly. Immutable arrays are not natively supported.
+The structure changes slightly from the previous assignments, while we still have
+the adjacency list, list of nodes and list of edges we added the arrays D and W.
+W is ment to be the adjacency matrix, in fact it's a 2 dimensional array.
+D is the array that contains the weights of all edges adjacent to a node: for example
+`D[i]` contains the weight of all edges adjacent to the node `Nodes[i]`.

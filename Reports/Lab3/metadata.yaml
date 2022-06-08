@@ -4,5 +4,4 @@ subtitle: |
   Advanced Algorithms 2021-2022
 
 abstract: |
-  Report on the results gathered about the performances of two algorithms for 
-  the minimum-cut problem for weighted graphs.
+  Report on the results gathered about the performances of two algorithms for Karger-Stein and Stoer-Wagner algorithms.

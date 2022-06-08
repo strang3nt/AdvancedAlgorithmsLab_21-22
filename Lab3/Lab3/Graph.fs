@@ -1,6 +1,5 @@
 module Lab3.Graph
 
-open System.Collections.Generic
 open Lab1.Graphs
 
 // 2 dimensional array
