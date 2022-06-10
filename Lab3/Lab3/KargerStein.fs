@@ -2,8 +2,10 @@ module Lab3.KargerStein
 
 open Graph
 open System
+open System.Runtime.CompilerServices
 
 
+[<Struct; IsReadOnly; IsByRefLike>]
 type DWGraph = DWGraph of (int array * int array * int)
 
 
@@ -71,9 +73,11 @@ let rec Recursive_Contract (DWGraph (D, W, n) as G) =
         let D_2 = Array.copy<int> D
         let W_2 = Array.copy<int> W
         let t = int (ceil ( float n / Math.Sqrt(2) + 1.0 ))
+        let G_1 = Contract G t
+        let G_2 = Contract (DWGraph (D_2, W_2, n)) t
         min 
-            (Contract (DWGraph (D, W, n)) t |> Recursive_Contract)
-            (Contract (DWGraph (D_2, W_2, n)) t |> Recursive_Contract)
+            (Recursive_Contract G_1)
+            (Recursive_Contract G_2)
         
 let Karger (MinCutGraph (_, _, _, D, W)) k =
     
