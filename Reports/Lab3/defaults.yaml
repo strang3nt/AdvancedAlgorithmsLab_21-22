@@ -9,6 +9,7 @@ input-files:
 - ${.}/src/Question01.md
 - ${.}/src/Question02.md
 - ${.}/src/Question03.md
+- ${.}/src/Originalities.md
 - ${.}/src/Conclusion.md
 
 output-file: AA_21-22_report3.pdf

@@ -6,7 +6,6 @@ open Graph
 open Lab1.Utils
 
 open System
-
 open System.IO
 
 let karger_estimation_f m (n: int) (time: int64) =
@@ -15,9 +14,16 @@ let karger_estimation_f m (n: int) (time: int64) =
 let karger_complexity m n =
     Math.Round (float (n*n) * Math.Pow((Math.Log2 (float n)), 3.0))
 
+let parallel_karger_estimation_f m (n: int) (time: int64) =
+    Math.Round (float time / ((float (n*n) * Math.Pow((Math.Log2 (float n)), 3.0)) / 6.0), 3)
+
+let parallel_karger_complexity m n =
+    Math.Round ((float (n*n) * Math.Pow((Math.Log2 (float n)), 3.0))/ 6.0)
+
+
 let saveToCSV filename (N: int array) (M: int array) (minCut: int array) (rTs: int64 array) (instant: int64 array) (C: float array) (ratio: float list)=
     let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
-    let writer = new IO.StreamWriter (filename + "_" + dateTime + ".csv")
+    let writer = new StreamWriter (filename + "_" + dateTime + ".csv")
     writer.WriteLine "N, M, MinCut, Time(ns), Instant(ns), Constant, Ratio,"
     for i=0 to N.Length-1 do
         writer.WriteLine $"%9i{N[i]}, %9i{M[i]}, %9i{minCut[i]}, %9i{rTs[i]}, %9i{instant[i]}, %12.3f{C[i]}, %9.3f{ratio[i]},"
@@ -25,7 +31,7 @@ let saveToCSV filename (N: int array) (M: int array) (minCut: int array) (rTs: i
 
 let karger_saveToCSV filename (N: int array) (M: int array) (minCut: int array) (rTs: int64 array) (instant: int64 array) (C: float array) (ratio: float list)=
     let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
-    let writer = new IO.StreamWriter (filename + "_" + dateTime + ".csv")
+    let writer = new StreamWriter (filename + "_" + dateTime + ".csv")
     writer.WriteLine "N, M, MinCut, Time(ns), Instant(ns), Constant, Ratio,"
     for i=0 to N.Length-1 do
         writer.WriteLine $"%9i{N[i]}, %9i{M[i]}, %9i{minCut[i]}, %9i{rTs[i]}, %9i{instant[i]}, %12.3f{C[i]}, %9.3f{ratio[i]},"
@@ -61,7 +67,7 @@ let main _ =
             
             let k = int (floor ((Math.Log2(V.Length)) * (Math.Log2(V.Length))))
             let t_start = DateTime.Now.Ticks
-            let (result, instant) = (Karger g k)
+            let (result, instant) = (Parallel_Karger g k)
             let t_end = DateTime.Now.Ticks - t_start
             printfn $"Graph {i} done: {result}"
             (result, instant, t_end))
@@ -69,9 +75,9 @@ let main _ =
     let minCuts = Array.map (fun (i,_,_) -> i) data
     let instant = Array.map (fun (_,i,_) -> i) data
     let runtimes = Array.map (fun (_,_,t) -> t) data
-    let (c_estimates, ratios) = printData graphsN graphsM runtimes karger_estimation_f
+    let (c_estimates, ratios) = printData graphsN graphsM runtimes parallel_karger_estimation_f
 
-    let referenceArray = reference karger_complexity graphsN graphsM (Array.last c_estimates)
+    let referenceArray = reference parallel_karger_complexity graphsN graphsM (Array.last c_estimates)
     let orderedRunTimes = MNi_list |> Array.fold (fun acc (_, i) -> acc @ [runtimes[i]] ) List.empty |> Array.ofList
     let MN_list = MNi_list |> Array.map fst
 
