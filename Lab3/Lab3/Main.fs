@@ -47,6 +47,7 @@ let main _ =
     
     printfn $"%i{graphs.Length} graphs"
 
+<<<<<<< HEAD
     let graphsN = 
         graphs
         |> Array.map (fun (MinCutGraph (V, _, _, _, _ )) -> V.Length)
@@ -87,21 +88,7 @@ let main _ =
     printGraphs (graphsN |> Array.map int64) runtimes MN_list orderedRunTimes (graphsN |> Array.map int64) referenceArray "Karger-Stein" "Karger-stein"
     // -----------
     
-    graphs
-    |> Array.iteri (fun i (MinCutGraph (V, _, _, _, _ ) as g) -> 
-        let k = int (floor (Math.Log2(V.Length))) 
-        printfn $"Graph {i} has Min Cut weight of {Karger g k}")
-    
     graphs |> Array.iteri (fun i g ->
-        let minCut = StoerWagner g
+        let minCut = StoerWagner' g
         printfn $"Graph {i} has Min Cut weight of {CutWeight g minCut}")
-    
-//    graphs
-//    |> Array.iteri (fun i (MinCutGraph (V, _, _, _, _ ) as g) -> 
-//        let k = int (floor (Math.Log2(V.Length))) 
-//        printfn $"Graph {i} has Min Cut weight of {Karger g k}")
-//    
-//    graphs |> Array.iteri (fun i g ->
-//        let minCut = StoerWagner g
-//        printfn $"Graph {i} has Min Cut weight of {CutWeight g minCut}")
     0
