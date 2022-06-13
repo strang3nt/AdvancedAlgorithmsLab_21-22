@@ -47,7 +47,6 @@ let main _ =
     
     printfn $"%i{graphs.Length} graphs"
 
-<<<<<<< HEAD
     let graphsN = 
         graphs
         |> Array.map (fun (MinCutGraph (V, _, _, _, _ )) -> V.Length)
@@ -91,4 +90,5 @@ let main _ =
     graphs |> Array.iteri (fun i g ->
         let minCut = StoerWagner' g
         printfn $"Graph {i} has Min Cut weight of {CutWeight g minCut}")
+    
     0
