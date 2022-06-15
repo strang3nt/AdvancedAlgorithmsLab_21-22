@@ -22,7 +22,7 @@ let parallel_karger_complexity m n =
 
 
 let saveToCSV filename (N: int array) (M: int array) (minCut: int array) (rTs: int64 array) (instant: int64 array) (C: float array) (ratio: float list)=
-    let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
+    let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(':','-').Replace(' ','_')
     let writer = new StreamWriter (filename + "_" + dateTime + ".csv")
     writer.WriteLine "N, M, MinCut, Time(ns), Instant(ns), Constant, Ratio,"
     for i=0 to N.Length-1 do
@@ -30,7 +30,7 @@ let saveToCSV filename (N: int array) (M: int array) (minCut: int array) (rTs: i
     writer.Close()
 
 let karger_saveToCSV filename (N: int array) (M: int array) (minCut: int array) (rTs: int64 array) (instant: int64 array) (C: float array) (ratio: float list)=
-    let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
+    let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(':','-').Replace(' ','_')
     let writer = new StreamWriter (filename + "_" + dateTime + ".csv")
     writer.WriteLine "N, M, MinCut, Time(ns), Instant(ns), Constant, Ratio,"
     for i=0 to N.Length-1 do
