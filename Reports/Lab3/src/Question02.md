@@ -5,10 +5,10 @@
  N     M     Instant (seconds)
 ----- ----- ---------------------
 10	    14	    0,00786
-10	    10	        0,00008
-10	    12	        0,00005
-10	    11	        0,00018
-20	    24	        0,00033
+10	    10	    0,00008
+10	    12	    0,00005
+10	    11	    0,00018
+20	    24	    0,00033
 20	    24	    0,00029
 20	    27	    0,00017
 20	    25	    0,00018
@@ -20,9 +20,9 @@
 60	    72	    0,00084
 60	    83	    0,00086
 60	    79	    0,00091
-80  	101	    0,00145
+80  	  101	    0,00145
 80	    105	    0,00149
-80  	108	    0,00139
+80  	  108	    0,00139
 80	    108	    0,02427
 100	    128	    0,00214
 100	    120	    0,02956
@@ -59,8 +59,14 @@
 500	    670	    0,04576
 500	    671	    0,05317
 500	    670	    30,98502
-500	    666	    0,05077
+500	    666	    0,05077 
 
 : Karger's min cut found instant
 
 ![Graph size with respect to instant](img/karger_instant.png)
+
+From the table and the graph it is noticeable that the bigger is the
+size of the input the slowest the mincut is found, unsurprisingly.
+Except for some outliers the mincut is found during the very first iterations
+of the algorithm. Even the mincut outliers, with respect to the size of the input,
+are found during the very first steps of Karger's execution.

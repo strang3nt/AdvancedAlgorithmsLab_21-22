@@ -29,6 +29,6 @@ type MinCutGraph = MinCutGraph of Nodes * Edges * AdjList * D * W
 
 The structure changes slightly from the previous assignments, while we still have
 the adjacency list, list of nodes and list of edges we added the arrays D and W.
-W is ment to be the adjacency matrix, in fact it's a 2 dimensional array.
+W is meant to be the adjacency matrix, in fact it's a 2 dimensional array.
 D is the array that contains the weights of all edges adjacent to a node: for example
 `D[i]` contains the weight of all edges adjacent to the node `Nodes[i]`.
