@@ -64,3 +64,9 @@
 : Karger's min cut found instant
 
 ![Graph size with respect to instant](img/karger_instant.png)
+
+From the table and the graph it is noticeable that the bigger is the
+size of the input the slowest the mincut is found, unsurprisingly.
+Except for some outliers the mincut is found during the very first iterations
+of the algorithm. Even the mincut outliers, with respect to the size of the input,
+are found during the very first steps of Karger's execution.
