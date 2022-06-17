@@ -75,7 +75,9 @@ let rec Recursive_Contract (DWGraph (D, W, n) as G) =
     if n <= 6 then
         let DWGraph (_, W, _) as _ = Contract G 2
         //returns weight of the only edge (u, v) in G
-        W |> Array.find (fun w -> w > 0) |> fun weight -> (weight, DateTime.Now.Ticks)
+        W 
+        |> Array.find (fun w -> w > 0) 
+        |> fun weight -> (weight, DateTime.Now.Ticks)
     else
         let D_2 = Array.copy<int> D
         let W_2 = Array.copy<int> W
