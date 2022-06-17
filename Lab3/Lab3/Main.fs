@@ -2,12 +2,49 @@
 
 open Parsing
 open KargerStein
+open StoerWagner
 open Graph
 open Lab1.Utils
 
 open System
-
 open System.IO
+
+let karger_estimation_f m (n: int) (time: int64) =
+    Math.Round (float time / (float (n*n) * Math.Pow((Math.Log2 (float n)), 3.0)), 3)
+
+let karger_complexity m n =
+    Math.Round (float (n*n) * Math.Pow((Math.Log2 (float n)), 3.0))
+
+let parallel_karger_estimation_f m (n: int) (time: int64) =
+    Math.Round (float time / ((float (n*n) * Math.Pow((Math.Log2 (float n)), 3.0)) / 6.0), 3)
+
+let parallel_karger_complexity m n =
+    Math.Round ((float (n*n) * Math.Pow((Math.Log2 (float n)), 3.0))/ 6.0)
+
+
+let saveToCSV filename (N: int array) (M: int array) (minCut: int array) (rTs: int64 array) (instant: int64 array) (C: float array) (ratio: float list)=
+    let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
+    let writer = new StreamWriter (filename + "_" + dateTime + ".csv")
+    writer.WriteLine "N, M, MinCut, Time(ns), Instant(ns), Constant, Ratio,"
+    for i=0 to N.Length-1 do
+        writer.WriteLine $"%9i{N[i]}, %9i{M[i]}, %9i{minCut[i]}, %9i{rTs[i]}, %9i{instant[i]}, %12.3f{C[i]}, %9.3f{ratio[i]},"
+    writer.Close()
+    
+let saveToCSV' filename (N: int array) (M: int array) (minCut: int array) (rTs: int64 array) =
+    let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
+    let writer = new StreamWriter (filename + "_" + dateTime + ".csv")
+    writer.WriteLine "N, M, MinCut, Time(ns)"
+    for i=0 to N.Length-1 do
+        writer.WriteLine $"%9i{N[i]}, %9i{M[i]}, %9i{minCut[i]}, %9i{rTs[i]},"
+    writer.Close()
+
+let karger_saveToCSV filename (N: int array) (M: int array) (minCut: int array) (rTs: int64 array) (instant: int64 array) (C: float array) (ratio: float list)=
+    let dateTime = DateTime.UtcNow.ToString().Replace('/','-').Replace(' ','_')
+    let writer = new StreamWriter (filename + "_" + dateTime + ".csv")
+    writer.WriteLine "N, M, MinCut, Time(ns), Instant(ns), Constant, Ratio,"
+    for i=0 to N.Length-1 do
+        writer.WriteLine $"%9i{N[i]}, %9i{M[i]}, %9i{minCut[i]}, %9i{rTs[i]}, %9i{instant[i]}, %12.3f{C[i]}, %9.3f{ratio[i]},"
+    writer.Close()
 
 [<EntryPoint>]
 let main _ =
@@ -17,9 +54,57 @@ let main _ =
     
     printfn $"%i{graphs.Length} graphs"
 
-    graphs
-    |> Array.iteri (fun i (MinCutGraph (V, _, _, _, _ ) as g) -> 
-        let k = int (floor (Math.Log2(V.Length))) 
-        printfn $"Graph {i} has Min Cut weight of {Karger g k}")
+    let graphsN = 
+        graphs
+        |> Array.map (fun (MinCutGraph (V, _, _, _, _ )) -> V.Length)
 
+    let graphsM = 
+        graphs
+        |> Array.map (fun (MinCutGraph (_, E, _, _, _ )) -> E.Length)
+    
+    let reference f (m: int array) (n: int array) c =
+        [| for i=0 to n.Length-1 do yield c * f m[i] n[i] |]
+
+    let MNi_list =
+            (graphsN, graphsM) ||> Array.mapi2 (fun i m n -> (int64 m) * (int64 n), i)
+            |> Array.sort
+
+    // ------ calculate and print Karger's data
+//    let data =
+//        graphs
+//        |> Array.mapi (fun i (MinCutGraph (V, _, _, _, _ ) as g) -> 
+//            
+//            let k = int (floor ((Math.Log2(V.Length)) * (Math.Log2(V.Length))))
+//            let t_start = DateTime.Now.Ticks
+//            let (result, instant) = (Parallel_Karger g k)
+//            let t_end = DateTime.Now.Ticks - t_start
+//            printfn $"Graph {i} done: {result}"
+//            (result, instant, t_end))
+//
+//    let minCuts = Array.map (fun (i,_,_) -> i) data
+//    let instant = Array.map (fun (_,i,_) -> i) data
+//    let runTimes = Array.map (fun (_,_,t) -> t) data
+//    let (c_estimates, ratios) = printData graphsN graphsM runTimes parallel_karger_estimation_f
+//
+//    let referenceArray = reference parallel_karger_complexity graphsN graphsM (Array.last c_estimates)
+//    let orderedRunTimes = MNi_list |> Array.fold (fun acc (_, i) -> acc @ [runTimes[i]] ) List.empty |> Array.ofList
+//    let MN_list = MNi_list |> Array.map fst
+//
+//    karger_saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ "Karger-Stein") graphsN graphsM  minCuts runTimes instant c_estimates ratios
+//    printGraphs (graphsN |> Array.map int64) runTimes MN_list orderedRunTimes (graphsN |> Array.map int64) referenceArray "Karger-Stein" "Karger-stein"
+    
+    // ------ calculate and print StoerWagner's data
+    
+    let results, runTimes = 
+        graphs |> Array.mapi (fun i (MinCutGraph (V, E, _, _, _) as g) ->
+            let minCut = StoerWagner' g
+            let result = CutWeight g minCut
+            let runTime = int64 (measureRunTime StoerWagner' g 10)
+            printfn $"Graph {i} has Min Cut weight of {result}"
+            (result, runTime))
+            |> Array.fold (fun (results, runTimes) (result, runTime) -> results @ [result], runTimes @ [runTime]) (List.Empty, List.Empty)
+            |> (fun (R, RTs) -> R |> List.toArray, RTs |> List.toArray)
+        
+    saveToCSV' (Directory.GetCurrentDirectory() +/ "out" +/ "StoerWagner") graphsN graphsM results runTimes
+    
     0
