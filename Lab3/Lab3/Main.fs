@@ -70,36 +70,35 @@ let main _ =
             |> Array.sort
 
     // ------ calculate and print Karger's data
-//    let data =
-//        graphs
-//        |> Array.mapi (fun i (MinCutGraph (V, _, _, _, _ ) as g) -> 
-//            
-//            let k = int (floor ((Math.Log2(V.Length)) * (Math.Log2(V.Length))))
-//            let t_start = DateTime.Now.Ticks
-//            let (result, instant) = (Parallel_Karger g k)
-//            let t_end = DateTime.Now.Ticks - t_start
-//            printfn $"Graph {i} done: {result}"
-//            (result, instant, t_end))
-//
-//    let minCuts = Array.map (fun (i,_,_) -> i) data
-//    let instant = Array.map (fun (_,i,_) -> i) data
-//    let runTimes = Array.map (fun (_,_,t) -> t) data
-//    let (c_estimates, ratios) = printData graphsN graphsM runTimes parallel_karger_estimation_f
-//
-//    let referenceArray = reference parallel_karger_complexity graphsN graphsM (Array.last c_estimates)
-//    let orderedRunTimes = MNi_list |> Array.fold (fun acc (_, i) -> acc @ [runTimes[i]] ) List.empty |> Array.ofList
-//    let MN_list = MNi_list |> Array.map fst
-//
-//    karger_saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ "Karger-Stein") graphsN graphsM  minCuts runTimes instant c_estimates ratios
-//    printGraphs (graphsN |> Array.map int64) runTimes MN_list orderedRunTimes (graphsN |> Array.map int64) referenceArray "Karger-Stein" "Karger-stein"
+    let data =
+        graphs
+        |> Array.mapi (fun i (MinCutGraph (V, _, _, _, _ ) as g) -> 
+            
+            let k = int (floor ((Math.Log2(V.Length)) * (Math.Log2(V.Length))))
+            let t_start = DateTime.Now.Ticks
+            let (result, instant) = (Parallel_Karger g k)
+            let t_end = DateTime.Now.Ticks - t_start
+            printfn $"Graph {i} done: {result}"
+            (result, instant, t_end))
+
+    let minCuts = Array.map (fun (i,_,_) -> i) data
+    let instant = Array.map (fun (_,i,_) -> i) data
+    let runTimes = Array.map (fun (_,_,t) -> t) data
+    let (c_estimates, ratios) = printData graphsN graphsM runTimes parallel_karger_estimation_f
+
+    let referenceArray = reference parallel_karger_complexity graphsN graphsM (Array.last c_estimates)
+    let orderedRunTimes = MNi_list |> Array.fold (fun acc (_, i) -> acc @ [runTimes[i]] ) List.empty |> Array.ofList
+    let MN_list = MNi_list |> Array.map fst
+
+    karger_saveToCSV (Directory.GetCurrentDirectory() +/ "out" +/ "Karger-Stein") graphsN graphsM  minCuts runTimes instant c_estimates ratios
+    printGraphs (graphsN |> Array.map int64) runTimes MN_list orderedRunTimes (graphsN |> Array.map int64) referenceArray "Karger-Stein" "Karger-stein"
     
     // ------ calculate and print StoerWagner's data
     
     let results, runTimes = 
-        graphs |> Array.mapi (fun i (MinCutGraph (V, E, _, _, _) as g) ->
-            let minCut = StoerWagner' g
-            let result = CutWeight g minCut
-            let runTime = int64 (measureRunTime StoerWagner' g 10)
+        graphs |> Array.mapi (fun i g ->
+            let minCut, result = StoerWagner g
+            let runTime = int64 (measureRunTime StoerWagner g 10)
             printfn $"Graph {i} has Min Cut weight of {result}"
             (result, runTime))
             |> Array.fold (fun (results, runTimes) (result, runTime) -> results @ [result], runTimes @ [runTime]) (List.Empty, List.Empty)
