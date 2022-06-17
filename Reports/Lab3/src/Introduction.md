@@ -5,7 +5,7 @@ The task is to build the implementations of:
  - Karger-Stein random algorithm for Min Cuts
  - Stoer-Wagner deterministic algorithm.
 
-The language of choice is again `F#`.
+The language of choice is `F#`.
 
 ## Source code structure
 

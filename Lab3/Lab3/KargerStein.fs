@@ -100,4 +100,3 @@ let Parallel_Karger (MinCutGraph (_, _, _, D, W)) k =
     |> Array.Parallel.map (fun _ -> Recursive_Contract(DWGraph ((Array.copy<int> D), (Array.copy<int> W), D.Length))) // can be parallelelized!
     |> Array.min
     |> fun (weight, t_end) -> (weight, t_end - t_start)
-
