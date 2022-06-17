@@ -7,7 +7,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\Lab1\Lab1\Lab1.fsproj" />
-    <Compile Include="FibonacciHeap.fs" />
     <Compile Include="Graph.fs" />
     <Compile Include="Parsing.fs" />
     <Compile Include="KargerStein.fs" />    

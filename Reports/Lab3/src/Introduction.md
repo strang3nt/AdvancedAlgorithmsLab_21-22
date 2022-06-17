@@ -14,8 +14,8 @@ This is how we organized the source code directory:
 
  - `Graph.fs` and `Parsing.fs` contain the graph abstraction and the parsing mechanism
  - `Lab3/Lab3/dataset` contains all the graphs to be parsed
- - `FibonacciHeap.fs` and `StoerWagner.fs` both contain Stoer-Wagner's implementation
- - `Karger.fs` is Karger's implementation.
+ - `StoerWagner.fs` contains Stoer-Wagner's implementation
+ - `Karger.fs` contains Karger's implementation.
 
 ## Graph data structure
 
